@@ -1,0 +1,35 @@
+
+#search{
+    width: 750px;
+    height: 40px;
+    background-color: rgb(240,245,255);
+}
+nav{
+    background-color: rgb(255, 255, 255);
+    color: #000;
+}
+#navsub1{
+    color: #000;
+}
+#login:hover{
+    background-color: blue;
+    color: white;
+    border-radius: 10px;
+}
+#best_sales{
+    background-color: white;
+}
+#more{
+    color: white;
+    background-color: blue;
+    padding: 10px;
+    border-radius: 100%;
+}
+#card {
+    border: 1px solid rgba(90, 87, 87, 0.314);
+    padding: 10px;
+    padding-left:30px ;
+    padding-right:40px ;
+    border-radius: 10px;
+}
+
