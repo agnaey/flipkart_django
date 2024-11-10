@@ -80,13 +80,13 @@
                             placeholder="Search For Product, Brand and More" aria-label="Search">
                     </form>
                     <li class="nav-item ">
-                        <a class="nav-link " id="login" href="#"><i class="fa-solid fa-user">&nbsp;&nbsp;</i>Login</a>
+                        <a class="nav-link " id="logout" href="logout"><i class="fa-solid fa-user">&nbsp;&nbsp;</i>Logout</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fa-solid fa-cart-shopping"></i>&nbsp;&nbsp;Cart</a>
+                        <a class="nav-link" href="#"><i class="fa-solid fa-cart-shopping"></i>&nbsp;&nbsp;User Bookings</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fa-solid fa-shop"></i>&nbsp; Become a Seller</a>
+                        <a class="nav-link" href="#"><i class="fa-solid fa-shop"></i>&nbsp; View All Product</a>
                     </li>
                 </ul>
             </div>
@@ -165,7 +165,7 @@
                     <div class="row justify-content-center">
                         {% for i in phones %}
                         <div class="col-md-3">
-                            <a class="text-decoration-none text-black" href="sec/{{i.id}}">
+                            <a class="text-decoration-none text-black" href="">
                                 <div id="card" class="movie-card justify-content-center">
                                     <img src="{{ i.image.url  }}" style="width: auto; height: 400px" class="img-fluid">
                                     <div class="Phone-details text-center">
@@ -185,7 +185,7 @@
                         {% for i in data1 %}
                         {% if i.phone %}
                         <div class="col-md-3" id="card1">
-                            <a class="text-decoration-none text-black" href="sec/{{i.id}}">
+                            <a class="text-decoration-none text-black" href="">
                                 <div class="movie-card">
                                     <img src="{{i.image.url}}" style="width: auto; height: 400px;" class="img-fluid">
                                     <div class="phone-details text-center ">
@@ -193,6 +193,7 @@
                                         <h5 class="phone-title mt-3">{{i.Phone_name}}</h5>
                                         <p class="offer_price text-danger text-decoration-line-through">price : ₹{{i.ph_offer_price}}</p>
                                         <h5 class="Phone-price text-success"><b>Offer Price : ₹{{i.ph_price}}</b></h5>
+
                                     </div>
                                 </div>
                             </a>
@@ -233,7 +234,7 @@
                     <div class="row justify-content-center">
                         <div class="col-md-3">
                             {% for i in dress %}
-                            <a class="text-decoration-none text-black" href="sec/{{i.id}}">
+                            <a class="text-decoration-none text-black" href="">
                                 <div id="card" class="movie-card justify-content-center">
                                     <img src="{{i.image.url}}" style="width: 100%;" class="img-fluid">
                                     <div class="Phone-details text-center">
@@ -252,8 +253,8 @@
                 <div class="carousel-item">
                     <div class="row justify-content-center">
                         <div class="col-md-3">
-                            {% for i in dress %}
-                            <a class="text-decoration-none text-black" href="sec/{{i.id}}">
+                            {% for i in dress1 %}
+                            <a class="text-decoration-none text-black" href="">
                                 <div class="movie-card">
                                     <img src="{{i.image.url}}" class="img-fluid">
                                     <div class="movie-details ">
