@@ -79,4 +79,16 @@ def index(request):
 
 def secpage(request,id):
     product=Products.objects.get(id=id)
-    return render(request, 'user/secpage.html',{'product':product})
+    phones=Products.objects.filter(phone=True)
+    dress=Products.objects.filter(dress=True)
+    return render(request, 'user/secpage.html',{'product':product,'phones':phones,'dress':dress})
+def add_to_cart(req,pid):
+    product=Products.objects.get(pk=pid)
+    user=User.objects.get(username=req.session['username'])
+    data=Cart.objects.create(user=user,product=product)
+    data.save()
+    return redirect(cart_display)
+def cart_display(req):
+    user=User.objects.get(username=req.session['username'])
+    data=Cart.objects.filter(user=user)[::-1]
+    return render(req,'user/cart.html',{'data':data})

@@ -83,7 +83,7 @@
                         <a class="nav-link " id="login" href="logout"><i class="fa-solid fa-user">&nbsp;&nbsp;</i>Logout</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fa-solid fa-cart-shopping"></i>&nbsp;&nbsp;Cart</a>
+                        <a class="nav-link" href="cart_disp"><i class="fa-solid fa-cart-shopping"></i>&nbsp;&nbsp;Cart</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#"><i class="fa-solid fa-shop"></i>&nbsp; Become a Seller</a>
@@ -155,7 +155,6 @@
     <div id="best_sales" class="sample container p-3 mt-4">
         <div class="d-flex justify-content-between align-items-center mb-1">
             <h3 class="mb-0"><b>Best Sales on SmartPhone</b></h3>
-            <a href="#" id="more" class=" text-decoration-none ms-2"> ></a>
         </div>
         <div id="demo2" class="carousel slide" data-bs-ride="false">
 
@@ -165,7 +164,7 @@
                     <div class="row justify-content-center">
                         {% for i in phones %}
                         <div class="col-md-3">
-                            <a class="text-decoration-none text-black" href="sec/{{i.id}}">
+                            <a class="text-decoration-none text-black" href="../sec/{{i.id}}">
                                 <div id="card" class="movie-card justify-content-center">
                                     <img src="{{ i.image.url  }}" style="width: auto; height: 400px" class="img-fluid">
                                     <div class="Phone-details text-center">
@@ -185,7 +184,7 @@
                         {% for i in data1 %}
                         {% if i.phone %}
                         <div class="col-md-3" id="card1">
-                            <a class="text-decoration-none text-black" href="sec/{{i.id}}">
+                            <a class="text-decoration-none text-black" href="../sec/{{i.id}}">
                                 <div class="movie-card">
                                     <img src="{{i.image.url}}" style="width: auto; height: 400px;" class="img-fluid">
                                     <div class="phone-details text-center ">
@@ -223,7 +222,6 @@
     <div id="best_sales" class="sample container p-5 mt-4">
         <div class="d-flex justify-content-between align-items-center mb-1">
             <h3 class="mb-0"><b>Best Dress</b></h3>
-            <a href="#" id="more" class=" text-decoration-none ms-2"> </a>
         </div>
         <div id="demo3" class="carousel slide" data-bs-ride="false">
 

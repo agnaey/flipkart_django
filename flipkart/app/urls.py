@@ -14,4 +14,6 @@ urlpatterns = [
 
     path('index', views.index, ),
     path('sec/<id>', views.secpage),
+    path('add_to_cart/<pid>', views.add_to_cart),
+    path('cart_disp', views.cart_display),
 ]

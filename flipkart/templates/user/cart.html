@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static '/css/style.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <style>
+        #search {
+            width: 750px;
+            height: 40px;
+            background-color: rgb(240, 245, 255);
+        }
+
+        #nav1 {
+            background-color: rgb(0,147,217);
+            color: #000;
+        }
+
+        #nav2 {
+            background-color: white;
+            color: #000;
+            max-width: 100%;
+        }
+
+        #navsub1 {
+            background-color: white;
+            color: #000;
+        }
+
+        #login:hover {
+            background-color: blue;
+            color: white;
+            border-radius: 10px;
+        }
+
+        #best_sales {
+            background-color: white;
+        }
+
+        #more {
+            color: white;
+            background-color: blue;
+            padding: 10px;
+            border-radius: 100%;
+        }
+
+        #card {
+            border: 1px solid rgba(90, 87, 87, 0.314);
+            padding: 10px;
+
+            border-radius: 10px;
+        }
+
+        #card1 {
+            border: 1px solid rgba(90, 87, 87, 0.314);
+            padding: 10px;
+            /* padding-left: 30px; */
+            border-radius: 10px;
+            margin-right: 20px;
+        }
+
+        .container {
+            max-width: 1600px;
+        }
+        .card-body {
+      text-align: center;
+      font-size: 20px;
+      color: white;
+      background-color: rgb(0, 0, 0);
+    }
+    .card-text{
+      color: red;
+    }
+    a{
+      text-decoration: none;
+      color: white;
+    }
+    #container{
+      background-color: white;
+      padding: 60px;
+      height: auto;
+      margin-bottom: 30px;
+      border-radius: 3px;
+    }
+    .product_name{
+    font-size: 50px;
+  }
+  .offer_price{
+    font-size: 43px;
+    color: green;
+    font-weight: bold;
+  
+  }
+  .price{
+    font-size: 27px;
+    color: red;
+  }
+  .product_img{
+    border-radius: 15px;
+  }
+
+
+
+#image-section {
+    flex: 1;
+    position: sticky;
+    top: 20px; 
+    max-height: 500px; 
+}
+
+#details-section {
+    flex: 2;
+    max-height: 100vh; 
+    overflow-y: auto;
+    padding-left: 20px; 
+}
+#buy {
+    background-color: orange;
+    padding: 17px 60px;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    margin-top: 20px;
+}
+#buy:hover {
+    background-color: #e69500; 
+}
+#cart {
+    background-color: rgb(251, 100, 27);
+    padding: 17px 60px;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    margin-top: 20px;
+    margin-right: 10px;
+}
+#cart:hover {
+    background-color: rgb(196, 64, 14); 
+}
+    #mycart{
+ font-size: 30px;
+}
+
+    </style>
+    <title>Document</title>
+</head>
+
+<body style="background-color: rgb(241,242,244);">
+    <nav id="nav1" class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="#"><img src="{% static '/images/i4436jrf.png' %}" style="width: 100px; "
+                    alt=""></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <form class="d-flex" role="search">
+                        <input id="search" class="form-control me-2" type="search"
+                            placeholder="Search For Product, Brand and More" aria-label="Search">
+                    </form>
+                    <li class="nav-item ">
+                        <a class="nav-link " id="login" href="../logout"><i class="fa-solid fa-user">&nbsp;&nbsp;</i>Logout</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fa-solid fa-cart-shopping"></i>&nbsp;&nbsp;Cart</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fa-solid fa-shop"></i>&nbsp; Become a Seller</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+  
+  {% for cart_obj in data %}
+    <div id="container" class="container mt-1">
+        <b id="mycart">My cart</b>
+        <hr class="mt-3 mb-5">
+
+        <div class="row">
+            <div class="col-lg-5 mt-2">
+              <img src="{{cart_obj.product.image.url}}" class="product_img" alt="" style="width:400px; height: 500px;">
+            </div>
+            <div id="details-section" class="col-lg-6 mt-5">
+                <h4 class="product_name">{{cart_obj.product.name}}</h4><br>
+                <br>
+                <p class="offer_price" style="display: inline;"> Offer Price : ₹{{cart_obj.product.offer_price}}
+                     <p class="price" style="text-decoration: line-through; padding-left: 10px; display: inline;">₹{{cart_obj.product.price}}</p>
+            </p><br><br>
+                    <a href="../add_to_cart/{{product.pk}}" id="cart" class="btn"><i class="fa-solid fa-trash " style="margin-right:5px;"></i>remove from cart</a>
+                    <a href="../buy_product/{{products.pk}}" id="buy" class="btn"><i class="fa-solid fa-bolt-lightning"style="margin-right:5px;"></i>Buy Now</a>
+            </div>
+            <hr class="mt-5 mb-5">
+
+        </div>
+    </div>
+    {% endfor %}
+
+</body>
+
+</html>

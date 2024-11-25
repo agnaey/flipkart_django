@@ -11,6 +11,15 @@ class Products (models.Model):
     highlights = models.TextField()
     phone=models.BooleanField(default=False)
     dress=models.BooleanField(default=False)
-  
+    laptop=models.BooleanField(default=False)
+    others=models.BooleanField(default=False)
 
+class Cart(models.Model):
+    user=models.ForeignKey(User,on_delete=models.CASCADE)
+    product=models.ForeignKey(Products,on_delete=models.CASCADE)
 
+class Buy(models.Model):
+    user=models.ForeignKey(User,on_delete=models.CASCADE)
+    product=models.ForeignKey(Products,on_delete=models.CASCADE)
+    price=models.IntegerField()
+    date=models.DateField(auto_now_add=True)
