@@ -92,3 +92,8 @@ def cart_display(req):
     user=User.objects.get(username=req.session['username'])
     data=Cart.objects.filter(user=user)[::-1]
     return render(req,'user/cart.html',{'data':data})
+
+def cart_delete(req,id):
+    data=Cart.objects.get(pk=id)
+    data.delete()
+    return redirect(cart_display)
