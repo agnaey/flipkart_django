@@ -15,23 +15,36 @@
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-//  $(document).ready(function () {
-//     $('#add').on('click', function (event) {
-//         event.preventDefault(); // Prevent default navigation or form submission
+        $(document).ready(function () {
+            $('#edit').on('click', function (event) {
+                Swal.fire({
+            title: "Are you sure?",
+            text: "You want to logout!",
+            icon: "warning",
+            showCancelButton: true,
+            timer: 5000,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Confirm!"
+            
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: "Logout",
+                    text: "You have successfully logged out",
+                    icon: "success",
+                    timer: 5000, // Show alert for 2 seconds
+                    showConfirmButton: false
+                });
 
-//         // Manually submit the form after showing the SweetAlert
-//         Swal.fire({
-//             position: "center",
-//             icon: "success",
-//             title: "Added to cart",
-//             showConfirmButton: false,
-//             timer: 1500
-//         }).then(() => {
-//             $('#admin_home').submit(); // Submit the form after SweetAlert finishes
-//         });
-//     });
-// });
-
+                // Delay the form submission to allow the alert to display
+                setTimeout(() => {
+                    $('#edit').submit();
+                }, 5000); // Match the timer duration
+            }
+        });
+    });
+        });
         $(document).ready(function () {
             $('#logout').on('click', function (event) {
                 event.preventDefault(); // Prevent default link behavior
@@ -127,7 +140,7 @@
 <body style="background-color: rgb(241,242,244);">
     <nav class="navbar navbar-expand-lg">
         <div class="container">
-            <a class="navbar-brand" href="admin_home"><img src="{% static '/images/logo.jpg' %}" style="width: 100px; "
+            <a class="navbar-brand" href="../admin_home"><img src="{% static '/images/logo.jpg' %}" style="width: 100px; "
                     alt=""></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -187,40 +200,41 @@
     </nav>
 
     <div id="container" class="container mt-4">
-        <h1 class="text-center" id="mycart">Add items</h1>
+        <h1 class="text-center" id="mycart">Edit items</h1>
         <hr class=" mb-4">
         <form method="POST" enctype="multipart/form-data">
-        <div class="row">
-            {% csrf_token %}
-            <label for="pro_id">Product ID:</label>
-            <input type="text" id="pro_id" name="pro_id" required><br><br>
-    
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required><br><br>
-    
-            <label for="price">Price:</label>
-            <input type="text" id="price" name="price" required><br><br>
-    
-            <label for="o_price">Offer Price:</label>
-            <input type="text" id="o_price" name="o_price" required><br><br>
-    
-            <label for="img">Image:</label>
-            <input type="file" id="img" name="img" required><br><br>
-    
-            <label for="description">Description:</label>
-            <textarea id="description" name="description"></textarea><br><br>
-    
-            <label for="highlights">Highlights:</label>
-            <textarea id="highlights" name="highlights"></textarea><br><br>
-    
-            <label><input type="checkbox" name="phone"> Phone</label><br>
-            <label><input type="checkbox" name="dress"> Dress</label><br>
-            <label><input type="checkbox" name="laptop"> Laptop</label><br>
-            <label><input type="checkbox" name="others"> Others</label><br><br>
-    
-            <button id="add" type="submit">Add Product</button>
-
-        </div>
-    </form>
+            <div class="row">
+                <form method="POST"   enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <label for="pro_id">Product ID:</label>
+                    <input type="text" id="pro_id" name="pro_id" value="{{ data.P_id }}" required><br><br>
+            
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" value="{{ data.name }}" required><br><br>
+            
+                    <label for="price">Price:</label>
+                    <input type="text" id="price" name="price" value="{{ data.price }}" required><br><br>
+            
+                    <label for="o_price">Offer Price:</label>
+                    <input type="text" id="o_price" name="o_price" value="{{ data.offer_price }}" required><br><br>
+                    <img src="{{data.image.url}}" alt="" style="width: 250px;height: 300px; margin-top: 10px;"><br>
+                    <label for="img">New Image:</label>
+                    <input type="file" id="img" name="img"><br><br>
+            
+                    <label for="description">Description:</label>
+                    <textarea id="description" name="description">{{ data.description }}</textarea><br><br>
+            
+                    <label for="highlights">Highlights:</label>
+                    <textarea id="highlights" name="highlights">{{ data.highlights }}</textarea><br><br>
+            
+                    <label><input type="checkbox" name="phone" {% if data.phone %}checked{% endif %}> Phone</label><br>
+                    <label><input type="checkbox" name="dress" {% if data.dress %}checked{% endif %}> Dress</label><br>
+                    <label><input type="checkbox" name="laptop" {% if data.laptop %}checked{% endif %}> Laptop</label><br>
+                    <label><input type="checkbox" name="others" {% if data.others %}checked{% endif %}> Others</label><br><br>
+            
+                    <button id="edit" type="submit">Edit Product</button>
+                </form>
+            </div>
+            
 
     </div>

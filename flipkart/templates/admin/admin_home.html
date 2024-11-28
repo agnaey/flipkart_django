@@ -123,6 +123,7 @@
              /* padding-left: 30px; */
             border-radius: 10px;
             margin-right: 20px;
+            height: 670px;
         }
 
         .container {
@@ -156,7 +157,7 @@
                         <a class="nav-link " id="logout" href="logout"><i class="fa-solid fa-user">&nbsp;&nbsp;</i>Logout</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fa-solid fa-cart-shopping"></i>&nbsp;&nbsp;User Bookings</a>
+                        <a class="nav-link" href="../admin_booking"><i class="fa-solid fa-cart-shopping"></i>&nbsp;&nbsp;User Bookings</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#"><i class="fa-solid fa-shop"></i>&nbsp; View All Product</a>
@@ -245,11 +246,11 @@
                                     <div class="Phone-details text-center">
 
                                         <h5 class="phone-title mt-3 ">{{i.name}}</h5>
-                                        <p class="offer_price text-danger text-decoration-line-through">price : ₹{{i.offer_price}}</p>
-                                        <h5 class="Phone-price text-success"><b>Offer Price : ₹{{i.price}}</b></h5>
+                                        <p class="price text-danger text-decoration-line-through">price : ₹{{i.price}}</p>
+                                        <h5 class="offer_price text-success"><b>Offer Price : ₹{{i.offer_price}}</b></h5>
                                         <hr>
                                         <a href="../delete_pro/{{i.id}}" id="delete" class="btn"><i id="delete" class="fa-solid fa-trash " style="margin-right:5px;"></i>delete</a>
-                                        <a href="../edit_product/{{i.id}}" id="edit" class="btn"><i id="edit" class="fa-solid fa-pen-to-square" style="margin-right:5px;"></i>edit</a>
+                                        <a href="../edit_pro/{{i.id}}" id="edit" class="btn"><i id="edit" class="fa-solid fa-pen-to-square" style="margin-right:5px;"></i>edit</a>
                                     </div>
                                 </div>
                             </a>
@@ -275,12 +276,13 @@
                     {% for i in dress %}
                     <div class="col-md-3">
                         <a class="text-decoration-none text-black" href="">
-                            <div id="card" class="movie-card justify-content-center">
+                            <div id="card1" class="movie-card justify-content-center">
                                 <img src="{{i.image.url}}"  style="width: 100%;" class="img-fluid">
                                 <div class="Phone-details text-center">
                                     <h5 class="phone-title ">{{i.name}}</h5>
-                                    <p class="offer_price text-danger text-decoration-line-through">price : ₹{{i.price}}</p>
-                                    <h5 class="Phone-price text-success"><b>Offer Price : ₹{{i.offer_price}}</b></h5>
+                                    <p class="price text-danger text-decoration-line-through">price : ₹{{i.price}}</p>
+                                    <h5 class="offer_price text-success"><b>Offer Price : ₹{{i.offer_price}}</b></h5>
+                                    <hr>
                                     <a href="../delete_pro/{{i.id}}" id="delete" class="btn"><i id="delete" class="fa-solid fa-trash " style="margin-right:5px;"></i>delete</a>
                                     <a href="../edit_pro/{{i.id}}" id="edit" class="btn"><i id="edit" class="fa-solid fa-pen-to-square" style="margin-right:5px;"></i>edit</a>
                                 </div>

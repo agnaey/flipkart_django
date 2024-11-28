@@ -40,13 +40,13 @@ def logout(req):
 
 def register(req):
     if req.method=='POST':
-        email = req.POST.get('email', None) 
-        username = req.POST.get('username', None)
-        password = req.POST.get('password', None)
+        username = req.POST['username']
+        email = req.POST['email']
+        password = req.POST['password']
         try:
-            messages.success(req,'successfully registered') 
             data=User.objects.create_user(first_name=username,username=email,email=email,password=password)
             data.save()
+            messages.success(req, "User Registered Successfully")
             return redirect(login)
         except:
             messages.warning(req,'user details already exits') 
@@ -78,7 +78,8 @@ def add_product(req):
         name = req.POST['name']
         price = req.POST['price']
         offer_price = req.POST['o_price']
-        image = req.FILES['img']
+        if 'img' in req.FILES:
+            image = req.FILES['img']        
         description = req.POST.get('description', '')
         highlights = req.POST.get('highlights', '')
         
@@ -89,10 +90,39 @@ def add_product(req):
 
         data = Products.objects.create(P_id=pro_id,name=name,price=price,offer_price=offer_price,image=image,
         description=description,highlights=highlights,phone=phone,dress=dress,laptop=laptop,others=others)
+        print(req.FILES)
+        print(req.POST)
+
         data.save()
         return redirect(admin_home)
   
     return render(req, 'admin/add_product.html')
+
+def edit_product(req,id):
+    data=Products.objects.get(pk=id)
+    if req.method == 'POST':
+        pro_id = req.POST['pro_id']
+        name = req.POST['name']
+        price = req.POST['price']
+        offer_price = req.POST['o_price']
+        image = req.FILES.get('img')
+        description = req.POST.get('description', '')
+        highlights = req.POST.get('highlights', '')
+        
+        phone = 'phone' in req.POST
+        dress = 'dress' in req.POST
+        laptop = 'laptop' in req.POST
+        others = 'others' in req.POST
+        print (image)
+        if image:
+            Products.objects.filter(pk=id).update(P_id=pro_id,name=name,price=price,offer_price=offer_price,image=image,
+            description=description,highlights=highlights,phone=phone,dress=dress,laptop=laptop,others=others)
+        else:
+            Products.objects.filter(pk=id).update(P_id=pro_id,name=name,price=price,offer_price=offer_price,
+            description=description,highlights=highlights,phone=phone,dress=dress,laptop=laptop,others=others)
+        
+        return redirect(admin_home)
+    return render(req, 'admin/edit_product.html',{'data':data})
 
 
 
@@ -104,6 +134,11 @@ def delete_product(req,id):
     data.delete()
     return redirect(admin_home)
 
+def admin_bookings(req):
+    user=User.objects.all()
+    data=Buy.objects.all()[::-1]
+    return render(req,'admin/admin_bookings.html',{'user':user,'data':data})
+
 
 # -----------------------------user-----------------------------------------------------
 
@@ -113,6 +148,7 @@ def index(request):
     return render(request, 'user/index.html',{'phones':phones,'dress':dress})
 
 def secpage(request,id):
+    log_user=User.objects.get(username=request.session['username'])
     product=Products.objects.get(id=id)
     phones=Products.objects.filter(phone=True)
     dress=Products.objects.filter(dress=True)
