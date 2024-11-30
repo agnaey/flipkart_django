@@ -43,33 +43,16 @@ $(document).ready(function () {
             });
         });
 
-        $(document).ready(function () {
-        // For Add to Cart
-        $('a#cart').on('click', function (event) {
-            event.preventDefault(); // Prevent navigation
-            const href = $(this).attr('href'); // Store the href link
 
-            Swal.fire({
-                position: "center",
-                icon: "success",
-                title: "Added to cart",
-                showConfirmButton: false,
-                timer: 1500
-            }).then(() => {
-                // After alert finishes, navigate to the link
-                window.location.href = href;
-            });
-        });
-    });
 
     $(document).ready(function () {
-            $('#buy').on('click', function (event) {
+            $('#cart').on('click', function (event) {
                 event.preventDefault(); // Prevent default link behavior
                 const href = $(this).attr('href'); // Get the href value from the link
     
                 Swal.fire({
                     title: "Are you sure?",
-                    text: "You want to buy this product!",
+                    text: "You want to delete this product!",
                     icon: "warning",
                     showCancelButton: true,
                     confirmButtonColor: "#3085d6",
@@ -79,7 +62,7 @@ $(document).ready(function () {
                     if (result.isConfirmed) {
                         Swal.fire({
                             title: "confirmed",
-                            text: "You have successfully ordered the product..",
+                            text: "You have successfully deleted the product..",
                             icon: "success",
                             timer: 1500,
                             showConfirmButton: false
@@ -314,14 +297,11 @@ $(document).ready(function () {
                 <img src="{{product.image.url}}" class="product_img" alt="Card image"
                     style="width:400px; height: 500px;">
 
-                    {% if cart1 %}
-                    <a href="../cart_disp" id="cart1" class=""><i class="fa-solid fa-cart-shopping"></i>Go to cart</a>
-                    {% else %}
-                    <a href="../add_to_cart/{{product.pk}}" id="cart" class="btn "><i
-                            class="fa-solid fa-cart-shopping"></i>add to cart</a>
-                    {% endif %}
-                    <a href="../buy_product/{{product.pk}}" id="buy" class="btn"><i
-                            class="fa-solid fa-bolt-lightning"></i>Buy Now</a>
+                    <a href="../delete_pro/{{product.id}}" id="cart" class="btn "><i
+                        class="fa-solid fa-trash"></i>Delete</a>
+
+                <a href="../edit_pro/{{product.id}}" id="buy" class="btn"><i
+                        class="fa-solid fa-pen-to-square"></i>Edit</a>
 
                 <div class="mt-5">
 
@@ -346,139 +326,7 @@ $(document).ready(function () {
         </div>
     </div>
 
-    <!-- ---------------------------------dress------------------------------------------- -->
 
-
-    <div id="best_sales" class="sample container p-5 mt-4">
-        <div class="d-flex justify-content-between align-items-center mb-1">
-            <h3 class="mb-0"><b>Best Dress</b></h3>
-        </div>
-        <div id="demo3" class="carousel slide" data-bs-ride="false">
-
-            <!-- The slideshow/carousel -->
-            <div class="carousel-inner">
-                <div class="carousel-item active ">
-                    <div class="row">
-                        {% for i in dress %}
-                        <div class="col-md-3">
-                            <a class="text-decoration-none text-black" href="../sec/{{i.id}}">
-                                <div id="card" class="movie-card justify-content-center">
-                                    <img src="{{i.image.url}}" style="width: 100%;" class="img-fluid">
-                                    <div class="Phone-details text-center">
-                                        <h5 class="phone-title ">{{i.name}}</h5>
-                                        <p class="price text-danger text-decoration-line-through">price : ₹{{i.price}}
-                                        </p>
-                                        <p class="offer_price text-success"><b>Offer Price : ₹{{i.offer_price}}</b></p>
-
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-                <div class="carousel-item">
-                    <div class="row">
-                        {% for i in dress1 %}
-                        <div class="col-md-3">
-                            <a class="text-decoration-none text-black" href="../sec/{{i.id}}">
-                                <div class="movie-card">
-                                    <img src="{{i.image.url}}" class="img-fluid">
-                                    <div class="movie-details ">
-
-                                        <h5 class="movie-title">{{i.name}}</h5>
-                                        <p class="price text-danger text-decoration-line-through">price : ₹{{i.price}}
-                                        </p>
-                                        <h5 class="offer_price text-success"><b>Offer Price : ₹{{i.offer_price}}</b>
-                                        </h5>
-                                    </div>
-
-                                </div>
-                            </a>
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-        </div>
-        <button
-            style="background-color: #5c5e5c; border-radius: 50%; width: 25px; height: 25px; position: absolute; top: 115%; left: 130px;"
-            class="carousel-control-prev " type="button1" data-bs-target="#demo3" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon"></span>
-        </button>
-        <button
-            style="background-color: #747774; border-radius: 50%; width: 25px; height: 25px; position: absolute; top: 115%; right: 130px;"
-            class="carousel-control-next" type="button1" data-bs-target="#demo3" data-bs-slide="next">
-            <span class="carousel-control-next-icon"></span>
-        </button>
-    </div>
-
-    <!-- ----------------------------------------phone--------------------------------------- -->
-    <div id="best_sales" class="sample container p-3 mt-4">
-        <div class="d-flex justify-content-between align-items-center mb-1">
-            <h3 class="mb-0"><b>Best Sales on SmartPhone</b></h3>
-        </div>
-        <div id="demo2" class="carousel slide" data-bs-ride="false">
-
-            <!-- The slideshow/carousel -->
-            <div class="carousel-inner">
-                <div class="carousel-item active ">
-                    <div class="row ">
-                        {% for i in phones %}
-                        <div class="col-md-3">
-                            <a class="text-decoration-none text-black" href="../sec/{{i.id}}">
-                                <div id="card" class="movie-card justify-content-center">
-                                    <img src="{{ i.image.url  }}" style="width: auto; height: 400px" class="img-fluid">
-                                    <div class="Phone-details text-center">
-
-                                        <h5 class="phone-title mt-3 ">{{i.name}}</h5>
-                                        <p class="oprice text-danger text-decoration-line-through">price :
-                                            ₹{{i.offer_price}}</p>
-                                        <h5 class="offer_price text-success"><b>Offer Price : ₹{{i.price}}</b></h5>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-                <div class="carousel-item">
-                    <div class="row ">
-                        {% for i in data1 %}
-                        {% if i.phone %}
-                        <div class="col-md-3" id="card1">
-                            <a class="text-decoration-none text-black" href="../sec/{{i.id}}">
-                                <div class="movie-card">
-                                    <img src="{{i.image.url}}" style="width: auto; height: 400px;" class="img-fluid">
-                                    <div class="phone-details text-center ">
-
-                                        <h5 class="phone-title mt-3">{{i.Phone_name}}</h5>
-                                        <p class="offer_price text-danger text-decoration-line-through">price :
-                                            ₹{{i.ph_offer_price}}</p>
-                                        <h5 class="Phone-price text-success"><b>Offer Price : ₹{{i.ph_price}}</b></h5>
-                                    </div>
-                                </div>
-                            </a>
-
-                        </div>
-                        {% endif %}
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-        </div>
-        <button
-            style="background-color: #5c5e5c; border-radius: 50%; width: 25px; height: 25px; position: absolute; top: 190%; left: 130px;"
-            class="carousel-control-prev " type="button1" data-bs-target="#demo2" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon"></span>
-        </button>
-        <button
-            style="background-color: #747774; border-radius: 50%; width: 25px; height: 25px; position: absolute; top: 190%; right:130px ;"
-            class="carousel-control-next" type="button1" data-bs-target="#demo2" data-bs-slide="next">
-            <span class="carousel-control-next-icon"></span>
-        </button>
-    </div>
-    </div>
 
 
 </body>

@@ -53,12 +53,7 @@ def register(req):
             return redirect(register)   
     else:
         return render(req,'register.html')
-
     
-
-
-
-
 
 
 
@@ -139,7 +134,18 @@ def admin_bookings(req):
     data=Buy.objects.all()[::-1]
     return render(req,'admin/admin_bookings.html',{'user':user,'data':data})
 
+def cancel_order(req,id):
+    data=Buy.objects.get(pk=id)
+    data.delete()
+    return redirect(admin_bookings)
 
+def view_pro(req):
+        product=Products.objects.all()
+        return render(req,'admin/view_all_pro.html',{'product':product})
+
+def pro_details(req,id):
+    product=Products.objects.get(pk=id)
+    return render(req,'admin/product_details.html',{'product':product})
 # -----------------------------user-----------------------------------------------------
 
 def index(request):

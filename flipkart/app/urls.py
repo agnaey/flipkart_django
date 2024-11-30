@@ -13,6 +13,9 @@ urlpatterns = [
     path('delete_pro/<id>', views.delete_product),
     path('edit_pro/<id>', views.edit_product),
     path('admin_booking', views.admin_bookings),
+    path('view_pro',views.view_pro),
+    path('cancel_order/<id>',views.cancel_order),
+    path('product_details/<id>',views.pro_details),
 
     # ----------------------user--------------------------------------
 
@@ -23,5 +26,5 @@ urlpatterns = [
     path('delete_cart/<id>', views.cart_delete),
     path('buy_product/<id>',views.buy_pro),
     path('user_vew_booking',views.view_bookings),
-    path('delete_order',views.delete_order),
+    path('delete_order/<id>',views.delete_order),
 ]
