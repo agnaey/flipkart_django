@@ -196,16 +196,12 @@ $(document).ready(function () {
 
 
         #image-section {
-            flex: 1;
-            position: sticky;
             top: 20px;
             max-height: 500px;
         }
 
         #details-section {
-            flex: 2;
             max-height: 100vh;
-            overflow-y: auto;
             padding-left: 20px;
         }
 
@@ -323,7 +319,7 @@ $(document).ready(function () {
                     <a href="../buy_product/{{product.pk}}" id="buy" class="btn"><i
                             class="fa-solid fa-bolt-lightning"></i>Buy Now</a>
 
-                <div class="mt-5">
+                <div class="mt-5 mb-5">
 
                 </div>
             </div>
@@ -363,7 +359,7 @@ $(document).ready(function () {
                         <div class="col-md-3">
                             <a class="text-decoration-none text-black" href="../sec/{{i.id}}">
                                 <div id="card" class="movie-card justify-content-center">
-                                    <img src="{{i.image.url}}" style="width: 100%;" class="img-fluid">
+                                    <img src="{{i.image.url}}" style="width: 100%; height: 400px;" class="img-fluid">
                                     <div class="Phone-details text-center">
                                         <h5 class="phone-title ">{{i.name}}</h5>
                                         <p class="price text-danger text-decoration-line-through">price : ₹{{i.price}}
@@ -383,7 +379,7 @@ $(document).ready(function () {
                         <div class="col-md-3">
                             <a class="text-decoration-none text-black" href="../sec/{{i.id}}">
                                 <div class="movie-card">
-                                    <img src="{{i.image.url}}" class="img-fluid">
+                                    <img src="{{i.image.url}}" style="width: 100%; height: 400px;" class="img-fluid">
                                     <div class="movie-details ">
 
                                         <h5 class="movie-title">{{i.name}}</h5>
@@ -402,12 +398,12 @@ $(document).ready(function () {
             </div>
         </div>
         <button
-            style="background-color: #5c5e5c; border-radius: 50%; width: 25px; height: 25px; position: absolute; top: 115%; left: 130px;"
+            style="background-color: #5c5e5c; border-radius: 50%; width: 25px; height: 25px; position: absolute; top: 145%; left: 6%;"
             class="carousel-control-prev " type="button1" data-bs-target="#demo3" data-bs-slide="prev">
             <span class="carousel-control-prev-icon"></span>
         </button>
         <button
-            style="background-color: #747774; border-radius: 50%; width: 25px; height: 25px; position: absolute; top: 115%; right: 130px;"
+            style="background-color: #747774; border-radius: 50%; width: 25px; height: 25px; position: absolute; top: 145%; right: 6%;"
             class="carousel-control-next" type="button1" data-bs-target="#demo3" data-bs-slide="next">
             <span class="carousel-control-next-icon"></span>
         </button>
@@ -468,12 +464,12 @@ $(document).ready(function () {
             </div>
         </div>
         <button
-            style="background-color: #5c5e5c; border-radius: 50%; width: 25px; height: 25px; position: absolute; top: 190%; left: 130px;"
+            style="background-color: #5c5e5c; border-radius: 50%; width: 25px; height: 25px; position: absolute; top: 230%; left: 6%;"
             class="carousel-control-prev " type="button1" data-bs-target="#demo2" data-bs-slide="prev">
             <span class="carousel-control-prev-icon"></span>
         </button>
         <button
-            style="background-color: #747774; border-radius: 50%; width: 25px; height: 25px; position: absolute; top: 190%; right:130px ;"
+            style="background-color: #747774; border-radius: 50%; width: 25px; height: 25px; position: absolute; top: 230%; right:6% ;"
             class="carousel-control-next" type="button1" data-bs-target="#demo2" data-bs-slide="next">
             <span class="carousel-control-next-icon"></span>
         </button>
