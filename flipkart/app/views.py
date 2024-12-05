@@ -176,7 +176,7 @@ def cart_delete(req,id):
     return redirect(cart_display)
 
 def buy_pro(req,id):
-    product=Products.objects.get(pk=id)
+    product=Cart.objects.get(pk=id)
     user=User.objects.get(username=req.session['username'])
     price=product.offer_price
     if isinstance(price, str): 
