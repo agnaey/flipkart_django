@@ -176,13 +176,25 @@ def cart_delete(req,id):
     return redirect(cart_display)
 
 def buy_pro(req,id):
-    product=Cart.objects.get(pk=id)
+    product=Products.objects.get(pk=id)
     user=User.objects.get(username=req.session['username'])
     price=product.offer_price
+    # qty=1
     if isinstance(price, str): 
         price = float(price.replace(",", ""))
     data=Buy.objects.create(user=user,product=product,price=price)
     data.save()
+    return redirect(view_bookings)
+
+def cart_buy(req,id):
+    cart=Cart.objects.get(pk=id)
+    # price=cart.qty*cart.product.offer_price
+    price=cart.product.offer_price
+    product=cart.product
+    # product.stock-=cart.qty
+    product.save()
+    buy=Buy.objects.create(product=cart.product,user=cart.user,price=price)
+    buy.save()
     return redirect(view_bookings)
 
 def view_bookings(req):
