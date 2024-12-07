@@ -10,12 +10,13 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
-        <!-- alert -->
-        <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <script>
+    <!-- alert -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
 
-             $(document).ready(function () {
+        $(document).ready(function () {
             $('#delete').on('click', function (event) {
                 event.preventDefault(); // Prevent default link behavior
                 const href = $(this).attr('href'); // Get the href value from the link
@@ -44,35 +45,35 @@
         });
 
 
-             $(document).ready(function () {
-                $('#logout').on('click', function (event) {
-                    event.preventDefault(); // Prevent default link behavior
-                    const href = $(this).attr('href'); // Get the href value from the link
-        
-                    Swal.fire({
-                        title: "Are you sure?",
-                        text: "You want to logout!",
-                        icon: "warning",
-                        showCancelButton: true,
-                        confirmButtonColor: "#3085d6",
-                        cancelButtonColor: "#d33",
-                        confirmButtonText: "confirm!"
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            Swal.fire({
-                                title: "logout",
-                                text: "You have successfully logout",
-                                icon: "success",
-                                timer: 1500,
-                                showConfirmButton: false
-                            }).then(() => {
-                                window.location.href = href;
-                            });
-                        }
-                    });
+        $(document).ready(function () {
+            $('#logout').on('click', function (event) {
+                event.preventDefault(); // Prevent default link behavior
+                const href = $(this).attr('href'); // Get the href value from the link
+
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You want to logout!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "confirm!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Swal.fire({
+                            title: "logout",
+                            text: "You have successfully logout",
+                            icon: "success",
+                            timer: 1500,
+                            showConfirmButton: false
+                        }).then(() => {
+                            window.location.href = href;
+                        });
+                    }
                 });
             });
-        </script>
+        });
+    </script>
     <style>
         #search {
             width: 750px;
@@ -94,7 +95,8 @@
             color: white;
             border-radius: 10px;
         }
-        .nav-link:hover{
+
+        .nav-link:hover {
             text-decoration: underline;
         }
 
@@ -117,10 +119,11 @@
 
             border-radius: 10px;
         }
+
         #card1 {
             border: 1px solid rgba(90, 87, 87, 0.314);
             padding: 10px;
-             /* padding-left: 30px; */
+            /* padding-left: 30px; */
             border-radius: 10px;
             margin-right: 20px;
             height: 630px;
@@ -129,10 +132,9 @@
         /* #container {
             max-width: 70%;
         } */
-        a#delete{
+        a#delete {
             border: 1px solid black;
         }
- 
     </style>
     <title>Document</title>
 </head>
@@ -154,13 +156,16 @@
                             placeholder="Search For Product, Brand and More" aria-label="Search">
                     </form>
                     <li class="nav-item ">
-                        <a class="nav-link " id="logout" href="logout"><i class="fa-solid fa-user">&nbsp;&nbsp;</i>Logout</a>
+                        <a class="nav-link " id="logout" href="logout"><i
+                                class="fa-solid fa-user">&nbsp;&nbsp;</i>Logout</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../admin_booking"><i class="fa-solid fa-cart-shopping"></i>&nbsp;&nbsp;User Bookings</a>
+                        <a class="nav-link" href="../admin_booking"><i
+                                class="fa-solid fa-cart-shopping"></i>&nbsp;&nbsp;User Bookings</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../view_pro"><i class="fa-solid fa-shop"></i>&nbsp; View All Product</a>
+                        <a class="nav-link" href="../view_pro"><i class="fa-solid fa-shop"></i>&nbsp; View All
+                            Product</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="add_pro"><i class="fa-solid fa-plus"></i></i>&nbsp; Add products</a>
@@ -197,7 +202,7 @@
             </li>
     </nav>
 
-    <div id="demo" class="container carousel slide mt-4" data-bs-ride="carousel">
+    <!-- <div id="demo" class="container carousel slide mt-4" data-bs-ride="carousel">
 
         <div class="carousel-inner">
             <div class="carousel-item active">
@@ -227,40 +232,44 @@
         <button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next">
             <span class="carousel-control-next-icon"></span>
         </button>
-    </div>
+    </div> -->
 
     <div id="best_sales" class="sample container p-3 mt-4">
         <div class="d-flex justify-content-between align-items-center mb-1">
             <h3 class="mb-0"><b>All Phones</b></h3>
         </div>
 
-            <!-- The slideshow/carousel -->
-            <div class="carousel-inner">
-                <div class="carousel-item active ">
-                    <div class="row justify-content-left">
-                        {% for i in phones %}
-                        <div class="col-md-3">
-                            <a class="text-decoration-none text-black" href="../product_details/{{i.id}}">
-                                <div id="card" class="movie-card ">
-                                    <img src="{{ i.image.url  }}" style="width: auto; height: 400px" class="img-fluid">
-                                    <div class="Phone-details text-center">
+        <!-- The slideshow/carousel -->
+        <div class="carousel-inner">
+            <div class="carousel-item active ">
+                <div class="row justify-content-left">
+                    {% for i in phones %}
+                    <div class="col-md-3">
+                        <a class="text-decoration-none text-black" href="../product_details/{{i.id}}">
+                            <div id="card" class="movie-card ">
+                                <img src="{{ i.image.url  }}" style="width: auto; height: 400px" class="img-fluid">
+                                <div class="Phone-details text-center">
 
-                                        <h5 class="phone-title mt-3 ">{{i.name}}</h5>
-                                        <p class="price text-danger text-decoration-line-through">price : ₹{{i.price}}</p>
-                                        <h5 class="offer_price text-success"><b>Offer Price : ₹{{i.offer_price}}</b></h5>
-                                        <hr>
-                                        <a href="../delete_pro/{{i.id}}" id="delete" class="btn"><i id="delete" class="fa-solid fa-trash " style="margin-right:5px;"></i>delete</a>
-                                        <a href="../edit_pro/{{i.id}}" id="edit" class="btn"><i id="edit" class="fa-solid fa-pen-to-square" style="margin-right:5px;"></i>edit</a>
-                                    </div>
+                                    <h5 class="phone-title mt-3 ">{{i.name}}</h5>
+                                    <p class="price text-danger text-decoration-line-through">price : ₹{{i.price}}</p>
+                                    <h5 class="offer_price text-success"><b>Offer Price : ₹{{i.offer_price}}</b></h5>
+                                    <hr>
+                                    <a href="../delete_pro/{{i.id}}" id="delete" class="btn"><i id="delete"
+                                            class="fa-solid fa-trash " style="margin-right:5px;"></i>delete</a>
+                                    <a href="../edit_pro/{{i.id}}" id="edit" class="btn"><i id="edit"
+                                            class="fa-solid fa-pen-to-square" style="margin-right:5px;"></i>edit</a>
                                 </div>
-                            </a>
-                        </div>
-                        {% endfor %}
+                            </div>
+                        </a>
                     </div>
+                    {% empty %}
+                    <p>No Phones added</p>
+                    {% endfor %}
                 </div>
-
             </div>
+
         </div>
+    </div>
 
 
     <!-- ---------------------------------dress------------------------------------------- -->
@@ -271,50 +280,118 @@
             <h3 class="mb-0"><b>Best Dress</b></h3>
         </div>
 
-            <!-- The slideshow/carousel -->
-                <div class="row">
-                    {% for i in dress %}
-                    <div class="col-md-3">
-                        <a class="text-decoration-none text-black" href="../product_details/{{i.id}}">
-                            <div id="card1" class="movie-card justify-content-center">
-                                <img src="{{i.image.url}}"  style="width: 400px; height: 440px;" class="img-fluid">
-                                <div class="Phone-details text-center">
-                                    <h5 class="phone-title ">{{i.name}}</h5>
-                                    <p class="price text-danger text-decoration-line-through">price : ₹{{i.price}}</p>
-                                    <h5 class="offer_price text-success"><b>Offer Price : ₹{{i.offer_price}}</b></h5>
-                                    <hr>
-                                    <a href="../delete_pro/{{i.id}}" id="delete" class="btn"><i id="delete" class="fa-solid fa-trash " style="margin-right:5px;"></i>delete</a>
-                                    <a href="../edit_pro/{{i.id}}" id="edit" class="btn"><i id="edit" class="fa-solid fa-pen-to-square" style="margin-right:5px;"></i>edit</a>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    {% endfor %}
-                </div>
-
-
-
-    </div>
-
-    <div class="container mt-4">
-        <img class="img-fluid" src="{% static '/images/style.png' %}" alt="">
-    </div>
-    <div class="container">
+        <!-- The slideshow/carousel -->
         <div class="row">
-            <div class="col-md-4">
-                <img src="{% static '/images/special1.png' %}" alt="" class="img-fluid">
+            {% for i in dress %}
+            <div class="col-md-3">
+                <a class="text-decoration-none text-black" href="../product_details/{{i.id}}">
+                    <div id="card1" class="movie-card justify-content-center">
+                        <img src="{{i.image.url}}" style="width: 400px; height: 440px;" class="img-fluid">
+                        <div class="Phone-details text-center">
+                            <h5 class="phone-title ">{{i.name}}</h5>
+                            <p class="price text-danger text-decoration-line-through">price : ₹{{i.price}}</p>
+                            <h5 class="offer_price text-success"><b>Offer Price : ₹{{i.offer_price}}</b></h5>
+                            <hr>
+                            <a href="../delete_pro/{{i.id}}" id="delete" class="btn"><i id="delete"
+                                    class="fa-solid fa-trash " style="margin-right:5px;"></i>delete</a>
+                            <a href="../edit_pro/{{i.id}}" id="edit" class="btn"><i id="edit"
+                                    class="fa-solid fa-pen-to-square" style="margin-right:5px;"></i>edit</a>
+                        </div>
+                    </div>
+                </a>
             </div>
-            <div class="col-md-4">
-                <img src="{% static '/images/special2.png' %}" alt="" class="img-fluid">
+            {% empty %}
+            <p>No Dress added</p>
+            {% endfor %}
+        </div>
+
+
+
+    </div>
+
+
+    <div id="best_sales" class="sample container p-5 mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-1">
+            <h3 class="mb-0"><b>Best Laptops</b></h3>
+        </div>
+
+        <!-- The slideshow/carousel -->
+        <div class="row">
+            {% for i in laptop %}
+            <div class="col-md-3">
+                <a class="text-decoration-none text-black" href="../product_details/{{i.id}}">
+                    <div id="card1" class="movie-card justify-content-center">
+                        <img src="{{i.image.url}}" style="width: 400px; height: 440px;" class="img-fluid">
+                        <div class="Phone-details text-center">
+                            <h5 class="phone-title ">{{i.name}}</h5>
+                            <p class="price text-danger text-decoration-line-through">price : ₹{{i.price}}</p>
+                            <h5 class="offer_price text-success"><b>Offer Price : ₹{{i.offer_price}}</b></h5>
+                            <hr>
+                            <a href="../delete_pro/{{i.id}}" id="delete" class="btn"><i id="delete"
+                                    class="fa-solid fa-trash " style="margin-right:5px;"></i>delete</a>
+                            <a href="../edit_pro/{{i.id}}" id="edit" class="btn"><i id="edit"
+                                    class="fa-solid fa-pen-to-square" style="margin-right:5px;"></i>edit</a>
+                        </div>
+                    </div>
+                </a>
             </div>
-            <div class="col-md-4">
-                <img src="{% static '/images/special3.png' %}" alt="" class="img-fluid">
-            </div>
+            {% empty %}
+            <p>No Laptops added</p>
+            {% endfor %}
         </div>
     </div>
-    <div class="container mt-3">
-        <img class="img-fluid" src="{% static '/images/j5a5tklk.png' %}" alt="">
-    </div>
+
+
+        <div id="best_sales" class="sample container p-5 mt-4">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+                <h3 class="mb-0"><b>Others</b></h3>
+            </div>
+
+            <!-- The slideshow/carousel -->
+            <div class="row">
+                {% for i in others %}
+                <div class="col-md-3">
+                    <a class="text-decoration-none text-black" href="../product_details/{{i.id}}">
+                        <div id="card1" class="movie-card justify-content-center">
+                            <img src="{{i.image.url}}" style="width: 400px; height: 440px;" class="img-fluid">
+                            <div class="Phone-details text-center">
+                                <h5 class="phone-title ">{{i.name}}</h5>
+                                <p class="price text-danger text-decoration-line-through">price : ₹{{i.price}}</p>
+                                <h5 class="offer_price text-success"><b>Offer Price : ₹{{i.offer_price}}</b></h5>
+                                <hr>
+                                <a href="../delete_pro/{{i.id}}" id="delete" class="btn"><i id="delete"
+                                        class="fa-solid fa-trash " style="margin-right:5px;"></i>delete</a>
+                                <a href="../edit_pro/{{i.id}}" id="edit" class="btn"><i id="edit"
+                                        class="fa-solid fa-pen-to-square" style="margin-right:5px;"></i>edit</a>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                {% empty %}
+                <p>No others added</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="container mt-4">
+            <img class="img-fluid" src="{% static '/images/style.png' %}" alt="">
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <img src="{% static '/images/special1.png' %}" alt="" class="img-fluid">
+                </div>
+                <div class="col-md-4">
+                    <img src="{% static '/images/special2.png' %}" alt="" class="img-fluid">
+                </div>
+                <div class="col-md-4">
+                    <img src="{% static '/images/special3.png' %}" alt="" class="img-fluid">
+                </div>
+            </div>
+        </div>
+        <div class="container mt-3">
+            <img class="img-fluid" src="{% static '/images/j5a5tklk.png' %}" alt="">
+        </div>
 </body>
 
 </html>

@@ -211,7 +211,6 @@ $(document).ready(function () {
             color: white;
             font-weight: bold;
             font-size: 20px;
-            margin-top: 20px;
         }
 
         #cart {
@@ -220,15 +219,15 @@ $(document).ready(function () {
             color: white;
             font-weight: bold;
             font-size: 20px;
-            margin-top: 20px;
+
         }
         #cart1 {
             background-color: rgb(251, 100, 27);
-            padding: 17px 60px;
+            padding: 20px 60px;
             color: white;
             font-weight: bold;
             font-size: 20px;
-            margin-top: 20px;
+            border-radius: 10px;
         }
 
         #buy:hover {
@@ -307,17 +306,10 @@ $(document).ready(function () {
     <div id="container" class="container ">
         <div class="row">
             <div id="image-section" class="col-lg-6 mb-5 mt-2">
-                <img src="{{product.image.url}}" class="product_img" alt="Card image"
+                <img src="{{product.image.url}}" class="product_img img-fluid" alt="Card image"
                     style="width:400px; height: 500px;">
 
-                    {% if cart1 %}
-                    <a href="../cart_disp" id="cart1" class=""><i class="fa-solid fa-cart-shopping"></i>Go to cart</a>
-                    {% else %}
-                    <a href="../add_to_cart/{{product.pk}}" id="cart" class="btn "><i
-                            class="fa-solid fa-cart-shopping"></i>add to cart</a>
-                    {% endif %}
-                    <a href="../buy_product/{{product.pk}}" id="buy" class="btn"><i
-                            class="fa-solid fa-bolt-lightning"></i>Buy Now</a>
+                   
 
                 <div class="mt-5 mb-5">
 
@@ -329,7 +321,16 @@ $(document).ready(function () {
                 <p class="offer_price" style="display: inline;"><b> Offer Price : ₹{{product.offer_price}}</b>
                 <p class="price" style="text-decoration: line-through; padding-left: 10px; display: inline;">
                     ₹{{product.price}}</p>
-                </p><br><br>
+                </p><br>
+                {% if cart1 %}
+                <a href="../cart_disp" id="cart1" class=""><i class="fa-solid fa-cart-shopping"></i>Go to cart</a>
+                {% else %}
+                <a href="../add_to_cart/{{product.pk}}" id="cart" class="btn "><i
+                        class="fa-solid fa-cart-shopping"></i>add to cart</a>
+                {% endif %}
+                <a href="../buy_product/{{product.pk}}" id="buy" class="btn"><i
+                        class="fa-solid fa-bolt-lightning"></i>Buy Now</a><br>
+                
                 <hr class="mt-5 mb-5">
 
                 <div>
@@ -370,6 +371,8 @@ $(document).ready(function () {
                                 </div>
                             </a>
                         </div>
+                        {% empty %}
+                        <p>No Dress for Sale</p>
                         {% endfor %}
                     </div>
                 </div>
@@ -435,6 +438,8 @@ $(document).ready(function () {
                                 </div>
                             </a>
                         </div>
+                        {% empty %}
+                        <p>No Phones for sale</p>
                         {% endfor %}
                     </div>
                 </div>

@@ -3,8 +3,8 @@ from . import views
 
 urlpatterns = [
 
-    path('', views.login, name='login'),
-    path('logout', views.logout, name='logout'),
+    path('', views.login),
+    path('logout', views.logout),
     path('register',views.register),
     # ----------------------admin--------------------------------------
 
@@ -15,11 +15,12 @@ urlpatterns = [
     path('admin_booking', views.admin_bookings),
     path('view_pro',views.view_pro),
     path('cancel_order/<id>',views.cancel_order),
+    path('confirm_order',views.confirm_order),
     path('product_details/<id>',views.pro_details),
 
     # ----------------------user--------------------------------------
 
-    path('index', views.index, ),
+    path('index', views.index),
     path('sec/<id>', views.secpage),
     path('add_to_cart/<pid>', views.add_to_cart),
     path('cart_disp', views.cart_display),

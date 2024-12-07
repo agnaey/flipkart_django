@@ -179,16 +179,12 @@ $(document).ready(function () {
 
 
         #image-section {
-            flex: 1;
-            position: sticky;
             top: 20px;
             max-height: 500px;
         }
 
         #details-section {
-            flex: 2;
             max-height: 100vh;
-            overflow-y: auto;
             padding-left: 20px;
         }
 
@@ -253,9 +249,15 @@ $(document).ready(function () {
                                 class="fa-solid fa-user">&nbsp;&nbsp;</i>Logout</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="../view_pro"><i class="fa-solid fa-shop"></i>&nbsp; View All Product</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="add_pro"><i class="fa-solid fa-plus"></i></i>&nbsp; Add products</a>
+                    </li>
+                    <!-- <li class="nav-item">
                         <a class="nav-link" href="../cart_disp"><i
                                 class="fa-solid fa-cart-shopping"></i>&nbsp;&nbsp;Cart</a>
-                    </li>
+                    </li> -->
                     <li class="nav-item">
                         <a class="nav-link" href="../user_vew_booking"><i class="fa-solid fa-shop"></i>&nbsp; View Bookings</a>
                     </li>
@@ -294,18 +296,12 @@ $(document).ready(function () {
     <div id="container" class="container ">
         <div class="row">
             <div id="image-section" class="col-lg-6 mb-5 mt-2">
-                <img src="{{product.image.url}}" class="product_img" alt="Card image"
+                <img src="{{product.image.url}}" class="product_img img-fluid" alt="Card image"
                     style="width:400px; height: 500px;">
 
-                    <a href="../delete_pro/{{product.id}}" id="cart" class="btn "><i
-                        class="fa-solid fa-trash"></i>Delete</a>
+                  
 
-                <a href="../edit_pro/{{product.id}}" id="buy" class="btn"><i
-                        class="fa-solid fa-pen-to-square"></i>Edit</a>
-
-                <div class="mt-5">
-
-                </div>
+    
             </div>
             <div id="details-section" class="col-lg-6 mt-5">
                 <h4 class="product_name">{{product.name}}</h4><br>
@@ -314,6 +310,11 @@ $(document).ready(function () {
                 <p class="price" style="text-decoration: line-through; padding-left: 10px; display: inline;">
                     ₹{{product.price}}</p>
                 </p><br><br>
+                <a href="../delete_pro/{{product.id}}" id="cart" class="btn "><i
+                    class="fa-solid fa-trash"></i>Delete</a>
+
+            <a href="../edit_pro/{{product.id}}" id="buy" class="btn"><i
+                    class="fa-solid fa-pen-to-square"></i>Edit</a>
                 <hr class="mt-5 mb-5">
 
                 <div>

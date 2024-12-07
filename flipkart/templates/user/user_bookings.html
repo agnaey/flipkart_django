@@ -130,7 +130,7 @@
         }
 
         .container {
-            max-width: 1600px;
+            max-width: 75%;
         }
         .card-body {
       text-align: center;
@@ -259,7 +259,7 @@
 
         <div class="row">
             <div class="col-lg-5 mt-2">
-              <img src="{{cart_obj.product.image.url}}" class="product_img" alt="" style="width:400px; height: 500px;">
+              <img src="{{cart_obj.product.image.url}}" class="product_img img-fluid" alt="" style="width:400px; height: 500px;">
             </div>
             <div id="details-section" class="col-lg-6 mt-5">
                 <h4 class="product_name">{{cart_obj.product.name}}</h4><br>
@@ -268,6 +268,7 @@
                      <p class="price" style="text-decoration: line-through; padding-left: 10px; display: inline;">₹{{cart_obj.product.price}}</p>
             </p><br><br>
                     <a href="../delete_order/{{cart_obj.id}}" id="cart" class="btn"><i class="fa-solid fa-trash " style="margin-right:5px;"></i>cancel the order</a>
+                    <!-- <a href="#" id="cart" class="btn"><i class="fa-solid fa-trash " style="margin-right:5px;"></i>confirm the</a> -->
             </div>
             <hr class="mt-5 mb-5">
 

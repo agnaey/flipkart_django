@@ -26,12 +26,12 @@
                     showCancelButton: true,
                     confirmButtonColor: "#3085d6",
                     cancelButtonColor: "#d33",
-                    confirmButtonText: "Yes, delete it!"
+                    confirmButtonText: "Yes, cancel it!"
                 }).then((result) => {
                     if (result.isConfirmed) {
                         Swal.fire({
                             title: "Deleted!",
-                            text: "Your file has been deleted.",
+                            text: "The order has been canceled.",
                             icon: "success",
                             timer: 1500,
                             showConfirmButton: false
@@ -207,6 +207,19 @@
 #cart:hover {
     background-color: rgb(196, 64, 14); 
 }
+#confirm {
+    background-color: green;
+    padding: 17px 60px;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    margin-top: 20px;
+}
+
+#confirm:hover{
+    background-color: darkgreen;
+}
+
     #mycart{
  font-size: 30px;
 }
@@ -262,7 +275,7 @@
         {% for i in data %}
         <div class="row">
             <div class="col-lg-5 mt-2">
-              <img src="{{i.product.image.url}}" class="product_img" alt="" style="width:400px; height: 500px;">
+              <img src="{{i.product.image.url}}" class="product_img img-fluid" alt="" style="width:400px; height: 500px;">
             </div>
             <div id="details-section" class="col-lg-6 mt-5">
                 <h4>User : {{i.user}}</h4>
@@ -274,6 +287,8 @@
             <p class="date">Order Date : {{i.date}}</p>
             <br><br>
                     <a href="../cancel_order/{{i.id}}" id="cart" class="btn"><i class="fa-solid fa-trash " style="margin-right:5px;"></i>cancel the order</a>
+                    <a href="../confirm_order/{{i.id}}" id="confirm" class="btn"><i class="fa-solid fa-trash " style="margin-right:5px;"></i>Confirm the order</a>
+
             </div>
             <hr class="mt-5 mb-5">
 

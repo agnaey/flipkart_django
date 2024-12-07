@@ -15,24 +15,8 @@
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-//  $(document).ready(function () {
-//     $('#add').on('click', function (event) {
-//         event.preventDefault(); // Prevent default navigation or form submission
 
-//         // Manually submit the form after showing the SweetAlert
-//         Swal.fire({
-//             position: "center",
-//             icon: "success",
-//             title: "Added to cart",
-//             showConfirmButton: false,
-//             timer: 1500
-//         }).then(() => {
-//             $('#admin_home').submit(); // Submit the form after SweetAlert finishes
-//         });
-//     });
-// });
-
-        $(document).ready(function () {
+$(document).ready(function () {
             $('#logout').on('click', function (event) {
                 event.preventDefault(); // Prevent default link behavior
                 const href = $(this).attr('href'); // Get the href value from the link

@@ -3,6 +3,8 @@ from django.http import HttpResponse
 from django.contrib.auth import authenticate,login as auth_login,logout as auth_logout
 from . models import *
 import os
+from django.core.mail import send_mail
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib import messages
 
@@ -10,9 +12,9 @@ from django.contrib import messages
 # Create your views here.
 
 def login(req):
-    if 'shop' in req.session:
+    if 'admin' in req.session:
         return redirect(admin_home)
-    if 'user'in req.session:
+    if 'username'in req.session:
         return redirect(index)
     else:
         if req.method=='POST':
@@ -41,8 +43,9 @@ def logout(req):
 def register(req):
     if req.method=='POST':
         username = req.POST['username']
-        email = req.POST['email']
+        email = req.POST['Email']
         password = req.POST['password']
+        send_mail('Flipkart','Flipkart Account Created Successfully',settings.EMAIL_HOST_USER,[email])
         try:
             data=User.objects.create_user(first_name=username,username=email,email=email,password=password)
             data.save()
@@ -139,6 +142,9 @@ def cancel_order(req,id):
     data.delete()
     return redirect(admin_bookings)
 
+def confirm_order(req):
+    return redirect(admin_bookings)
+
 def view_pro(req):
         product=Products.objects.all()
         return render(req,'admin/view_all_pro.html',{'product':product})
@@ -155,10 +161,15 @@ def index(request):
 
 def secpage(request,id):
     log_user=User.objects.get(username=request.session['username'])
-    product=Products.objects.get(id=id)
+    product=Products.objects.get(id=id) 
+    try:
+        cart1=Cart.objects.get(product=product,user=log_user)
+    except:
+        cart1=None
+    print(cart1)
     phones=Products.objects.filter(phone=True)
     dress=Products.objects.filter(dress=True)
-    return render(request, 'user/secpage.html',{'product':product,'phones':phones,'dress':dress})
+    return render(request, 'user/secpage.html',{'product':product,'phones':phones,'dress':dress,'cart1':cart1})
 def add_to_cart(req,pid):
     product=Products.objects.get(pk=pid)
     user=User.objects.get(username=req.session['username'])
