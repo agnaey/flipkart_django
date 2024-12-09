@@ -66,7 +66,10 @@ def admin_home(req):
     if 'admin' in req.session:
         phones=Products.objects.filter(phone=True)
         dress=Products.objects.filter(dress=True)
-        return render(req,'admin/admin_home.html',{'phones':phones,'dress':dress})
+        laptop=Products.objects.filter(laptop=True)
+        others=Products.objects.filter(others=True)
+
+        return render(req,'admin/admin_home.html',{'phones':phones,'dress':dress,'laptop':laptop,'others':others})
     else:
        return redirect(admin_home)
     
@@ -157,7 +160,9 @@ def pro_details(req,id):
 def index(request):
     phones=Products.objects.filter(phone=True)
     dress=Products.objects.filter(dress=True)
-    return render(request, 'user/index.html',{'phones':phones,'dress':dress})
+    laptop=Products.objects.filter(laptop=True)
+    others=Products.objects.filter(others=True)
+    return render(request, 'user/index.html',{'phones':phones,'dress':dress,'laptop':laptop,'others':others})
 
 def secpage(request,id):
     log_user=User.objects.get(username=request.session['username'])
@@ -169,7 +174,9 @@ def secpage(request,id):
     print(cart1)
     phones=Products.objects.filter(phone=True)
     dress=Products.objects.filter(dress=True)
-    return render(request, 'user/secpage.html',{'product':product,'phones':phones,'dress':dress,'cart1':cart1})
+    laptop=Products.objects.filter(laptop=True)
+
+    return render(request, 'user/secpage.html',{'product':product,'phones':phones,'dress':dress,'cart1':cart1,'laptop':laptop})
 def add_to_cart(req,pid):
     product=Products.objects.get(pk=pid)
     user=User.objects.get(username=req.session['username'])

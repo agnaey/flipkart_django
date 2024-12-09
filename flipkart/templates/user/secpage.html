@@ -277,8 +277,11 @@ $(document).ready(function () {
     </nav>
     <nav id="nav2" class="container ">
         <ul class="nav justify-content-center">
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a id="navsub1" class="nav-link active" aria-current="page" href="#">Grocery</a>
+            </li> -->
+            <li class="nav-item">
+                <a id="navsub1" class="nav-link" href="#">Dress</a>
             </li>
             <li class="nav-item">
                 <a id="navsub1" class="nav-link" href="#">Mobile</a>
@@ -286,24 +289,24 @@ $(document).ready(function () {
             <li class="nav-item">
                 <a id="navsub1" class="nav-link" href="#">Fashion</a>
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a id="navsub1" class="nav-link" href="#">Electronics</a>
-            </li>
-            <li class="nav-item">
+            </li> -->
+            <!-- <li class="nav-item">
                 <a id="navsub1" class="nav-link" href="#">HOME & Furniture</a>
-            </li>
-            <li class="nav-item">
+            </li> -->
+            <!-- <li class="nav-item">
                 <a id="navsub1" class="nav-link" href="#">Appilnces</a>
+            </li> -->
+            <li class="nav-item">
+                <a id="navsub1" class="nav-link" href="#">Laptop</a>
             </li>
             <li class="nav-item">
-                <a id="navsub1" class="nav-link" href="#">Beauty,Toys & More</a>
-            </li>
-            <li class="nav-item">
-                <a id="navsub1" class="nav-link" href="#">Two Wheelers</a>
+                <a id="navsub1" class="nav-link" href="#">Others</a>
             </li>
     </nav>
 
-    <div id="container" class="container ">
+    <div id="container" class="container mt-4">
         <div class="row">
             <div id="image-section" class="col-lg-6 mb-5 mt-2">
                 <img src="{{product.image.url}}" class="product_img img-fluid" alt="Card image"
@@ -480,6 +483,38 @@ $(document).ready(function () {
         </button>
     </div>
     </div>
+
+        <!-- ----------------------------------------laptop--------------------------------------- -->
+        <div id="best_sales" class="sample container p-3 mt-4">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+                <h3 class="mb-0"><b>Best Laptops</b></h3>
+            </div>
+    
+                <!-- The slideshow/carousel -->
+                <div class="carousel-inner">
+                    <div class="carousel-item active ">
+                        <div class="row ">
+                            {% for i in laptop %}
+                            <div class="col-md-3">
+                                <a class="text-decoration-none text-black" href="../sec/{{i.id}}">
+                                    <div id="card" class="movie-card justify-content-center">
+                                        <img src="{{ i.image.url  }}" style="width: auto; height: 400px" class="img-fluid">
+                                        <div class="Phone-details text-center">
+    
+                                            <h5 class="phone-title mt-3 ">{{i.name}}</h5>
+                                            <p class="oprice text-danger text-decoration-line-through">price :
+                                                ₹{{i.offer_price}}</p>
+                                            <h5 class="offer_price text-success"><b>Offer Price : ₹{{i.price}}</b></h5>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            {% empty %}
+                            <p>No laptop for sale</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                   
 
 
 </body>

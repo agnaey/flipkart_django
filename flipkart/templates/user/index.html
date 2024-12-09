@@ -95,6 +95,12 @@
         /* .container {
             max-width: 1600px;
         } */
+        .container{
+            border-radius: 15px;
+        }
+        .img-fluid{
+            border-radius: 30px;
+        }
     </style>
     <title>Document</title>
 </head>
@@ -131,7 +137,7 @@
     <nav class="container mt-2">
         <ul class="nav justify-content-center">
             <li class="nav-item">
-                <a id="navsub1" class="nav-link active" aria-current="page" href="#">Grocery</a>
+                <a id="navsub1" class="nav-link" href="#">Dress</a>
             </li>
             <li class="nav-item">
                 <a id="navsub1" class="nav-link" href="#">Mobile</a>
@@ -139,20 +145,20 @@
             <li class="nav-item">
                 <a id="navsub1" class="nav-link" href="#">Fashion</a>
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a id="navsub1" class="nav-link" href="#">Electronics</a>
-            </li>
-            <li class="nav-item">
+            </li> -->
+            <!-- <li class="nav-item">
                 <a id="navsub1" class="nav-link" href="#">HOME & Furniture</a>
-            </li>
-            <li class="nav-item">
+            </li> -->
+            <!-- <li class="nav-item">
                 <a id="navsub1" class="nav-link" href="#">Appilnces</a>
+            </li> -->
+            <li class="nav-item">
+                <a id="navsub1" class="nav-link" href="#">Laptop</a>
             </li>
             <li class="nav-item">
-                <a id="navsub1" class="nav-link" href="#">Beauty,Toys & More</a>
-            </li>
-            <li class="nav-item">
-                <a id="navsub1" class="nav-link" href="#">Two Wheelers</a>
+                <a id="navsub1" class="nav-link" href="#">Others</a>
             </li>
     </nav>
 
@@ -215,41 +221,10 @@
                         {% endfor %}
                     </div>
                 </div>
-                <div class="carousel-item">
-                    <div class="row ">
-                        {% for i in data1 %}
-                        {% if i.phone %}
-                        <div class="col-md-3" id="card1">
-                            <a class="text-decoration-none text-black" href="../sec/{{i.id}}">
-                                <div class="movie-card">
-                                    <img src="{{i.image.url}}" style="width: auto; height: 400px;" class="img-fluid">
-                                    <div class="phone-details text-center ">
 
-                                        <h5 class="phone-title mt-3">{{i.Phone_name}}</h5>
-                                        <p class="offer_price text-danger text-decoration-line-through">price : ₹{{i.ph_offer_price}}</p>
-                                        <h5 class="Phone-price text-success"><b>Offer Price : ₹{{i.ph_price}}</b></h5>
-                                    </div>
-                                </div>
-                            </a>
-
-                        </div>
-                        {% endif %}
-                        {% endfor %}
-                    </div>
-                </div>
             </div>
         </div>
-        <button
-            style="background-color: #5c5e5c; border-radius: 50%; width: 25px; height: 25px; position: absolute; top: 90%; left: 6%;"
-            class="carousel-control-prev " type="button1" data-bs-target="#demo2" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon"></span>
-        </button>
-        <button
-            style="background-color: #747774; border-radius: 50%; width: 25px; height: 25px; position: absolute; top: 90%; right:6% ;"
-            class="carousel-control-next" type="button1" data-bs-target="#demo2" data-bs-slide="next">
-            <span class="carousel-control-next-icon"></span>
-        </button>
-    </div>
+  
     </div>
 
     <!-- ---------------------------------dress------------------------------------------- -->
@@ -279,39 +254,64 @@
                         {% endfor %}
                     </div>
                 </div>
-                <div class="carousel-item">
-                    <div class="row">
-                        {% for i in dress1 %}
-                        <div class="col-md-3">
-                            <a class="text-decoration-none text-black" href="sec/{{i.id}}">
-                                <div class="movie-card">
-                                    <img src="{{i.image.url}}" style="width: 400px; height: 440px;"class="img-fluid">
-                                    <div class="movie-details">
-                                        <h5 class="movie-title">{{i.name}}</h5>
-                                        <p class="offer_price text-danger text-decoration-line-through">price : ₹{{i.price}}</p>
-                                        <h5 class="Phone-price text-success"><b>Offer Price : ₹{{i.offer_price}}</b></h5>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
             </div>
         </div>
-        <button
-            style="background-color: #5c5e5c; border-radius: 50%; width: 25px; height: 25px; position: absolute; top: 185%; left: 6%;"
-            class="carousel-control-prev " type="button1" data-bs-target="#demo3" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon"></span>
-        </button>
-        <button
-            style="background-color: #747774; border-radius: 50%; width: 25px; height: 25px; position: absolute; top: 185%; right: 6%;"
-            class="carousel-control-next" type="button1" data-bs-target="#demo3" data-bs-slide="next">
-            <span class="carousel-control-next-icon"></span>
-        </button>
     </div>
 
+
+
+    <div id="best_sales" class="sample container p-5 mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-1">
+            <h3 class="mb-0"><b>Best Laptops</b></h3>
+        </div>
+
+        <!-- The slideshow/carousel -->
+        <div class="row">
+            {% for i in laptop %}
+            <div class="col-md-3">
+                <a class="text-decoration-none text-black" href="sec/{{i.id}}">
+                    <div id="card" class="movie-card justify-content-center">
+                        <img src="{{i.image.url}}" style="width: 400px; height: 440px;" class="img-fluid">
+                        <div class="Phone-details text-center">
+                            <h5 class="phone-title">{{i.name}}</h5>
+                            <p class="offer_price text-danger text-decoration-line-through">price : ₹{{i.price}}</p>
+                            <h5 class="Phone-price text-success"><b>Offer Price : ₹{{i.offer_price}}</b></h5>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {% empty %}
+            <p>No Laptops added</p>
+            {% endfor %}
+        </div>
     </div>
+
+
+        <div id="best_sales" class="sample container p-5 mt-4">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+                <h3 class="mb-0"><b>Others</b></h3>
+            </div>
+
+            <!-- The slideshow/carousel -->
+            <div class="row">
+                {% for i in others %}
+                <div class="col-md-3">
+                    <a class="text-decoration-none text-black" href="sec/{{i.id}}">
+                        <div id="card" class="movie-card justify-content-center">
+                            <img src="{{i.image.url}}" style="width: 400px; height: 440px;" class="img-fluid">
+                            <div class="Phone-details text-center">
+                                <h5 class="phone-title">{{i.name}}</h5>
+                                <p class="offer_price text-danger text-decoration-line-through">price : ₹{{i.price}}</p>
+                                <h5 class="Phone-price text-success"><b>Offer Price : ₹{{i.offer_price}}</b></h5>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                {% empty %}
+                <p>No others added</p>
+                {% endfor %}
+            </div>
+        </div>
 
     <div class="container mt-4">
         <img class="img-fluid" src="{% static '/images/style.png' %}" alt="">
