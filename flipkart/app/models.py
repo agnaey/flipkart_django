@@ -4,8 +4,7 @@ from django.contrib.auth.models import User
 class Products (models.Model):
     name = models.TextField()
     P_id=models.TextField()
-    price =models.TextField()
-    offer_price = models.TextField()
+
     image = models.FileField()
     description = models.TextField()
     highlights = models.TextField()
@@ -13,6 +12,14 @@ class Products (models.Model):
     dress=models.BooleanField(default=False)
     laptop=models.BooleanField(default=False)
     others=models.BooleanField(default=False)
+
+class Categorys(models.Model):
+    product=models.ForeignKey(Products,on_delete=models.CASCADE)
+    storage=models.TextField()
+    color=models.TextField()
+    price =models.TextField()
+    offer_price = models.TextField()
+    size=models.TextField()
 
 class Cart(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE)

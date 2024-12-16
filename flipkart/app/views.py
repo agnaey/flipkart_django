@@ -77,8 +77,7 @@ def add_product(req):
     if req.method == 'POST':
         pro_id = req.POST['pro_id']
         name = req.POST['name']
-        price = req.POST['price']
-        offer_price = req.POST['o_price']
+      
         if 'img' in req.FILES:
             image = req.FILES['img']        
         description = req.POST.get('description', '')
@@ -89,23 +88,34 @@ def add_product(req):
         laptop = 'laptop' in req.POST
         others = 'others' in req.POST
 
-        data = Products.objects.create(P_id=pro_id,name=name,price=price,offer_price=offer_price,image=image,
-        description=description,highlights=highlights,phone=phone,dress=dress,laptop=laptop,others=others)
+        data = Products.objects.create(P_id=pro_id,name=name,image=image,description=description
+        ,highlights=highlights,phone=phone,dress=dress,laptop=laptop,others=others)
         print(req.FILES)
         print(req.POST)
 
         data.save()
-        return redirect(admin_home)
-  
+        return redirect('category',id=data.id)
     return render(req, 'admin/add_product.html')
+
+def category(req,id):
+    data=Products.objects.get(pk=id)
+    if req.method == 'POST':
+        storage=req.POST['storage']
+        color=req.POST['color']
+        price = req.POST['price']
+        offer_price = req.POST['o_price']
+        size=req.POST['size']
+        data = Categorys.objects.create(storage=storage,color=color,price=price,offer_price=offer_price,size=size)
+
+        data.save()
+        return redirect(admin_home)
+    return render(req,'admin/category.html')
 
 def edit_product(req,id):
     data=Products.objects.get(pk=id)
     if req.method == 'POST':
         pro_id = req.POST['pro_id']
         name = req.POST['name']
-        price = req.POST['price']
-        offer_price = req.POST['o_price']
         image = req.FILES.get('img')
         description = req.POST.get('description', '')
         highlights = req.POST.get('highlights', '')
@@ -116,10 +126,10 @@ def edit_product(req,id):
         others = 'others' in req.POST
         print (image)
         if image:
-            Products.objects.filter(pk=id).update(P_id=pro_id,name=name,price=price,offer_price=offer_price,image=image,
+            Products.objects.filter(pk=id).update(P_id=pro_id,name=name,image=image,
             description=description,highlights=highlights,phone=phone,dress=dress,laptop=laptop,others=others)
         else:
-            Products.objects.filter(pk=id).update(P_id=pro_id,name=name,price=price,offer_price=offer_price,
+            Products.objects.filter(pk=id).update(P_id=pro_id,name=name,
             description=description,highlights=highlights,phone=phone,dress=dress,laptop=laptop,others=others)
         
         return redirect(admin_home)

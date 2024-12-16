@@ -195,25 +195,22 @@ $(document).ready(function () {
         <form method="POST" enctype="multipart/form-data">
         <div class="row">
             {% csrf_token %}
-            <label for="pro_id">Product ID:</label>
-            <input type="text" id="pro_id" name="pro_id" required><br><br>
+            <label for="storage">RAM/ROM:</label>
+            <input type="text" id="pro_id" name="storage" ><br><br>
     
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required><br><br>
+            <label for="color">Color:</label>
+            <input type="text" id="name" name="color" ><br><br>
     
-            <label for="img">Image:</label>
-            <input type="file" id="img" name="img" required><br><br>
+            <label for="price">Price:</label>
+            <input type="text" id="price" name="price" required><br><br>
     
-            <label for="description">Description:</label>
-            <textarea id="description" name="description"></textarea><br><br>
-    
-            <label for="highlights">Highlights:</label>
-            <textarea id="highlights" name="highlights"></textarea><br><br>
-    
-            <label><input type="checkbox" name="phone"> Phone</label><br>
-            <label><input type="checkbox" name="dress"> Dress</label><br>
-            <label><input type="checkbox" name="laptop"> Laptop</label><br>
-            <label><input type="checkbox" name="others"> Others</label><br><br>
+            <label for="o_price">Offer Price:</label>
+            <input type="text" id="o_price" name="o_price"required><br><br>
+
+            <label for="size">Size:</label>
+            <input type="text" id="size" name="size" ><br><br>
+
+
     
             <button id="add" type="submit">Add Product</button>
 
