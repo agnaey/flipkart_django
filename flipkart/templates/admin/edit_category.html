@@ -15,9 +15,8 @@
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        
-          
-        $(document).ready(function () {
+
+$(document).ready(function () {
             $('#logout').on('click', function (event) {
                 event.preventDefault(); // Prevent default link behavior
                 const href = $(this).attr('href'); // Get the href value from the link
@@ -123,6 +122,7 @@
             transition: all 0.5 ease-in-out;
 
         }
+
     </style>
     <title>add product</title>
 </head>
@@ -190,37 +190,31 @@
     </nav>
 
     <div id="container" class="container mt-4">
-        <h1 class="text-center" id="mycart">Edit items</h1>
+        <h1 class="text-center" id="mycart">Add items</h1>
         <hr class=" mb-4">
         <form method="POST" enctype="multipart/form-data">
-            <div class="row">
-                <form method="POST"   enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <label for="pro_id">Product ID:</label>
-                    <input type="text" id="pro_id" name="pro_id" value="{{ data.P_id }}" required><br><br>
-            
-                    <label for="name">Name:</label>
-                    <input type="text" id="name" name="name" value="{{ data.name }}" required><br><br>
-            
-                
-                    <img src="{{data.image.url}}" alt="" style="width: 250px;height: 300px; margin-top: 10px;"><br>
-                    <label for="img">New Image:</label>
-                    <input type="file" id="img" name="img"><br><br>
-            
-                    <label for="description">Description:</label>
-                    <textarea id="description" name="description">{{ data.description }}</textarea><br><br>
-            
-                    <label for="highlights">Highlights:</label>
-                    <textarea id="highlights" name="highlights">{{ data.highlights }}</textarea><br><br>
-            
-                    <label><input type="checkbox" name="phone" {% if data.phone %}checked{% endif %}> Phone</label><br>
-                    <label><input type="checkbox" name="dress" {% if data.dress %}checked{% endif %}> Dress</label><br>
-                    <label><input type="checkbox" name="laptop" {% if data.laptop %}checked{% endif %}> Laptop</label><br>
-                    <label><input type="checkbox" name="others" {% if data.others %}checked{% endif %}> Others</label><br><br>
-            
-                    <button id="add" type="submit">Next</button>
-                </form>
-            </div>
-            
+        <div class="row">
+            {% csrf_token %}
+            <label for="storage">RAM/ROM:</label>
+            <input type="text" id="pro_id" name="storage" value="{{category.storage}}" ><br><br>
+    
+            <label for="color">Color:</label>
+            <input type="text" id="name" name="color" value="{{category.color}}" ><br><br>
+    
+            <label for="price">Price:</label>
+            <input type="text" id="price" name="price" value="{{Product.price}}" required ><br><br>
+    
+            <label for="o_price">Offer Price:</label>
+            <input type="text" id="o_price" name="o_price" value="{{Product.offer_price}}" required><br><br>
+
+            <label for="size">Size:</label>
+            <input type="text" id="size" name="size" value="{{product.size}}" ><br><br>
+
+
+    
+            <button id="add" type="submit">Edit Product</button>
+
+        </div>
+    </form>
 
     </div>

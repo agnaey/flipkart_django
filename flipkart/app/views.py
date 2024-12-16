@@ -64,14 +64,43 @@ def register(req):
 
 def admin_home(req):
     if 'admin' in req.session:
-        phones=Products.objects.filter(phone=True)
-        dress=Products.objects.filter(dress=True)
-        laptop=Products.objects.filter(laptop=True)
-        others=Products.objects.filter(others=True)
+        phones = Products.objects.filter(phone=True)
+        dress = Products.objects.filter(dress=True)
+        laptop = Products.objects.filter(laptop=True)
+        others = Products.objects.filter(others=True)
 
-        return render(req,'admin/admin_home.html',{'phones':phones,'dress':dress,'laptop':laptop,'others':others})
+        # phone_categories = Categorys.objects.filter (phone_categories=True)
+        # dress_categories = Categorys.objects.filter(dress_categories=True)
+        # laptop_categories = Categorys.objects.filter(laptop_categories=True)
+        # other_categories = Categorys.objects.filter (other_categories=True)
+
+        context = {
+            'phones': phones,
+            'dress': dress,
+            'laptop': laptop,
+            'others': others,
+            # 'phone_categories': phone_categories,
+            # 'dress_categories': dress_categories,
+            # 'laptop_categories': laptop_categories,
+            # 'other_categories': other_categories,
+        }
+        return render(req, 'admin/admin_home.html', context)
     else:
-       return redirect(admin_home)
+        return redirect(admin_home)
+    
+
+def pro_details(req,id):
+    product=Products.objects.get(pk=id)
+    categories = Categorys.objects.filter(product=product)
+
+    context = {
+        'product': product,
+        'categories': categories,
+        'is_phone': product.phone,
+        'is_dress': product.dress,
+        'is_laptop': product.laptop
+    }
+    return render(req,'admin/product_details.html',context)
     
 def add_product(req):
     if req.method == 'POST':
@@ -97,19 +126,20 @@ def add_product(req):
         return redirect('category',id=data.id)
     return render(req, 'admin/add_product.html')
 
-def category(req,id):
-    data=Products.objects.get(pk=id)
+def category(req, id):
+    product = Products.objects.get(pk=id)
+
     if req.method == 'POST':
-        storage=req.POST['storage']
-        color=req.POST['color']
+        storage = req.POST['storage']
+        color = req.POST['color']
         price = req.POST['price']
         offer_price = req.POST['o_price']
-        size=req.POST['size']
-        data = Categorys.objects.create(storage=storage,color=color,price=price,offer_price=offer_price,size=size)
+        size = req.POST['size']
 
-        data.save()
+        category = Categorys.objects.create(product=product,storage=storage,color=color,price=price,offer_price=offer_price,size=size)
         return redirect(admin_home)
-    return render(req,'admin/category.html')
+
+    return render(req, 'admin/category.html', {'product': product})
 
 def edit_product(req,id):
     data=Products.objects.get(pk=id)
@@ -132,11 +162,26 @@ def edit_product(req,id):
             Products.objects.filter(pk=id).update(P_id=pro_id,name=name,
             description=description,highlights=highlights,phone=phone,dress=dress,laptop=laptop,others=others)
         
-        return redirect(admin_home)
+        return redirect('edit_category',id=id)
     return render(req, 'admin/edit_product.html',{'data':data})
 
+def edit_category(req, id):
+    product = Products.objects.get(pk=id)
+    categories = Categorys.objects.filter(product=product)
 
+    if req.method == 'POST':
+        storage = req.POST['storage']
+        color = req.POST['color']
+        price = req.POST['price']
+        offer_price = req.POST['o_price']
+        size = req.POST['size']
 
+        Categorys.objects.filter(product=product).update(storage=storage,color=color,
+            price=price,offer_price=offer_price,size=size
+        )
+        return redirect(admin_home)
+
+    return render(req, 'admin/edit_category.html', {'product': product, 'categories': categories})
 def delete_product(req,id):
     data=Products.objects.get(pk=id)
     url=data.image.url
@@ -162,9 +207,6 @@ def view_pro(req):
         product=Products.objects.all()
         return render(req,'admin/view_all_pro.html',{'product':product})
 
-def pro_details(req,id):
-    product=Products.objects.get(pk=id)
-    return render(req,'admin/product_details.html',{'product':product})
 # -----------------------------user-----------------------------------------------------
 
 def index(request):
