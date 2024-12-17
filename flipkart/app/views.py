@@ -180,8 +180,8 @@ def edit_category(req, id):
             price=price,offer_price=offer_price,size=size
         )
         return redirect(admin_home)
-
     return render(req, 'admin/edit_category.html', {'product': product, 'categories': categories})
+
 def delete_product(req,id):
     data=Products.objects.get(pk=id)
     url=data.image.url

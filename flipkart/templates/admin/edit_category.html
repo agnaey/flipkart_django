@@ -192,6 +192,7 @@ $(document).ready(function () {
     <div id="container" class="container mt-4">
         <h1 class="text-center" id="mycart">Add items</h1>
         <hr class=" mb-4">
+        {% for category in categories %}
         <form method="POST" enctype="multipart/form-data">
         <div class="row">
             {% csrf_token %}
@@ -202,13 +203,13 @@ $(document).ready(function () {
             <input type="text" id="name" name="color" value="{{category.color}}" ><br><br>
     
             <label for="price">Price:</label>
-            <input type="text" id="price" name="price" value="{{Product.price}}" required ><br><br>
+            <input type="text" id="price" name="price" value="{{category.price}}" required ><br><br>
     
             <label for="o_price">Offer Price:</label>
-            <input type="text" id="o_price" name="o_price" value="{{Product.offer_price}}" required><br><br>
+            <input type="text" id="o_price" name="o_price" value="{{category.offer_price}}" required><br><br>
 
             <label for="size">Size:</label>
-            <input type="text" id="size" name="size" value="{{product.size}}" ><br><br>
+            <input type="text" id="size" name="size" value="{{category.size}}" ><br><br>
 
 
     
@@ -216,5 +217,6 @@ $(document).ready(function () {
 
         </div>
     </form>
+    {% endfor %}
 
     </div>
