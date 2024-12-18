@@ -252,14 +252,14 @@ $(document).ready(function () {
                         <a class="nav-link" href="../view_pro"><i class="fa-solid fa-shop"></i>&nbsp; View All Product</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="add_pro"><i class="fa-solid fa-plus"></i></i>&nbsp; Add products</a>
+                        <a class="nav-link" href="../add_pro"><i class="fa-solid fa-plus"></i></i>&nbsp; Add products</a>
                     </li>
                     <!-- <li class="nav-item">
                         <a class="nav-link" href="../cart_disp"><i
                                 class="fa-solid fa-cart-shopping"></i>&nbsp;&nbsp;Cart</a>
                     </li> -->
                     <li class="nav-item">
-                        <a class="nav-link" href="../user_vew_booking"><i class="fa-solid fa-shop"></i>&nbsp; View Bookings</a>
+                        <a class="nav-link" href="../admin_booking"><i class="fa-solid fa-shop"></i>&nbsp; View Bookings</a>
                     </li>
                 </ul>
             </div>
@@ -300,8 +300,8 @@ $(document).ready(function () {
             </div>
     
             <div id="details-section" class="col-lg-6 mt-5">
-                <h4 class="product_name">{{ product.name }}</h4><br>
-                <br>
+                <h4 class="product_name">{{ product.name }}</h4><br><br>
+            
                 {% for category in categories %}
                 <p class="offer_price" style="display: inline;">
                     <b>Offer Price: ₹{{ category.offer_price }}</b>
@@ -309,61 +309,88 @@ $(document).ready(function () {
                 <p class="price" style="text-decoration: line-through; padding-left: 10px; display: inline;">
                     ₹{{ category.price }}
                 </p><br>
-            {% endfor %}
-                </p><br><br>
-                <a href="../delete_pro/{{ product.id }}" id="cart" class="btn"><i
-                        class="fa-solid fa-trash"></i>Delete</a>
-                <a href="../edit_pro/{{ product.id }}" id="buy" class="btn"><i
-                        class="fa-solid fa-pen-to-square"></i>Edit</a>
-                <hr class="mt-5 mb-5">
-    
-                <div>
-
-                    <!-- ----------------------------------------------------------- -->
-                    <div class="row mt-5">
-                        <div class="col-md-6">
-                            {% if is_phone or is_laptop %}
-                                <h4>Storage</h4>
-                                {% for category in categories %}
-                                    <p>{{ category.storage }}</p>
-                                {% endfor %}
-                            {% endif %}
-                        </div>
-                        <div class="col-md-6">
-                            {% if is_phone or is_laptop %}
-                                <h4>Color</h4>
-                                {% for category in categories %}
-                                    <p>{{ category.color }}</p>
-                                {% endfor %}
-                            {% endif %}
-                        </div>
+                {% endfor %}
+            
+<!-- ----------------------------------------------------------- -->
+                <div class="row mt-5">
+                    <div class="col-md-6">
+                        {% if is_phone or is_laptop %}
+                            <h4>Storage</h4>
+                            <form method="GET">
+                                <select name="storage" class="form-control">
+                                    {% for category in categories %}
+                                        <option>{{ category.storage }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </form>
+                        {% endif %}
                     </div>
-
-                    
-                    <div class="row mt-5">
-                        {% if is_dress %}
+                    <div class="col-md-6">
+                        {% if is_phone or is_laptop %}
+                            <h4>Color</h4>
+                            <select name="color" class="form-control" >
+                                {% for category in categories %}
+                                    <option>{{ category.color }}</option>
+                                {% endfor %}
+                            </select>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="row mt-5">
+                    {% if is_dress %}
                         <div class="col-md-6">
                             <h4>Size</h4>
-                            {% for category in categories %}
-                                <p>{{ category.size }}</p>
-                            {% endfor %}
+                            <form method="GET">
+                                <select name="size" class="form-control">
+                                    {% for category in categories %}
+                                        <option value="{{ category.size }}">{{ category.size }}</option>
+                                    {% endfor %}
+                                </select>
+                            </form>
                         </div>
                         <div class="col-md-6">
                             <h4>Color</h4>
-                            {% for category in categories %}
-                                <p>{{ category.color }}</p>
-                            {% endfor %}
+                            <form method="GET">
+                                <select name="color" class="form-control">
+                                    {% for category in categories %}
+                                        <option value="{{ category.color }}">{{ category.color }}</option>
+                                    {% endfor %}
+                                </select>
+                            </form>
                         </div>
-                        {% endif %}
-                    </div>
+                    {% endif %}
+                </div>
+                
+                
+            
+                <br><br>
+                <a href="../delete_pro/{{ product.id }}" id="cart" class="btn">
+                    <i class="fa-solid fa-trash"></i>Delete
+                </a>
+                <a href="../edit_pro/{{ product.id }}" id="buy" class="btn">
+                    <i class="fa-solid fa-pen-to-square"></i>Edit Item
+                </a>
+                <a href="../edit_category/{{ product.id }}" id="buy" class="btn">
+                    <i class="fa-solid fa-pen-to-square"></i>Edit Category
+                </a> 
+                <br><br>
+            </div>
+            <hr class="mt-5 mb-5">
+
+                    <!-- ----------------------------------------------------------- -->
+           
+                    
+          
+                    
                     
 <!-- ----------------------------------------------------------- -->
 
                     
-                    <h5 class="mt-5">Highlights</h5>
+                    <h5 class="mt-5 text-center">Highlights</h5>
                     <p>{{ product.highlights|linebreaksbr|safe }}</p>
 
-                    <h5 class="mt-5">Description</h5>
+                    <h5 class="mt-5 text-center">Description</h5>
                     <p>{{ product.description }}</p>
                 </div>
             </div>

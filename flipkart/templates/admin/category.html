@@ -116,6 +116,14 @@ $(document).ready(function () {
             width: 300px;
             margin-left: 28%;
         }
+        #exit{
+            border-radius: 20px;
+            color: white;
+            height: 40px;
+            transition: all 0.5 ease-in-out;
+            width: 300px;
+            margin-left: 28%;
+        }
         #add:hover{
             background-color: white;
             color: #000;
@@ -212,8 +220,13 @@ $(document).ready(function () {
 
 
     
-            <button id="add" type="submit">Add Product</button>
+            <div class="row mt-5">
+     
+                <div class="col">
+                    <button id="add" type="submit" class="btn btn-primary">Add Another</button>
 
+                </div>
+            </div>
         </div>
     </form>
 

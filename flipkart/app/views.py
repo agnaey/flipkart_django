@@ -63,6 +63,9 @@ def register(req):
 # ----------------------------------admin------------------------------------------------------
 
 def admin_home(req):
+    product=Products.objects.all()
+    categories = Categorys.objects.select_related('product')
+
     if 'admin' in req.session:
         phones = Products.objects.filter(phone=True)
         dress = Products.objects.filter(dress=True)
@@ -75,6 +78,8 @@ def admin_home(req):
         # other_categories = Categorys.objects.filter (other_categories=True)
 
         context = {
+            'product': product,
+            'categories': categories,
             'phones': phones,
             'dress': dress,
             'laptop': laptop,
@@ -137,7 +142,7 @@ def category(req, id):
         size = req.POST['size']
 
         category = Categorys.objects.create(product=product,storage=storage,color=color,price=price,offer_price=offer_price,size=size)
-        return redirect(admin_home)
+        return redirect('category' , id=id)
 
     return render(req, 'admin/category.html', {'product': product})
 
