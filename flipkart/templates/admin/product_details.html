@@ -196,6 +196,14 @@ $(document).ready(function () {
             font-size: 20px;
             margin-top: 20px;
         }
+        #category {
+            background-color: rgb(43, 105, 20);
+            padding: 17px 60px;
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+            margin-top: 20px;
+        }
 
         #cart {
             background-color: rgb(251, 100, 27);
@@ -302,14 +310,13 @@ $(document).ready(function () {
             <div id="details-section" class="col-lg-6 mt-5">
                 <h4 class="product_name">{{ product.name }}</h4><br><br>
             
-                {% for category in categories %}
-                <p class="offer_price" style="display: inline;">
-                    <b>Offer Price: ₹{{ category.offer_price }}</b>
+                <p class="offer_price" id="offer-price">
+                    <b>Offer Price: ₹<span id="selected-offer-price">{{ categories.first.offer_price }}</span></b>
                 </p>
-                <p class="price" style="text-decoration: line-through; padding-left: 10px; display: inline;">
-                    ₹{{ category.price }}
-                </p><br>
-                {% endfor %}
+                <p class="price" id="price" style="text-decoration: line-through;">
+                    ₹<span id="selected-price">{{ categories.first.price }}</span>
+                </p>
+                
             
 <!-- ----------------------------------------------------------- -->
                 <div class="row mt-5">
@@ -317,15 +324,22 @@ $(document).ready(function () {
                         {% if is_phone or is_laptop %}
                             <h4>Storage</h4>
                             <form method="GET">
-                                <select name="storage" class="form-control">
+                                <select id="storage-select" name="storage" class="form-control">
                                     {% for category in categories %}
-                                        <option>{{ category.storage }}
+                                        <option 
+                                            value="{{ category.storage }}" 
+                                            data-price="{{ category.price }}" 
+                                            data-offer-price="{{ category.offer_price }}">
+                                            {{ category.storage }}
                                         </option>
                                     {% endfor %}
                                 </select>
+                                
                             </form>
                         {% endif %}
                     </div>
+     
+                    
                     <div class="col-md-6">
                         {% if is_phone or is_laptop %}
                             <h4>Color</h4>
@@ -342,9 +356,14 @@ $(document).ready(function () {
                         <div class="col-md-6">
                             <h4>Size</h4>
                             <form method="GET">
-                                <select name="size" class="form-control">
+                                <select id="size-select" name="size" class="form-control">
                                     {% for category in categories %}
-                                        <option value="{{ category.size }}">{{ category.size }}</option>
+                                        <option 
+                                            value="{{ category.size }}" 
+                                            data-price="{{ category.price }}" 
+                                            data-offer-price="{{ category.offer_price }}">
+                                            {{ category.size }}
+                                        </option>
                                     {% endfor %}
                                 </select>
                             </form>
@@ -373,6 +392,9 @@ $(document).ready(function () {
                 </a>
                 <a href="../edit_category/{{ product.id }}" id="buy" class="btn">
                     <i class="fa-solid fa-pen-to-square"></i>Edit Category
+                </a> 
+                <a href="../category/{{ product.id }}" id="category" class="btn">
+                    <i class="fa-solid fa-plus"></i>Add Category
                 </a> 
                 <br><br>
             </div>
@@ -438,6 +460,44 @@ $(document).ready(function () {
 
     </div>
     
+
+    <script>
+
+// --------------------------------storage------------------------------
+
+
+        document.getElementById('storage-select').addEventListener('change', function() {
+            // Get the selected option
+            const selectedOption = this.options[this.selectedIndex];
+    
+            // Extract data attributes
+            const price = selectedOption.getAttribute('data-price');
+            const offerPrice = selectedOption.getAttribute('data-offer-price');
+    
+            // Update the price display
+            document.getElementById('selected-price').textContent = price;
+            document.getElementById('selected-offer-price').textContent = offerPrice;
+        });
+
+
+// --------------------------------size------------------------------
+
+
+
+        document.getElementById('size-select').addEventListener('change', function() {
+            // Get the selected option
+            const selectedOption = this.options[this.selectedIndex];
+    
+            // Extract data attributes
+            const price = selectedOption.getAttribute('data-price');
+            const offerPrice = selectedOption.getAttribute('data-offer-price');
+    
+            // Update the price display
+            document.getElementById('selected-price').textContent = price;
+            document.getElementById('selected-offer-price').textContent = offerPrice;
+        });
+        
+    </script>
 
 
 

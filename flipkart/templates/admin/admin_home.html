@@ -387,18 +387,17 @@
                         <div id="card1" class="movie-card justify-content-center">
                             <img src="{{i.image.url}}" style="width: 400px; height: 440px;" class="img-fluid">
                             <div class="Phone-details text-center">
-                                <h5 class="phone-title ">{{i.name}}</h5>
-                                {% for category in categories %}
-                                {% if category.product == i %}
+                                <h5 class="phone-title">{{ i.name }}</h5>
+                                {% if product_categories.i %}
                                     <p class="price text-danger text-decoration-line-through">
-                                        Price: ₹{{ category.price }}
+                                        Price: ₹{{ product_categories.i.price }}
                                     </p>
                                     <h5 class="offer_price text-success">
-                                        <b>Offer Price: ₹{{ category.offer_price }}</b>
+                                        <b>Offer Price: ₹{{ product_categories.i.offer_price }}</b>
                                     </h5>
                                 {% endif %}
-                            {% endfor %}
                                 <hr>
+                                
                                 <a href="../delete_pro/{{i.id}}" id="delete" class="btn"><i id="delete"
                                         class="fa-solid fa-trash " style="margin-right:5px;"></i>delete</a>
                                 <a href="../edit_pro/{{i.id}}" id="edit" class="btn"><i id="edit"

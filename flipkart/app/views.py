@@ -105,6 +105,7 @@ def pro_details(req,id):
         'is_dress': product.dress,
         'is_laptop': product.laptop
     }
+    
     return render(req,'admin/product_details.html',context)
     
 def add_product(req):
@@ -224,6 +225,7 @@ def index(request):
 def secpage(request,id):
     log_user=User.objects.get(username=request.session['username'])
     product=Products.objects.get(id=id) 
+    category=Categorys.objects.filter(product=product)
     try:
         cart1=Cart.objects.get(product=product,user=log_user)
     except:
