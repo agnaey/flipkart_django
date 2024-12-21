@@ -181,8 +181,9 @@ def edit_category(req, id):
         price = req.POST['price']
         offer_price = req.POST['o_price']
         size = req.POST['size']
+        category=req.POST['category']
 
-        Categorys.objects.filter(product=product).update(storage=storage,color=color,
+        Categorys.objects.filter(pk=category).update(storage=storage,color=color,
             price=price,offer_price=offer_price,size=size
         )
         return redirect(admin_home)
@@ -211,7 +212,19 @@ def confirm_order(req):
 
 def view_pro(req):
         product=Products.objects.all()
-        return render(req,'admin/view_all_pro.html',{'product':product})
+        categories = Categorys.objects.select_related('product')
+
+        context={
+            'product':product,
+            'categories':categories,
+        #     'is_phone': product.phone,
+        #     'is_dress': product.dress,
+        #     'is_laptop': product.laptop
+    
+             }
+
+
+        return render(req,'admin/view_all_pro.html',context)
 
 # -----------------------------user-----------------------------------------------------
 

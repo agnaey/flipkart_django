@@ -315,10 +315,77 @@ $(document).ready(function () {
                 <div id="details-section" class="col-lg-6 mt-5">
                     <h4 class="product_name">{{product.name}}</h4><br>
                     <br>
-                    <p class="offer_price" style="display: inline;"><b> Offer Price : ₹{{product.offer_price}}</b>
-                    <p class="price" style="text-decoration: line-through; padding-left: 10px; display: inline;">
-                        ₹{{product.price}}</p>
-                    </p><br><br>
+
+                                             {% for category in categories %}
+                                        <p class="price text-danger text-decoration-line-through">
+                                            Price: ₹{{ category.price }}
+                                        </p>
+                                        <h5 class="offer_price text-success">
+                                            <b>Offer Price: ₹{{ category.offer_price }}</b>
+                                        </h5>
+                                {% endfor %}
+                                <div class="row mt-5">
+                                    <div class="col-md-6">
+                                        {% if is_phone or is_laptop %}
+                                            <h4>Storage</h4>
+                                            <form method="GET">
+                                                <select id="storage-select" name="storage" class="form-control">
+                                                    {% for category in categories %}
+                                                        <option 
+                                                            value="{{ category.storage }}" 
+                                                            data-price="{{ category.price }}" 
+                                                            data-offer-price="{{ category.offer_price }}">
+                                                            {{ category.storage }}
+                                                        </option>
+                                                    {% endfor %}
+                                                </select>
+                                                
+                                            </form>
+                                        {% endif %}
+                                    </div>
+                     
+                                    
+                                    <div class="col-md-6">
+                                        {% if is_phone or is_laptop %}
+                                            <h4>Color</h4>
+                                            <select name="color" class="form-control" >
+                                                {% for category in categories %}
+                                                    <option>{{ category.color }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="row mt-5">
+                                    {% if is_dress %}
+                                        <div class="col-md-6">
+                                            <h4>Size</h4>
+                                            <form method="GET">
+                                                <select id="size-select" name="size" class="form-control">
+                                                    {% for category in categories %}
+                                                        <option 
+                                                            value="{{ category.size }}" 
+                                                            data-price="{{ category.price }}" 
+                                                            data-offer-price="{{ category.offer_price }}">
+                                                            {{ category.size }}
+                                                        </option>
+                                                    {% endfor %}
+                                                </select>
+                                            </form>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h4>Color</h4>
+                                            <form method="GET">
+                                                <select name="color" class="form-control">
+                                                    {% for category in categories %}
+                                                        <option value="{{ category.color }}">{{ category.color }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </form>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                
                     <hr class="mt-5 mb-5">
     
                     <div>
