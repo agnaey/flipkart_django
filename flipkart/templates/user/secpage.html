@@ -10,15 +10,16 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <!-- alert -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
 
-$(document).ready(function () {
+        $(document).ready(function () {
             $('#login').on('click', function (event) {
                 event.preventDefault(); // Prevent default link behavior
                 const href = $(this).attr('href'); // Get the href value from the link
-    
+
                 Swal.fire({
                     title: "Are you sure?",
                     text: "You want to logout!",
@@ -44,29 +45,29 @@ $(document).ready(function () {
         });
 
         $(document).ready(function () {
-        // For Add to Cart
-        $('a#cart').on('click', function (event) {
-            event.preventDefault(); // Prevent navigation
-            const href = $(this).attr('href'); // Store the href link
+            // For Add to Cart
+            $('a#cart').on('click', function (event) {
+                event.preventDefault(); // Prevent navigation
+                const href = $(this).attr('href'); // Store the href link
 
-            Swal.fire({
-                position: "center",
-                icon: "success",
-                title: "Added to cart",
-                showConfirmButton: false,
-                timer: 1500
-            }).then(() => {
-                // After alert finishes, navigate to the link
-                window.location.href = href;
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "Added to cart",
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then(() => {
+                    // After alert finishes, navigate to the link
+                    window.location.href = href;
+                });
             });
         });
-    });
 
-    $(document).ready(function () {
+        $(document).ready(function () {
             $('#buy').on('click', function (event) {
                 event.preventDefault(); // Prevent default link behavior
                 const href = $(this).attr('href'); // Get the href value from the link
-    
+
                 Swal.fire({
                     title: "Are you sure?",
                     text: "You want to buy this product!",
@@ -221,6 +222,7 @@ $(document).ready(function () {
             font-size: 20px;
 
         }
+
         #cart1 {
             background-color: rgb(251, 100, 27);
             padding: 20px 60px;
@@ -237,6 +239,7 @@ $(document).ready(function () {
         #cart:hover {
             background-color: rgb(196, 64, 14);
         }
+
         #cart1:hover {
             background-color: rgb(196, 64, 14);
         }
@@ -247,8 +250,8 @@ $(document).ready(function () {
 <body style="background-color: rgb(241,242,244);">
     <nav id="nav1" class="navbar navbar-expand-lg">
         <div class="container">
-            <a class="navbar-brand" href="../index"><img src="{% static '/images/i4436jrf.png' %}" style="width: 100px; "
-                    alt=""></a>
+            <a class="navbar-brand" href="../index"><img src="{% static '/images/i4436jrf.png' %}"
+                    style="width: 100px; " alt=""></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -269,7 +272,8 @@ $(document).ready(function () {
                                 class="fa-solid fa-cart-shopping"></i>&nbsp;&nbsp;Cart</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../user_vew_booking"><i class="fa-solid fa-shop"></i>&nbsp; View Bookings</a>
+                        <a class="nav-link" href="../user_vew_booking"><i class="fa-solid fa-shop"></i>&nbsp; View
+                            Bookings</a>
                     </li>
                 </ul>
             </div>
@@ -306,25 +310,82 @@ $(document).ready(function () {
             </li>
     </nav>
 
-    <div id="container" class="container mt-4">
+    <div id="container" class="container">
         <div class="row">
             <div id="image-section" class="col-lg-6 mb-5 mt-2">
-                <img src="{{product.image.url}}" class="product_img img-fluid" alt="Card image"
+                <img src="{{ product.image.url }}" class="product_img img-fluid" alt="Card image"
                     style="width:400px; height: 500px;">
-
-                   
-
-                <div class="mt-5 mb-5">
-
-                </div>
             </div>
+
             <div id="details-section" class="col-lg-6 mt-5">
-                <h4 class="product_name">{{product.name}}</h4><br>
-                <br>
-                <p class="offer_price" style="display: inline;"><b> Offer Price : ₹{{product.offer_price}}</b>
-                <p class="price" style="text-decoration: line-through; padding-left: 10px; display: inline;">
-                    ₹{{product.price}}</p>
-                </p><br>
+                <h4 class="product_name">{{ product.name }}</h4><br><br>
+
+                <p class="offer_price" id="offer-price">
+                    <b>Offer Price: ₹<span id="selected-offer-price">{{ categories.first.offer_price }}</span></b>
+                </p>
+                <p class="price" id="price" style="text-decoration: line-through;">
+                    ₹<span id="selected-price">{{ categories.first.price }}</span>
+                </p>
+
+
+                <!-- ----------------------------------------------------------- -->
+                <div class="row mt-5">
+                    <div class="col-md-6">
+                        {% if is_phone or is_laptop %}
+                        <h4>Storage</h4>
+                        <form method="GET">
+                            <select id="storage-select" name="storage" class="form-control">
+                                {% for category in categories %}
+                                <option value="{{ category.storage }}" data-price="{{ category.price }}"
+                                    data-offer-price="{{ category.offer_price }}">
+                                    {{ category.storage }}
+                                </option>
+                                {% endfor %}
+                            </select>
+
+                        </form>
+                        {% endif %}
+                    </div>
+
+
+                    <div class="col-md-6">
+                        {% if is_phone or is_laptop %}
+                        <h4>Color</h4>
+                        <select name="color" class="form-control">
+                            {% for category in categories %}
+                            <option>{{ category.color }}</option>
+                            {% endfor %}
+                        </select>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="row mt-5">
+                    {% if is_dress %}
+                    <div class="col-md-6">
+                        <h4>Size</h4>
+                        <form method="GET">
+                            <select id="size-select" name="size" class="form-control">
+                                {% for category in categories %}
+                                <option value="{{ category.size }}" data-price="{{ category.price }}"
+                                    data-offer-price="{{ category.offer_price }}">
+                                    {{ category.size }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </form>
+                    </div>
+                    <div class="col-md-6">
+                        <h4>Color</h4>
+                        <form method="GET">
+                            <select name="color" class="form-control">
+                                {% for category in categories %}
+                                <option value="{{ category.color }}">{{ category.color }}</option>
+                                {% endfor %}
+                            </select>
+                        </form>
+                    </div>
+                    {% endif %}
+                </div>
                 {% if cart1 %}
                 <a href="../cart_disp" id="cart1" class=""><i class="fa-solid fa-cart-shopping"></i>Go to cart</a>
                 {% else %}
@@ -333,7 +394,7 @@ $(document).ready(function () {
                 {% endif %}
                 <a href="../buy_product/{{product.pk}}" id="buy" class="btn"><i
                         class="fa-solid fa-bolt-lightning"></i>Buy Now</a><br>
-                
+
                 <hr class="mt-5 mb-5">
 
                 <div>
@@ -484,39 +545,75 @@ $(document).ready(function () {
     </div>
     </div>
 
-        <!-- ----------------------------------------laptop--------------------------------------- -->
-        <div id="best_sales" class="sample container p-3 mt-4">
-            <div class="d-flex justify-content-between align-items-center mb-1">
-                <h3 class="mb-0"><b>Best Laptops</b></h3>
-            </div>
-    
-                <!-- The slideshow/carousel -->
-                <div class="carousel-inner">
-                    <div class="carousel-item active ">
-                        <div class="row ">
-                            {% for i in laptop %}
-                            <div class="col-md-3">
-                                <a class="text-decoration-none text-black" href="../sec/{{i.id}}">
-                                    <div id="card" class="movie-card justify-content-center">
-                                        <img src="{{ i.image.url  }}" style="width: auto; height: 400px" class="img-fluid">
-                                        <div class="Phone-details text-center">
-    
-                                            <h5 class="phone-title mt-3 ">{{i.name}}</h5>
-                                            <p class="oprice text-danger text-decoration-line-through">price :
-                                                ₹{{i.offer_price}}</p>
-                                            <h5 class="offer_price text-success"><b>Offer Price : ₹{{i.price}}</b></h5>
-                                        </div>
-                                    </div>
-                                </a>
+    <!-- ----------------------------------------laptop--------------------------------------- -->
+    <div id="best_sales" class="sample container p-3 mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-1">
+            <h3 class="mb-0"><b>Best Laptops</b></h3>
+        </div>
+
+        <!-- The slideshow/carousel -->
+        <div class="carousel-inner">
+            <div class="carousel-item active ">
+                <div class="row ">
+                    {% for i in laptop %}
+                    <div class="col-md-3">
+                        <a class="text-decoration-none text-black" href="../sec/{{i.id}}">
+                            <div id="card" class="movie-card justify-content-center">
+                                <img src="{{ i.image.url  }}" style="width: auto; height: 400px" class="img-fluid">
+                                <div class="Phone-details text-center">
+
+                                    <h5 class="phone-title mt-3 ">{{i.name}}</h5>
+                                    <p class="oprice text-danger text-decoration-line-through">price :
+                                        ₹{{i.offer_price}}</p>
+                                    <h5 class="offer_price text-success"><b>Offer Price : ₹{{i.price}}</b></h5>
+                                </div>
                             </div>
-                            {% empty %}
-                            <p>No laptop for sale</p>
-                            {% endfor %}
-                        </div>
+                        </a>
                     </div>
-                   
+                    {% empty %}
+                    <p>No laptop for sale</p>
+                    {% endfor %}
+                </div>
+            </div>
 
 
+            <script>
+
+                // --------------------------------storage------------------------------
+
+
+                document.getElementById('storage-select').addEventListener('change', function () {
+                    // Get the selected option
+                    const selectedOption = this.options[this.selectedIndex];
+
+                    // Extract data attributes
+                    const price = selectedOption.getAttribute('data-price');
+                    const offerPrice = selectedOption.getAttribute('data-offer-price');
+
+                    // Update the price display
+                    document.getElementById('selected-price').textContent = price;
+                    document.getElementById('selected-offer-price').textContent = offerPrice;
+                });
+
+
+                // --------------------------------size------------------------------
+
+
+
+                document.getElementById('size-select').addEventListener('change', function () {
+                    // Get the selected option
+                    const selectedOption = this.options[this.selectedIndex];
+
+                    // Extract data attributes
+                    const price = selectedOption.getAttribute('data-price');
+                    const offerPrice = selectedOption.getAttribute('data-offer-price');
+
+                    // Update the price display
+                    document.getElementById('selected-price').textContent = price;
+                    document.getElementById('selected-offer-price').textContent = offerPrice;
+                });
+
+            </script>
 </body>
 
 </html>

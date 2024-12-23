@@ -238,20 +238,37 @@ def index(request):
     others=Products.objects.filter(others=True)
     return render(request, 'user/index.html',{'phones':phones,'dress':dress,'laptop':laptop,'others':others})
 
-def secpage(request,id):
-    log_user=User.objects.get(username=request.session['username'])
-    product=Products.objects.get(id=id) 
-    category=Categorys.objects.filter(product=product)
-    try:
-        cart1=Cart.objects.get(product=product,user=log_user)
-    except:
-        cart1=None
-    print(cart1)
-    phones=Products.objects.filter(phone=True)
-    dress=Products.objects.filter(dress=True)
-    laptop=Products.objects.filter(laptop=True)
+def secpage(request, id):
+    log_user = User.objects.get(username=request.session['username'])
+    product = Products.objects.get(id=id)
+    categories = Categorys.objects.filter(product=product)
 
-    return render(request, 'user/secpage.html',{'product':product,'phones':phones,'dress':dress,'cart1':cart1,'laptop':laptop})
+    # Check if the product is in the user's cart
+    try:
+        cart1 = Cart.objects.get(product=product, user=log_user)
+    except Cart.DoesNotExist:
+        cart1 = None
+
+    # Related products based on categories
+    phones = Products.objects.filter(phone=True)
+    dress = Products.objects.filter(dress=True)
+    laptop = Products.objects.filter(laptop=True)
+
+    # Context to pass to the template
+    context = {
+        'product': product,
+        'categories': categories,
+        'is_phone': product.phone,
+        'is_dress': product.dress,
+        'is_laptop': product.laptop,
+        'cart1': cart1,
+        'phones': phones,
+        'dress': dress,
+        'laptop': laptop
+    }
+
+    return render(request, 'user/secpage.html', context)
+
 def add_to_cart(req,pid):
     product=Products.objects.get(pk=pid)
     user=User.objects.get(username=req.session['username'])
@@ -268,27 +285,72 @@ def cart_delete(req,id):
     data.delete()
     return redirect(cart_display)
 
-def buy_pro(req,id):
-    product=Products.objects.get(pk=id)
-    user=User.objects.get(username=req.session['username'])
-    price=product.offer_price
-    # qty=1
+def buy_pro(req, id):
+    product = Products.objects.get(pk=id)
+    user = User.objects.get(username=req.session['username'])
+   
+    storage = req.GET.get('storage')
+    color = req.GET.get('color')
+    size = req.GET.get('size')
+    category = Categorys.objects.filter(product=product)
+
+    if storage:
+        category = category.filter(storage=storage)
+    if color:
+        category = category.filter(color=color)
+    if size:
+        category = category.filter(size=size)
+
+    category = category.first()
+    if not category:
+        return redirect('error_page')  
+    
+    price = category.offer_price
+
     if isinstance(price, str): 
         price = float(price.replace(",", ""))
-    data=Buy.objects.create(user=user,product=product,price=price)
+
+    data = Buy.objects.create(user=user, product=product, price=price)
     data.save()
+
     return redirect(view_bookings)
 
-def cart_buy(req,id):
-    cart=Cart.objects.get(pk=id)
-    # price=cart.qty*cart.product.offer_price
-    price=cart.product.offer_price
-    product=cart.product
-    # product.stock-=cart.qty
-    product.save()
-    buy=Buy.objects.create(product=cart.product,user=cart.user,price=price)
+
+def cart_buy(req, id):
+    cart = Cart.objects.get(pk=id)
+    product = cart.product
+
+    storage = req.GET.get('storage')
+    color = req.GET.get('color')
+    size = req.GET.get('size')
+    
+    category = Categorys.objects.filter(product=product)
+
+    if storage:
+        category = category.filter(storage=storage)
+    if color:
+        category = category.filter(color=color)
+    if size:
+        category = category.filter(size=size)
+
+    category = category.first()
+
+    if not category:
+        return redirect('error_page') 
+
+    price = category.offer_price
+
+    if isinstance(price, str): 
+        price = float(price.replace(",", ""))
+
+    buy = Buy.objects.create(product=cart.product, user=cart.user, price=price)
     buy.save()
+
+    # product.stock -= cart.qty
+    # product.save()
+
     return redirect(view_bookings)
+
 
 def view_bookings(req):
     user=User.objects.get(username=req.session['username'])
