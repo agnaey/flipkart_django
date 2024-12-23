@@ -31,4 +31,6 @@ urlpatterns = [
     path('buy_product/<id>',views.buy_pro),
     path('user_vew_booking',views.view_bookings),
     path('delete_order/<id>',views.delete_order),
+
+    
 ]

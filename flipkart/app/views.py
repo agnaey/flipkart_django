@@ -214,15 +214,18 @@ def view_pro(req):
         product=Products.objects.all()
         categories = Categorys.objects.select_related('product')
 
-        context={
-            'product':product,
-            'categories':categories,
-        #     'is_phone': product.phone,
-        #     'is_dress': product.dress,
-        #     'is_laptop': product.laptop
-    
-             }
-
+        is_phone = Products.objects.filter(phone=True)
+        is_dress = Products.objects.filter(dress=True)
+        is_laptop = Products.objects.filter(laptop=True)
+        others = Products.objects.filter(others=True)
+        
+        context = {
+            'product': product,
+            'categories': categories,
+            'is_phone': is_phone,
+            'is_dress': is_dress,
+            'is_laptop': is_laptop
+        }
 
         return render(req,'admin/view_all_pro.html',context)
 
@@ -296,3 +299,4 @@ def delete_order(req,id):
     data=Buy.objects.get(pk=id)
     data.delete()
     return redirect(view_bookings)
+

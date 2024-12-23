@@ -317,12 +317,14 @@ $(document).ready(function () {
                     <br>
 
                                              {% for category in categories %}
+                                             {% if category.product == product %}
                                         <p class="price text-danger text-decoration-line-through">
                                             Price: ₹{{ category.price }}
                                         </p>
                                         <h5 class="offer_price text-success">
                                             <b>Offer Price: ₹{{ category.offer_price }}</b>
                                         </h5>
+                                        {% endif %}
                                 {% endfor %}
                                 <div class="row mt-5">
                                     <div class="col-md-6">

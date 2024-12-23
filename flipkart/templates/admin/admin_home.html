@@ -255,25 +255,29 @@
                     {% for i in phones %}
                     <div class="col-md-3">
                         <a class="text-decoration-none text-black" href="../product_details/{{i.id}}">
-                            <div id="card" class="movie-card ">
-                                <img src="{{ i.image.url  }}" style="width: auto; height: 400px" class="img-fluid">
+                            <div id="card" style="height: auto;" class="movie-card">
+                                <img src="{{ i.image.url }}" style="width: auto; height: 400px" class="img-fluid">
                                 <div class="Phone-details text-center">
-
-                                    <h5 class="phone-title mt-3 ">{{i.name}}</h5>
+                
+                                    <h5 class="phone-title mt-3">{{ i.name }}</h5>
                                     {% for category in categories %}
-                                    {% if category.product == i %}
-                                        <p class="price text-danger text-decoration-line-through">
-                                            Price: ₹{{ category.price }}
-                                        </p>
-                                        <h5 class="offer_price text-success">
-                                            <b>Offer Price: ₹{{ category.offer_price }}</b>
-                                        </h5>
-                                    {% endif %}
-                                {% endfor %}
-                                    <a href="../delete_pro/{{i.id}}" id="delete" class="btn"><i id="delete"
-                                            class="fa-solid fa-trash " style="margin-right:5px;"></i>delete</a>
-                                    <a href="../edit_pro/{{i.id}}" id="edit" class="btn"><i id="edit"
-                                            class="fa-solid fa-pen-to-square" style="margin-right:5px;"></i>edit</a>
+                                            {% if category.product == i %}
+                                            <p class="price text-danger text-decoration-line-through">
+                                                Price: ₹{{ category.price }}
+                                            </p>
+                                            <h5 class="offer_price text-success">
+                                                <b>Offer Price: ₹{{ category.offer_price }}</b>
+                                            </h5>
+                                            <a href="../delete_pro/{{i.id}}" id="delete" class="btn"><i id="delete"
+                                                class="fa-solid fa-trash " style="margin-right:5px;"></i>delete</a>
+                                       
+                                                <a href="../edit_category/{{i.id}}" id="delete" class="btn mt-1"><i id="edit"
+                                                    class="fa-solid fa-pen-to-square" style="margin-right:5px;"></i>edit Category</a>
+                                            {% endif %}
+                                    {% endfor %}
+                                    <a href="../edit_pro/{{i.id}}" id="delete" class="btn mt-1"><i id="edit"
+                                        class="fa-solid fa-pen-to-square" style="margin-right:5px;"></i>edit</a>
+                                    
                                 </div>
                             </div>
                         </a>
@@ -285,6 +289,7 @@
             </div>
 
         </div>
+        
     </div>
 
 
@@ -301,7 +306,7 @@
             {% for i in dress %}
             <div class="col-md-3">
                 <a class="text-decoration-none text-black" href="../product_details/{{i.id}}">
-                    <div id="card1" class="movie-card justify-content-center">
+                    <div id="card1" style="height: auto;" class="movie-card justify-content-center">
                         <img src="{{i.image.url}}" style="width: 400px; height: 440px;" class="img-fluid">
                         <div class="Phone-details text-center">
                             <h5 class="phone-title ">{{i.name}}</h5>
@@ -313,12 +318,16 @@
                                         <h5 class="offer_price text-success">
                                             <b>Offer Price: ₹{{ category.offer_price }}</b>
                                         </h5>
+                                        <a href="../delete_pro/{{i.id}}" id="delete" class="btn"><i id="delete"
+                                            class="fa-solid fa-trash " style="margin-right:5px;"></i>delete</a>
+                                       
+                                            <a href="../edit_category/{{i.id}}" id="delete" class="btn mt-1"><i id="edit"
+                                                class="fa-solid fa-pen-to-square" style="margin-right:5px;"></i>edit Category</a>
                                     {% endif %}
                                 {% endfor %}
                             <hr>
-                            <a href="../delete_pro/{{i.id}}" id="delete" class="btn"><i id="delete"
-                                    class="fa-solid fa-trash " style="margin-right:5px;"></i>delete</a>
-                            <a href="../edit_pro/{{i.id}}" id="edit" class="btn"><i id="edit"
+                           
+                            <a href="../edit_pro/{{i.id}}" id="edit" class="btn mt-1"><i id="edit"
                                     class="fa-solid fa-pen-to-square" style="margin-right:5px;"></i>edit</a>
                         </div>
                     </div>
@@ -344,7 +353,7 @@
             {% for i in laptop %}
             <div class="col-md-3">
                 <a class="text-decoration-none text-black" href="../product_details/{{i.id}}">
-                    <div id="card1" class="movie-card justify-content-center">
+                    <div id="card1" style="height: auto;" class="movie-card justify-content-center">
                         <img src="{{i.image.url}}" style="width: 400px; height: 440px;" class="img-fluid">
                         <div class="Phone-details text-center">
                             <h5 class="phone-title ">{{i.name}}</h5>
@@ -356,11 +365,15 @@
                                         <h5 class="offer_price text-success">
                                             <b>Offer Price: ₹{{ category.offer_price }}</b>
                                         </h5>
+                                        <a href="../delete_pro/{{i.id}}" id="delete" class="btn"><i id="delete"
+                                            class="fa-solid fa-trash " style="margin-right:5px;"></i>delete</a>
+                                       
+                                            <a href="../edit_category/{{i.id}}" id="delete" class="btn mt-1"><i id="edit"
+                                                class="fa-solid fa-pen-to-square" style="margin-right:5px;"></i>edit Category</a>
                                     {% endif %}
                                 {% endfor %}
                             <hr>
-                            <a href="../delete_pro/{{i.id}}" id="delete" class="btn"><i id="delete"
-                                    class="fa-solid fa-trash " style="margin-right:5px;"></i>delete</a>
+                            
                             <a href="../edit_pro/{{i.id}}" id="edit" class="btn"><i id="edit"
                                     class="fa-solid fa-pen-to-square" style="margin-right:5px;"></i>edit</a>
                         </div>
@@ -384,22 +397,26 @@
                 {% for i in others %}
                 <div class="col-md-3">
                     <a class="text-decoration-none text-black" href="../product_details/{{i.id}}">
-                        <div id="card1" class="movie-card justify-content-center">
+                        <div id="card1" style="height: auto;" class="movie-card justify-content-center">
                             <img src="{{i.image.url}}" style="width: 400px; height: 440px;" class="img-fluid">
                             <div class="Phone-details text-center">
                                 <h5 class="phone-title">{{ i.name }}</h5>
-                                {% if product_categories.i %}
+                                {% for category in categories %}
+                                {% if category.product == i %}
                                     <p class="price text-danger text-decoration-line-through">
-                                        Price: ₹{{ product_categories.i.price }}
+                                        Price: ₹{{ category.price }}
                                     </p>
                                     <h5 class="offer_price text-success">
-                                        <b>Offer Price: ₹{{ product_categories.i.offer_price }}</b>
+                                        <b>Offer Price: ₹{{ category.offer_price }}</b>
                                     </h5>
                                 {% endif %}
+                                {% endfor %}
                                 <hr>
                                 
                                 <a href="../delete_pro/{{i.id}}" id="delete" class="btn"><i id="delete"
                                         class="fa-solid fa-trash " style="margin-right:5px;"></i>delete</a>
+                                <a href="../edit_category/{{i.id}}" id="delete" class="btn mt-1"><i id="edit"
+                                        class="fa-solid fa-pen-to-square" style="margin-right:5px;"></i>edit Category</a>
                                 <a href="../edit_pro/{{i.id}}" id="edit" class="btn"><i id="edit"
                                         class="fa-solid fa-pen-to-square" style="margin-right:5px;"></i>edit</a>
                             </div>
