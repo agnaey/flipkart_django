@@ -180,7 +180,7 @@
         }
 
         .offer_price {
-            font-size: 33px;
+            font-size: 28px;
             color: green;
 
         }
@@ -427,10 +427,16 @@
                                     <img src="{{i.image.url}}" style="width: 100%; height: 400px;" class="img-fluid">
                                     <div class="Phone-details text-center">
                                         <h5 class="phone-title ">{{i.name}}</h5>
-                                        <p class="price text-danger text-decoration-line-through">price : ₹{{i.price}}
-                                        </p>
-                                        <p class="offer_price text-success"><b>Offer Price : ₹{{i.offer_price}}</b></p>
-
+                                        {% with i.categorys_set.all|first as category %}
+                                        {% if category %}
+                                            <p class="Phone-price text-danger text-decoration-line-through">
+                                                Price: ₹{{ category.price }}
+                                            </p>
+                                            <h6 class="offer_price text-success">
+                                                <b>Offer Price: ₹{{ category.offer_price }}</b>
+                                            </h6>
+                                        {% endif %}
+                                    {% endwith %}
                                     </div>
                                 </div>
                             </a>
@@ -450,10 +456,16 @@
                                     <div class="movie-details ">
 
                                         <h5 class="movie-title">{{i.name}}</h5>
-                                        <p class="price text-danger text-decoration-line-through">price : ₹{{i.price}}
-                                        </p>
-                                        <h5 class="offer_price text-success"><b>Offer Price : ₹{{i.offer_price}}</b>
-                                        </h5>
+                                        {% with i.categorys_set.all|first as category %}
+                                        {% if category %}
+                                            <p class="Phone-price text-danger text-decoration-line-through">
+                                                Price: ₹{{ category.price }}
+                                            </p>
+                                            <h5 class="offer_price text-success">
+                                                <b>Offer Price: ₹{{ category.offer_price }}</b>
+                                            </h5>
+                                        {% endif %}
+                                    {% endwith %}
                                     </div>
 
                                 </div>
@@ -495,9 +507,16 @@
                                     <div class="Phone-details text-center">
 
                                         <h5 class="phone-title mt-3 ">{{i.name}}</h5>
-                                        <p class="oprice text-danger text-decoration-line-through">price :
-                                            ₹{{i.offer_price}}</p>
-                                        <h5 class="offer_price text-success"><b>Offer Price : ₹{{i.price}}</b></h5>
+                                        {% with i.categorys_set.all|first as category %}
+                                        {% if category %}
+                                            <p class="Phone-price text-danger text-decoration-line-through">
+                                                Price: ₹{{ category.price }}
+                                            </p>
+                                            <h6 class="offer_price text-success">
+                                                <b>Offer Price: ₹{{ category.offer_price }}</b>
+                                            </h6>
+                                        {% endif %}
+                                    {% endwith %}
                                     </div>
                                 </div>
                             </a>
@@ -518,9 +537,16 @@
                                     <div class="phone-details text-center ">
 
                                         <h5 class="phone-title mt-3">{{i.Phone_name}}</h5>
-                                        <p class="offer_price text-danger text-decoration-line-through">price :
-                                            ₹{{i.ph_offer_price}}</p>
-                                        <h5 class="Phone-price text-success"><b>Offer Price : ₹{{i.ph_price}}</b></h5>
+                                         {% with i.categorys_set.all|first as category %}
+                                {% if category %}
+                                    <p class="Phone-priceprice text-danger text-decoration-line-through">
+                                        Price: ₹{{ category.price }}
+                                    </p>
+                                    <h5 class=" offer_price text-success">
+                                        <b>Offer Price: ₹{{ category.offer_price }}</b>
+                                    </h5>
+                                {% endif %}
+                            {% endwith %}
                                     </div>
                                 </div>
                             </a>

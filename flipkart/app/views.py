@@ -200,7 +200,12 @@ def delete_product(req,id):
 def admin_bookings(req):
     user=User.objects.all()
     data=Buy.objects.all()[::-1]
-    return render(req,'admin/admin_bookings.html',{'user':user,'data':data})
+    category = Categorys.objects.select_related('product')
+    is_phone = Products.objects.filter(phone=True)
+    is_dress = Products.objects.filter(dress=True)
+    is_laptop = Products.objects.filter(laptop=True)
+    # others = Products.objects.filter(others=True)
+    return render(req,'admin/admin_bookings.html',{'user':user,'data':data,'category':category,'is_phone':is_phone,'is_dress':is_dress,'is_laptop':is_laptop})
 
 def cancel_order(req,id):
     data=Buy.objects.get(pk=id)
@@ -232,12 +237,14 @@ def view_pro(req):
 # -----------------------------user-----------------------------------------------------
 
 def index(request):
-    phones=Products.objects.filter(phone=True)
-    dress=Products.objects.filter(dress=True)
-    laptop=Products.objects.filter(laptop=True)
-    others=Products.objects.filter(others=True)
-    return render(request, 'user/index.html',{'phones':phones,'dress':dress,'laptop':laptop,'others':others})
+    phones = Products.objects.filter(phone=True).prefetch_related('categorys_set')
+    dress = Products.objects.filter(dress=True).prefetch_related('categorys_set')
+    laptop = Products.objects.filter(laptop=True).prefetch_related('categorys_set')
+    others = Products.objects.filter(others=True).prefetch_related('categorys_set')
 
+
+    return render(request, 'user/index.html', {'phones': phones,'dress': dress,'laptop': laptop,'others': others
+    })
 def secpage(request, id):
     log_user = User.objects.get(username=request.session['username'])
     product = Products.objects.get(id=id)
@@ -276,9 +283,23 @@ def add_to_cart(req,pid):
     data.save()
     return redirect(cart_display)
 def cart_display(req):
-    user=User.objects.get(username=req.session['username'])
+    user=User.objects.get(username=req.session['username']) 
     data=Cart.objects.filter(user=user)[::-1]
-    return render(req,'user/cart.html',{'data':data})
+    categories = Categorys.objects.select_related('product')
+    is_phone = Products.objects.filter(phone=True)
+    is_dress = Products.objects.filter(dress=True)
+    is_laptop = Products.objects.filter(laptop=True)
+    # others = Products.objects.filter(others=True)
+    context = {
+        'data': data,
+        'categories': categories,
+        'is_phone': is_phone,
+        'is_dress': is_dress,
+        'is_laptop': is_laptop
+    }
+
+    return render(req, 'user/cart.html', context)
+
 
 def cart_delete(req,id):
     data=Cart.objects.get(pk=id)
@@ -355,7 +376,19 @@ def cart_buy(req, id):
 def view_bookings(req):
     user=User.objects.get(username=req.session['username'])
     data1=Buy.objects.filter(user=user)[::-1]
-    return render(req,'user/user_bookings.html',{'data1':data1})
+    categories = Categorys.objects.select_related('product')
+    is_phone = Products.objects.filter(phone=True)
+    is_dress = Products.objects.filter(dress=True)
+    is_laptop = Products.objects.filter(laptop=True)
+    # others = Products.objects.filter(others=True)
+    context = {
+        'data1': data1,
+        'categories': categories,
+        'is_phone': is_phone,
+        'is_dress': is_dress,
+        'is_laptop': is_laptop
+    }    
+    return render(req,'user/user_bookings.html',context)
 
 def delete_order(req,id):
     data=Buy.objects.get(pk=id)

@@ -409,14 +409,15 @@
                                     <h5 class="offer_price text-success">
                                         <b>Offer Price: ₹{{ category.offer_price }}</b>
                                     </h5>
+                                    <a href="../delete_pro/{{i.id}}" id="delete" class="btn"><i id="delete"
+                                        class="fa-solid fa-trash " style="margin-right:5px;"></i>delete</a>
+                                <a href="../edit_category/{{i.id}}" id="delete" class="btn mt-1"><i id="edit"
+                                        class="fa-solid fa-pen-to-square" style="margin-right:5px;"></i>edit Category</a>
                                 {% endif %}
                                 {% endfor %}
                                 <hr>
                                 
-                                <a href="../delete_pro/{{i.id}}" id="delete" class="btn"><i id="delete"
-                                        class="fa-solid fa-trash " style="margin-right:5px;"></i>delete</a>
-                                <a href="../edit_category/{{i.id}}" id="delete" class="btn mt-1"><i id="edit"
-                                        class="fa-solid fa-pen-to-square" style="margin-right:5px;"></i>edit Category</a>
+ 
                                 <a href="../edit_pro/{{i.id}}" id="edit" class="btn"><i id="edit"
                                         class="fa-solid fa-pen-to-square" style="margin-right:5px;"></i>edit</a>
                             </div>

@@ -273,27 +273,36 @@
         <hr class="mt-4 mb-5">
 
         {% for i in data %}
-        <div class="row">
-            <div class="col-lg-5 mt-2">
-              <img src="{{i.product.image.url}}" class="product_img img-fluid" alt="" style="width:400px; height: 500px;">
-            </div>
-            <div id="details-section" class="col-lg-6 mt-5">
-                <h4>User : {{i.user}}</h4>
-                <h4 class="product_name">{{i.product.name}}</h4><br>
-                <br>
-                <p class="offer_price" style="display: inline;"> Offer Price : ₹{{i.product.offer_price}}
-                     <p class="price" style="text-decoration: line-through; padding-left: 10px; display: inline;">₹{{i.product.price}}</p>
-            </p>
-            <p class="date">Order Date : {{i.date}}</p>
-            <br><br>
-                    <a href="../cancel_order/{{i.id}}" id="cart" class="btn"><i class="fa-solid fa-trash " style="margin-right:5px;"></i>cancel the order</a>
-                    <a href="../confirm_order/{{i.id}}" id="confirm" class="btn"><i class="fa-solid fa-trash " style="margin-right:5px;"></i>Confirm the order</a>
+<div class="row">
+    <div class="col-lg-5 mt-2">
+        <img src="{{ i.product.image.url }}" class="product_img img-fluid" alt="" style="width:400px; height: 500px;">
+    </div>
+    <div id="details-section" class="col-lg-6 mt-5">
+        <h4>User: {{ i.user }}</h4>
+        <h4 class="product_name">{{ i.product.name }}</h4><br><br>
 
-            </div>
-            <hr class="mt-5 mb-5">
+        <!-- Fetch offer_price and price from the first related category -->
+        {% with i.product.categorys_set.all|first as category %}
+            {% if category %}
+                <p class="offer_price" style="display: inline;">Price: ₹{{ category.offer_price }}</p>
+            {% else %}
+                <p>No category data available.</p>
+            {% endif %}
+        {% endwith %}
 
-        </div>
-        {% endfor %}
+        <p class="date">Order Date: {{ i.date }}</p>
+        <br><br>
+        <a href="../cancel_order/{{ i.id }}" id="cart" class="btn">
+            <i class="fa-solid fa-trash" style="margin-right:5px;"></i>Cancel the order
+        </a>
+        <a href="../confirm_order/{{ i.id }}" id="confirm" class="btn">
+            <i class="fa-solid fa-check" style="margin-right:5px;"></i>Confirm the order
+        </a>
+    </div>
+    <hr class="mt-5 mb-5">
+</div>
+{% endfor %}
+
     </div>
 
 </body>

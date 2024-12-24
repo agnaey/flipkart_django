@@ -263,8 +263,8 @@
             <div id="details-section" class="col-lg-6 mt-5">
                 <h4 class="product_name">{{cart_obj.product.name}}</h4><br>
                 <br>
-                <p class="offer_price" style="display: inline;"> Offer Price : ₹{{cart_obj.category.offer_price}}
-                     <p class="price" style="text-decoration: line-through; padding-left: 10px; display: inline;">₹{{cart_obj.product.price}}</p>
+                <p class="offer_price" style="display: inline;">Offer Price: ₹{{ categories.first.offer_price }}</p>
+                <p class="price" style="text-decoration: line-through; padding-left: 10px; display: inline;">₹{{ categories.first.price }}</p>
             </p><br>
              <div class="row mt-5">
                     <div class="col-md-6">
@@ -331,6 +331,46 @@
         </div>
     </div>
     {% endfor %}
+
+
+
+    <script>
+
+        // --------------------------------storage------------------------------
+
+
+        document.getElementById('storage-select').addEventListener('change', function () {
+            // Get the selected option
+            const selectedOption = this.options[this.selectedIndex];
+
+            // Extract data attributes
+            const price = selectedOption.getAttribute('data-price');
+            const offerPrice = selectedOption.getAttribute('data-offer-price');
+
+            // Update the price display
+            document.getElementById('selected-price').textContent = price;
+            document.getElementById('selected-offer-price').textContent = offerPrice;
+        });
+
+
+        // --------------------------------size------------------------------
+
+
+
+        document.getElementById('size-select').addEventListener('change', function () {
+            // Get the selected option
+            const selectedOption = this.options[this.selectedIndex];
+
+            // Extract data attributes
+            const price = selectedOption.getAttribute('data-price');
+            const offerPrice = selectedOption.getAttribute('data-offer-price');
+
+            // Update the price display
+            document.getElementById('selected-price').textContent = price;
+            document.getElementById('selected-offer-price').textContent = offerPrice;
+        });
+
+    </script>
 
 </body>
 

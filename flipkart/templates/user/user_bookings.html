@@ -267,6 +267,63 @@
                 <p class="offer_price" style="display: inline;"> Offer Price : ₹{{cart_obj.product.offer_price}}
                      <p class="price" style="text-decoration: line-through; padding-left: 10px; display: inline;">₹{{cart_obj.product.price}}</p>
             </p><br><br>
+            <div class="row mt-5">
+                <div class="col-md-6">
+                    {% if is_phone or is_laptop %}
+                    <h4>Storage</h4>
+                    <form method="GET">
+                        <select id="storage-select" name="storage" class="form-control">
+                            {% for category in categories %}
+                            <option value="{{ category.storage }}" data-price="{{ category.price }}"
+                                data-offer-price="{{ category.offer_price }}">
+                                {{ category.storage }}
+                            </option>
+                            {% endfor %}
+                        </select>
+
+                    </form>
+                    {% endif %}
+                </div>
+
+
+                <div class="col-md-6">
+                    {% if is_phone or is_laptop %}
+                    <h4>Color</h4>
+                    <select name="color" class="form-control">
+                        {% for category in categories %}
+                        <option>{{ category.color }}</option>
+                        {% endfor %}
+                    </select>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row mt-5">
+                {% if is_dress %}
+                <div class="col-md-6">
+                    <h4>Size</h4>
+                    <form method="GET">
+                        <select id="size-select" name="size" class="form-control">
+                            {% for category in categories %}
+                            <option value="{{ category.size }}" data-price="{{ category.price }}"
+                                data-offer-price="{{ category.offer_price }}">
+                                {{ category.size }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </form>
+                </div>
+                <div class="col-md-6">
+                    <h4>Color</h4>
+                    <form method="GET">
+                        <select name="color" class="form-control">
+                            {% for category in categories %}
+                            <option value="{{ category.color }}">{{ category.color }}</option>
+                            {% endfor %}
+                        </select>
+                    </form>
+                </div>
+                {% endif %}
+            </div><br>
                     <a href="../delete_order/{{cart_obj.id}}" id="cart" class="btn"><i class="fa-solid fa-trash " style="margin-right:5px;"></i>cancel the order</a>
                     <!-- <a href="#" id="cart" class="btn"><i class="fa-solid fa-trash " style="margin-right:5px;"></i>confirm the</a> -->
             </div>
@@ -276,6 +333,44 @@
         {% endfor %}
     </div>
 
+
+    <script>
+
+        // --------------------------------storage------------------------------
+
+
+        document.getElementById('storage-select').addEventListener('change', function () {
+            // Get the selected option
+            const selectedOption = this.options[this.selectedIndex];
+
+            // Extract data attributes
+            const price = selectedOption.getAttribute('data-price');
+            const offerPrice = selectedOption.getAttribute('data-offer-price');
+
+            // Update the price display
+            document.getElementById('selected-price').textContent = price;
+            document.getElementById('selected-offer-price').textContent = offerPrice;
+        });
+
+
+        // --------------------------------size------------------------------
+
+
+
+        document.getElementById('size-select').addEventListener('change', function () {
+            // Get the selected option
+            const selectedOption = this.options[this.selectedIndex];
+
+            // Extract data attributes
+            const price = selectedOption.getAttribute('data-price');
+            const offerPrice = selectedOption.getAttribute('data-offer-price');
+
+            // Update the price display
+            document.getElementById('selected-price').textContent = price;
+            document.getElementById('selected-offer-price').textContent = offerPrice;
+        });
+
+    </script>
 </body>
 
 </html>
