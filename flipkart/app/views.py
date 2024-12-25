@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth import authenticate,login as auth_login,logout as auth_logout
 from . models import *
@@ -212,7 +212,10 @@ def cancel_order(req,id):
     data.delete()
     return redirect(admin_bookings)
 
-def confirm_order(req):
+def confirm_order(request, order_id):
+    order = get_object_or_404(Buy, id=order_id)
+    order.is_confirmed = True  # Assuming `is_confirmed` field in the `Buy` model
+    order.save()
     return redirect(admin_bookings)
 
 def view_pro(req):
@@ -233,6 +236,13 @@ def view_pro(req):
         }
 
         return render(req,'admin/view_all_pro.html',context)
+
+def toggle_confirmation(request, order_id):
+        order = get_object_or_404(Buy, id=order_id)
+        order.is_confirmed = True  # Toggle confirmation
+        order.save()
+        return redirect('admin_bookings') 
+
 
 # -----------------------------user-----------------------------------------------------
 
@@ -337,6 +347,7 @@ def buy_pro(req, id):
     return redirect(view_bookings)
 
 
+
 def cart_buy(req, id):
     cart = Cart.objects.get(pk=id)
     product = cart.product
@@ -373,6 +384,11 @@ def cart_buy(req, id):
     return redirect(view_bookings)
 
 
+def user_orders(request):
+    user = User.objects.get(username=request.session['username'])
+    orders = Buy.objects.filter(user=user)
+    return render(request, 'user/user_bookings.html', {'data1': orders})
+
 def view_bookings(req):
     user=User.objects.get(username=req.session['username'])
     data1=Buy.objects.filter(user=user)[::-1]
@@ -380,13 +396,15 @@ def view_bookings(req):
     is_phone = Products.objects.filter(phone=True)
     is_dress = Products.objects.filter(dress=True)
     is_laptop = Products.objects.filter(laptop=True)
+    # orders = Buy.objects.filter(user=req.user) 
     # others = Products.objects.filter(others=True)
     context = {
         'data1': data1,
         'categories': categories,
         'is_phone': is_phone,
         'is_dress': is_dress,
-        'is_laptop': is_laptop
+        'is_laptop': is_laptop,
+        # 'orders': orders
     }    
     return render(req,'user/user_bookings.html',context)
 

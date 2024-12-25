@@ -233,7 +233,25 @@
 .date{
     font-size: 20px;
 }
-
+#pending{
+    margin-top: 20px;
+    border: none;
+    color: rgb(0, 0, 0);
+    padding: 22px 45px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 5px;
+}
+#confirm{
+    border: none;
+    color: white;
+    padding: 22px 45px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 5px;
+}
     </style>
     <title>Document</title>
 </head>
@@ -295,9 +313,18 @@
         <a href="../cancel_order/{{ i.id }}" id="cart" class="btn">
             <i class="fa-solid fa-trash" style="margin-right:5px;"></i>Cancel the order
         </a>
-        <a href="../confirm_order/{{ i.id }}" id="confirm" class="btn">
-            <i class="fa-solid fa-check" style="margin-right:5px;"></i>Confirm the order
-        </a>
+        <form action="{% url 'confirm_order' i.id %}" method="post" style="display: inline;">
+            {% csrf_token %}
+            {% if i.is_confirmed %}
+                <button type="submit" class="btn btn-success" id="confirm" disabled>
+                    <i class="fa-solid fa-check" style="margin-right:5px;"></i>Confirmed
+                </button>
+            {% else %}
+                <button type="submit " id="pending" class="btn btn-warning">
+                    <i class="fa-solid fa-clock" style="margin-right:5px;"></i>Pending (Confirm)
+                </button>
+            {% endif %}
+        </form>
     </div>
     <hr class="mt-5 mb-5">
 </div>

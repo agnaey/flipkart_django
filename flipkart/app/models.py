@@ -30,3 +30,4 @@ class Buy(models.Model):
     product=models.ForeignKey(Products,on_delete=models.CASCADE)
     price=models.IntegerField()
     date=models.DateField(auto_now_add=True)
+    is_confirmed = models.BooleanField(default=False)

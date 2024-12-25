@@ -217,7 +217,25 @@
     margin-top: 3px;
     margin-bottom: 17px;
 }
-
+#pending{
+    margin-top: 50px;
+    border: none;
+    color: rgb(0, 0, 0);
+    padding: 22px 45px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 5px;
+}
+#confirm{
+    border: none;
+    color: white;
+    padding: 22px 45px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 5px;
+}
     </style>
     <title>Document</title>
 </head>
@@ -324,7 +342,20 @@
                 </div>
                 {% endif %}
             </div><br>
+                  <div>
                     <a href="../delete_order/{{cart_obj.id}}" id="cart" class="btn"><i class="fa-solid fa-trash " style="margin-right:5px;"></i>cancel the order</a>
+                 
+                 
+                    {% if i.is_confirmed %}
+                    <span class="badge bg-success" style="font-size: 16px;" id="confirm">
+                        <i class="fa-solid fa-check" style="margin-right:5px;"></i> Confirmed
+                    </span>
+                {% else %}
+                    <span class="badge bg-warning" style="font-size: 16px;" id="pending">
+                        <i class="fa-solid fa-clock" style="margin-right:5px;"></i> Pending
+                    </span>
+                {% endif %}
+                  </div>
                     <!-- <a href="#" id="cart" class="btn"><i class="fa-solid fa-trash " style="margin-right:5px;"></i>confirm the</a> -->
             </div>
             <hr class="mt-5 mb-5">

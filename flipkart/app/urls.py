@@ -17,7 +17,7 @@ urlpatterns = [
     path('admin_booking', views.admin_bookings),
     path('view_pro',views.view_pro),
     path('cancel_order/<id>',views.cancel_order),
-    path('confirm_order',views.confirm_order),
+    path('confirm_order/<order_id>', views.confirm_order, name='confirm_order'),
     path('product_details/<id>',views.pro_details),
 
     # ----------------------user--------------------------------------
@@ -31,6 +31,7 @@ urlpatterns = [
     path('buy_product/<id>',views.buy_pro),
     path('user_vew_booking',views.view_bookings),
     path('delete_order/<id>',views.delete_order),
+    path('orders/', views.user_orders, name='user_orders'),
 
     
 ]
