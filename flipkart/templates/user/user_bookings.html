@@ -225,7 +225,7 @@
     text-align: center;
     text-decoration: none;
     font-size: 16px;
-    border-radius: 5px;
+    border-radius: 55px;
 }
 #confirm{
     border: none;
@@ -234,7 +234,7 @@
     text-align: center;
     text-decoration: none;
     font-size: 16px;
-    border-radius: 5px;
+    border-radius: 55px;
 }
     </style>
     <title>Document</title>
@@ -282,8 +282,12 @@
             <div id="details-section" class="col-lg-6 mt-5">
                 <h4 class="product_name">{{cart_obj.product.name}}</h4><br>
                 <br>
-                <p class="offer_price" style="display: inline;"> Offer Price : ₹{{cart_obj.product.offer_price}}
-                     <p class="price" style="text-decoration: line-through; padding-left: 10px; display: inline;">₹{{cart_obj.product.price}}</p>
+                {% for category in categories %}
+                {% if category.product_id == cart_obj.product.id %}
+                <p class="offer_price" style="display: inline;">Offer Price: ₹{{ category.offer_price }}</p>
+                <p class="price" style="text-decoration: line-through; padding-left: 10px; display: inline;">₹{{ category.price }}</p>
+                {% endif %}
+                {% endfor %}
             </p><br><br>
             <div class="row mt-5">
                 <div class="col-md-6">
@@ -346,16 +350,20 @@
                     <a href="../delete_order/{{cart_obj.id}}" id="cart" class="btn"><i class="fa-solid fa-trash " style="margin-right:5px;"></i>cancel the order</a>
                  
                  
-                    {% if i.is_confirmed %}
-                    <span class="badge bg-success" style="font-size: 16px;" id="confirm">
-                        <i class="fa-solid fa-check" style="margin-right:5px;"></i> Confirmed
-                    </span>
-                {% else %}
-                    <span class="badge bg-warning" style="font-size: 16px;" id="pending">
-                        <i class="fa-solid fa-clock" style="margin-right:5px;"></i> Pending
-                    </span>
-                {% endif %}
-                  </div>
+   
+                
+                        <!-- Display the confirmation status -->
+                        {% if cart_obj.is_confirmed %}
+                            <span class="badge bg-success" style="font-size: 16px;" id="confirm">
+                                <i class="fa-solid fa-check" style="margin-right:5px;"></i> Confirmed
+                            </span>
+                        {% else %}
+                            <span class="badge bg-warning" style="font-size: 16px;" id="pending">
+                                <i class="fa-solid fa-clock" style="margin-right:5px;"></i> Pending
+                            </span>
+                        {% endif %}
+                    </div>
+                
                     <!-- <a href="#" id="cart" class="btn"><i class="fa-solid fa-trash " style="margin-right:5px;"></i>confirm the</a> -->
             </div>
             <hr class="mt-5 mb-5">

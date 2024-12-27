@@ -359,7 +359,7 @@
                         {% endif %}
                     </div>
                 </div>
-                <div class="row mt-5">
+                <div class="row mt-3 mb-4">
                     {% if is_dress %}
                     <div class="col-md-6">
                         <h4>Size</h4>
@@ -623,22 +623,17 @@
 
 
                 // --------------------------------size------------------------------
-
-
-
-                document.getElementById('size-select').addEventListener('change', function () {
-                    // Get the selected option
+            </script>
+            <script>
+                    document.getElementById('size-select').addEventListener('change', function () {
                     const selectedOption = this.options[this.selectedIndex];
 
-                    // Extract data attributes
                     const price = selectedOption.getAttribute('data-price');
                     const offerPrice = selectedOption.getAttribute('data-offer-price');
 
-                    // Update the price display
                     document.getElementById('selected-price').textContent = price;
                     document.getElementById('selected-offer-price').textContent = offerPrice;
                 });
-
             </script>
 </body>
 

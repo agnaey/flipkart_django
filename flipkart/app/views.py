@@ -383,10 +383,18 @@ def cart_buy(req, id):
 
     return redirect(view_bookings)
 
+def confirm_order(order_id):
+    order = Buy.objects.get(id=order_id)
+    order.is_confirmed = True
+    order.save()
 
 def user_orders(request):
     user = User.objects.get(username=request.session['username'])
     orders = Buy.objects.filter(user=user)
+    for order in orders:
+        print(f"Order ID: {order.id}, Is Confirmed: {order.is_confirmed}")
+    
+    
     return render(request, 'user/user_bookings.html', {'data1': orders})
 
 def view_bookings(req):

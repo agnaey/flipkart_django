@@ -32,6 +32,7 @@ urlpatterns = [
     path('user_vew_booking',views.view_bookings),
     path('delete_order/<id>',views.delete_order),
     path('orders/', views.user_orders, name='user_orders'),
+    path('confirm_order/<order_id>', views.confirm_order),
 
     
 ]
