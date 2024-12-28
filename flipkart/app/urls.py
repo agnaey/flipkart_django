@@ -33,7 +33,7 @@ urlpatterns = [
     path('delete_order/<id>',views.delete_order),
     path('orders/', views.user_orders, name='user_orders'),
     path('confirm_order/<order_id>', views.confirm_order),
-    path('see_more',views.see_more)
+    path('see_more/<a>',views.see_more)
 
     
 ]

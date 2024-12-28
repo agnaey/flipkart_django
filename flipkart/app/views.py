@@ -421,19 +421,23 @@ def delete_order(req,id):
     data.delete()
     return redirect(view_bookings)
 
-def see_more(req,a=None):
-    if a is None:
-        a='default'
-    category = req.GET.get('type', a) 
-    if category == 'videos':
-        files = Products.objects.filter(phone=True)
-    elif category == 'audios':
-        files = Products.objects.filter(dress=True)
-    elif    category == 'laptop':
-        files = Products.objects.filter(laptop=True)
-    else:
-        files = Products.objects.filter(others=True)
 
-    context = {'files': files,'category': category,}
-    return render(req,'user/see_more.html',context)
+def see_more(req, a=None):
+    file_type = req.GET.get('type', a or 'default')
+
+    if file_type == 'phone':
+        files = Products.objects.filter(phone=True)
+    elif file_type == 'dress':
+        files = Products.objects.filter(dress=True)
+    elif file_type == 'laptop':
+        files = Products.objects.filter(laptop=True)
+    elif file_type == 'others':
+        files = Products.objects.filter(others=True)
+    else:
+        files = Products.objects.all()
+
+    context = {'files': files, 'file_type': file_type}
+    return render(req, 'user/see_more.html', context)
+
+
 
