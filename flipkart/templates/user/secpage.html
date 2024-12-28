@@ -244,8 +244,8 @@
             background-color: rgb(196, 64, 14);
         }
     </style>
-    <title>Document</title>
-</head>
+    <title>product</title>
+    <link rel="icon" href="{% static '/images/flips1.png' %}" type="image/x-icon"></head>
 
 <body style="background-color: rgb(241,242,244);">
     <nav id="nav1" class="navbar navbar-expand-lg">
@@ -397,12 +397,13 @@
 
                 <hr class="mt-5 mb-5">
 
-                <div>
-                    <h5 class="mt-5">Highlights</h5>
-                    <p>{{ product.highlights|linebreaksbr|safe }}</p>
-                    <h5 class="mt-5">Description</h5>
-                    <p>{{product.description}}</p>
-                </div>
+
+            </div>
+            <div class="mb-5">
+                <h5 class="mt-5 text-center">Highlights</h5>
+                <p>{{ product.highlights|linebreaksbr|safe }}</p>
+                <h5 class="mt-5 text-center">Description</h5>
+                <p>{{product.description}}</p>
             </div>
         </div>
     </div>

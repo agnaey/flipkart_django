@@ -10,15 +10,16 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <!-- alert -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
 
-$(document).ready(function () {
+        $(document).ready(function () {
             $('#login').on('click', function (event) {
                 event.preventDefault(); // Prevent default link behavior
                 const href = $(this).attr('href'); // Get the href value from the link
-    
+
                 Swal.fire({
                     title: "Are you sure?",
                     text: "You want to logout!",
@@ -45,11 +46,11 @@ $(document).ready(function () {
 
 
 
-    $(document).ready(function () {
+        $(document).ready(function () {
             $('#cart').on('click', function (event) {
                 event.preventDefault(); // Prevent default link behavior
                 const href = $(this).attr('href'); // Get the href value from the link
-    
+
                 Swal.fire({
                     title: "Are you sure?",
                     text: "You want to delete this product!",
@@ -128,7 +129,8 @@ $(document).ready(function () {
             border-radius: 10px;
             margin-right: 20px;
         }
-/* 
+
+        /* 
         .container {
             max-width: 1600px;
         } */
@@ -196,6 +198,7 @@ $(document).ready(function () {
             font-size: 20px;
             margin-top: 20px;
         }
+
         #category {
             background-color: rgb(43, 105, 20);
             padding: 17px 60px;
@@ -213,6 +216,7 @@ $(document).ready(function () {
             font-size: 20px;
             margin-top: 20px;
         }
+
         #cart1 {
             background-color: rgb(251, 100, 27);
             padding: 17px 60px;
@@ -229,6 +233,7 @@ $(document).ready(function () {
         #cart:hover {
             background-color: rgb(196, 64, 14);
         }
+
         #cart1:hover {
             background-color: rgb(196, 64, 14);
         }
@@ -239,8 +244,8 @@ $(document).ready(function () {
 <body style="background-color: rgb(241,242,244);">
     <nav id="nav1" class="navbar navbar-expand-lg">
         <div class="container">
-            <a class="navbar-brand" href="../admin_home"><img src="{% static '/images/i4436jrf.png' %}" style="width: 100px; "
-                    alt=""></a>
+            <a class="navbar-brand" href="../admin_home"><img src="{% static '/images/i4436jrf.png' %}"
+                    style="width: 100px; " alt=""></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -257,17 +262,20 @@ $(document).ready(function () {
                                 class="fa-solid fa-user">&nbsp;&nbsp;</i>Logout</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../view_pro"><i class="fa-solid fa-shop"></i>&nbsp; View All Product</a>
+                        <a class="nav-link" href="../view_pro"><i class="fa-solid fa-shop"></i>&nbsp; View All
+                            Product</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../add_pro"><i class="fa-solid fa-plus"></i></i>&nbsp; Add products</a>
+                        <a class="nav-link" href="../add_pro"><i class="fa-solid fa-plus"></i></i>&nbsp; Add
+                            products</a>
                     </li>
                     <!-- <li class="nav-item">
                         <a class="nav-link" href="../cart_disp"><i
                                 class="fa-solid fa-cart-shopping"></i>&nbsp;&nbsp;Cart</a>
                     </li> -->
                     <li class="nav-item">
-                        <a class="nav-link" href="../admin_booking"><i class="fa-solid fa-shop"></i>&nbsp; View Bookings</a>
+                        <a class="nav-link" href="../admin_booking"><i class="fa-solid fa-shop"></i>&nbsp; View
+                            Bookings</a>
                     </li>
                 </ul>
             </div>
@@ -306,83 +314,79 @@ $(document).ready(function () {
                 <img src="{{ product.image.url }}" class="product_img img-fluid" alt="Card image"
                     style="width:400px; height: 500px;">
             </div>
-    
+
             <div id="details-section" class="col-lg-6 mt-5">
                 <h4 class="product_name">{{ product.name }}</h4><br><br>
-            
+
                 <p class="offer_price" id="offer-price">
                     <b>Offer Price: ₹<span id="selected-offer-price">{{ categories.first.offer_price }}</span></b>
                 </p>
                 <p class="price" id="price" style="text-decoration: line-through;">
                     ₹<span id="selected-price">{{ categories.first.price }}</span>
                 </p>
-                
-            
-<!-- ----------------------------------------------------------- -->
+
+
+                <!-- ----------------------------------------------------------- -->
                 <div class="row mt-5">
                     <div class="col-md-6">
                         {% if is_phone or is_laptop %}
-                            <h4>Storage</h4>
-                            <form method="GET">
-                                <select id="storage-select" name="storage" class="form-control">
-                                    {% for category in categories %}
-                                        <option 
-                                            value="{{ category.storage }}" 
-                                            data-price="{{ category.price }}" 
-                                            data-offer-price="{{ category.offer_price }}">
-                                            {{ category.storage }}
-                                        </option>
-                                    {% endfor %}
-                                </select>
-                                
-                            </form>
-                        {% endif %}
-                    </div>
-     
-                    
-                    <div class="col-md-6">
-                        {% if is_phone or is_laptop %}
-                            <h4>Color</h4>
-                            <select name="color" class="form-control" >
+                        <h4>Storage</h4>
+                        <form method="GET">
+                            <select id="storage-select" name="storage" class="form-control">
                                 {% for category in categories %}
-                                    <option>{{ category.color }}</option>
+                                <option value="{{ category.storage }}" data-price="{{ category.price }}"
+                                    data-offer-price="{{ category.offer_price }}">
+                                    {{ category.storage }}
+                                </option>
                                 {% endfor %}
                             </select>
+
+                        </form>
+                        {% endif %}
+                    </div>
+
+
+                    <div class="col-md-6">
+                        {% if is_phone or is_laptop %}
+                        <h4>Color</h4>
+                        <select name="color" class="form-control">
+                            {% for category in categories %}
+                            <option>{{ category.color }}</option>
+                            {% endfor %}
+                        </select>
                         {% endif %}
                     </div>
                 </div>
                 <div class="row mt-5">
                     {% if is_dress %}
-                        <div class="col-md-6">
-                            <h4>Size</h4>
-                            <form method="GET">
-                                <select id="size-select" name="size" class="form-control">
-                                    {% for category in categories %}
-                                        <option 
-                                            value="{{ category.size }}" 
-                                            data-price="{{ category.price }}" 
-                                            data-offer-price="{{ category.offer_price }}">
-                                            {{ category.size }}
-                                        </option>
-                                    {% endfor %}
-                                </select>
-                            </form>
-                        </div>
-                        <div class="col-md-6">
-                            <h4>Color</h4>
-                            <form method="GET">
-                                <select name="color" class="form-control">
-                                    {% for category in categories %}
-                                        <option value="{{ category.color }}">{{ category.color }}</option>
-                                    {% endfor %}
-                                </select>
-                            </form>
-                        </div>
+                    <div class="col-md-6">
+                        <h4>Size</h4>
+                        <form method="GET">
+                            <select id="size-select" name="size" class="form-control">
+                                {% for category in categories %}
+                                <option value="{{ category.size }}" data-price="{{ category.price }}"
+                                    data-offer-price="{{ category.offer_price }}">
+                                    {{ category.size }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </form>
+                    </div>
+                    <div class="col-md-6">
+                        <h4>Color</h4>
+                        <form method="GET">
+                            <select name="color" class="form-control">
+                                {% for category in categories %}
+                                <option value="{{ category.color }}">{{ category.color }}</option>
+                                {% endfor %}
+                            </select>
+                        </form>
+                    </div>
                     {% endif %}
                 </div>
-                
-                
-            
+
+
+
                 <br><br>
                 <a href="../delete_pro/{{ product.id }}" id="cart" class="btn">
                     <i class="fa-solid fa-trash"></i>Delete
@@ -392,33 +396,33 @@ $(document).ready(function () {
                 </a>
                 <a href="../edit_category/{{ product.id }}" id="buy" class="btn">
                     <i class="fa-solid fa-pen-to-square"></i>Edit Category
-                </a> 
+                </a>
                 <a href="../category/{{ product.id }}" id="category" class="btn">
                     <i class="fa-solid fa-plus"></i>Add Category
-                </a> 
+                </a>
                 <br><br>
             </div>
             <hr class="mt-5 mb-5">
 
-                    <!-- ----------------------------------------------------------- -->
-           
-                    
-          
-                    
-                    
-<!-- ----------------------------------------------------------- -->
+            <!-- ----------------------------------------------------------- -->
 
-                    
-                    <h5 class="mt-5 text-center">Highlights</h5>
-                    <p>{{ product.highlights|linebreaksbr|safe }}</p>
 
-                    <h5 class="mt-5 text-center">Description</h5>
-                    <p>{{ product.description }}</p>
-                </div>
-            </div>
+
+
+
+            <!-- ----------------------------------------------------------- -->
+
+
+            <h5 class="mt-5 text-center">Highlights</h5>
+            <p>{{ product.highlights|linebreaksbr|safe }}</p>
+
+            <h5 class="mt-5 text-center">Description</h5>
+            <p>{{ product.description }}</p>
         </div>
-    
-        <!-- 
+    </div>
+    </div>
+
+    <!-- 
         <div class="row mt-5">
             <div class="col-lg-12">
                 <h5>Categories</h5>
@@ -456,47 +460,48 @@ $(document).ready(function () {
                 {% endif %}
             </div>
         </div> -->
-        
+
 
     </div>
-    
+
 
     <script>
 
-// --------------------------------storage------------------------------
+        // --------------------------------storage------------------------------
 
 
-        document.getElementById('storage-select').addEventListener('change', function() {
+        document.getElementById('storage-select').addEventListener('change', function () {
             // Get the selected option
             const selectedOption = this.options[this.selectedIndex];
-    
+
             // Extract data attributes
             const price = selectedOption.getAttribute('data-price');
             const offerPrice = selectedOption.getAttribute('data-offer-price');
-    
+
+            // Update the price display
+            document.getElementById('selected-price').textContent = price;
+            document.getElementById('selected-offer-price').textContent = offerPrice;
+        });
+    </script>
+
+
+    // --------------------------------size------------------------------
+
+    <script>
+
+        document.getElementById('size-select').addEventListener('change', function () {
+            // Get the selected option
+            const selectedOption = this.options[this.selectedIndex];
+
+            // Extract data attributes
+            const price = selectedOption.getAttribute('data-price');
+            const offerPrice = selectedOption.getAttribute('data-offer-price');
+
             // Update the price display
             document.getElementById('selected-price').textContent = price;
             document.getElementById('selected-offer-price').textContent = offerPrice;
         });
 
-
-// --------------------------------size------------------------------
-
-
-
-        document.getElementById('size-select').addEventListener('change', function() {
-            // Get the selected option
-            const selectedOption = this.options[this.selectedIndex];
-    
-            // Extract data attributes
-            const price = selectedOption.getAttribute('data-price');
-            const offerPrice = selectedOption.getAttribute('data-offer-price');
-    
-            // Update the price display
-            document.getElementById('selected-price').textContent = price;
-            document.getElementById('selected-offer-price').textContent = offerPrice;
-        });
-        
     </script>
 
 
