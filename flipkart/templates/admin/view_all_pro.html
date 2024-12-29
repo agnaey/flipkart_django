@@ -10,15 +10,16 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <!-- alert -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
 
-$(document).ready(function () {
+        $(document).ready(function () {
             $('#login').on('click', function (event) {
                 event.preventDefault(); // Prevent default link behavior
                 const href = $(this).attr('href'); // Get the href value from the link
-    
+
                 Swal.fire({
                     title: "Are you sure?",
                     text: "You want to logout!",
@@ -45,11 +46,11 @@ $(document).ready(function () {
 
 
 
-    $(document).ready(function () {
+        $(document).ready(function () {
             $('#cart').on('click', function (event) {
                 event.preventDefault(); // Prevent default link behavior
                 const href = $(this).attr('href'); // Get the href value from the link
-    
+
                 Swal.fire({
                     title: "Are you sure?",
                     text: "You want to delete this product!",
@@ -209,6 +210,7 @@ $(document).ready(function () {
             font-size: 20px;
             margin-top: 20px;
         }
+
         #cart1 {
             background-color: rgb(251, 100, 27);
             padding: 17px 60px;
@@ -225,9 +227,11 @@ $(document).ready(function () {
         #cart:hover {
             background-color: rgb(196, 64, 14);
         }
+
         #cart1:hover {
             background-color: rgb(196, 64, 14);
         }
+
         nav {
             background-color: rgb(255, 255, 255);
             color: #000;
@@ -240,8 +244,8 @@ $(document).ready(function () {
 <body style="background-color: rgb(241,242,244);">
     <nav class="navbar navbar-expand-lg ">
         <div class="container">
-            <a class="navbar-brand" href="../admin_home"><img src="{% static '/images/logo.jpg' %}" style="width: 100px; "
-                    alt=""></a>
+            <a class="navbar-brand" href="../admin_home"><img src="{% static '/images/logo.jpg' %}"
+                    style="width: 100px; " alt=""></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -254,10 +258,12 @@ $(document).ready(function () {
                             placeholder="Search For Product, Brand and More" aria-label="Search">
                     </form>
                     <li class="nav-item ">
-                        <a class="nav-link " id="logout" href="logout"><i class="fa-solid fa-user">&nbsp;&nbsp;</i>Logout</a>
+                        <a class="nav-link " id="logout" href="logout"><i
+                                class="fa-solid fa-user">&nbsp;&nbsp;</i>Logout</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../admin_booking"><i class="fa-solid fa-cart-shopping"></i>&nbsp;&nbsp;User Bookings</a>
+                        <a class="nav-link" href="../admin_booking"><i
+                                class="fa-solid fa-cart-shopping"></i>&nbsp;&nbsp;User Bookings</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="add_pro"><i class="fa-solid fa-plus"></i></i>&nbsp; Add products</a>
@@ -292,117 +298,112 @@ $(document).ready(function () {
             <li class="nav-item">
                 <a id="navsub1" class="nav-link" href="#">Two Wheelers</a>
             </li>
-    </nav>    
+    </nav>
 
-        {% for product in product %}
+    {% for product in product %}
 
-        <div id="container" class="container mt-4">
-            <div class="row">
-                <div id="image-section" class="col-lg-6 mb-5 mt-2">
-                    <img src="{{product.image.url}}" class="product_img" alt="Card image"
-                        style="width:400px; height: 500px;">
+    <div id="container" class="container mt-4">
+        <div class="row">
+            <div id="image-section" class="col-lg-6 mb-5 mt-2">
+                <img src="{{product.image.url}}" class="product_img" alt="Card image"
+                    style="width:400px; height: 500px;">
+
+
+                <a href="../delete_pro/{{product.id}}" id="cart" class="btn "><i
+                        class="fa-solid fa-trash"></i>Delete</a>
+
+                <a href="../edit_pro/{{product.id}}" id="buy" class="btn"><i
+                        class="fa-solid fa-pen-to-square"></i>Edit</a>
+
+                <div class="mt-5">
+
+                </div>
+            </div>
+            <div id="details-section" class="col-lg-6 mt-5">
+                <h4 class="product_name">{{product.name}}</h4><br>
+                <br>
+
+                {% for category in categories %}
+                {% if category.product == product %}
+                <p class="price text-danger text-decoration-line-through">
+                    Price: ₹{{ category.price }}
+                </p>
+                <h5 class="offer_price text-success">
+                    <b>Offer Price: ₹{{ category.offer_price }}</b>
+                </h5>
+                {% endif %}
+                {% endfor %}
+                <div class="row mt-5">
+                    <div class="col-md-6">
+                        {% if is_phone or is_laptop %}
+                        <h4>Storage</h4>
+                        <form method="GET">
+                            <select id="storage-select" name="storage" class="form-control">
+                                {% for category in categories %}
+                                    {% if category.product_id == product.id %}
+                                        <option value="{{ category.storage }}" data-price="{{ category.price }}"
+                                            data-offer-price="{{ category.offer_price }}">{{ category.storage }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </form>
+                        {% endif %}
+                    </div>
     
-
-                        <a href="../delete_pro/{{product.id}}" id="cart" class="btn "><i
-                                class="fa-solid fa-trash"></i>Delete</a>
-
-                        <a href="../edit_pro/{{product.id}}" id="buy" class="btn"><i
-                                class="fa-solid fa-pen-to-square"></i>Edit</a>
-    
-                    <div class="mt-5">
-    
+                    <div class="col-md-6">
+                        {% if is_phone or is_laptop %}
+                        <h4>Color</h4>
+                        <select name="color" class="form-control">
+                            {% for category in categories %}
+                                {% if category.product_id == product.id %}
+                                    <option>{{ category.color }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                        {% endif %}
                     </div>
                 </div>
-                <div id="details-section" class="col-lg-6 mt-5">
-                    <h4 class="product_name">{{product.name}}</h4><br>
-                    <br>
-
-                                             {% for category in categories %}
-                                             {% if category.product == product %}
-                                        <p class="price text-danger text-decoration-line-through">
-                                            Price: ₹{{ category.price }}
-                                        </p>
-                                        <h5 class="offer_price text-success">
-                                            <b>Offer Price: ₹{{ category.offer_price }}</b>
-                                        </h5>
-                                        {% endif %}
-                                {% endfor %}
-                                <div class="row mt-5">
-                                    <div class="col-md-6">
-                                        {% if is_phone or is_laptop %}
-                                            <h4>Storage</h4>
-                                            <form method="GET">
-                                                <select id="storage-select" name="storage" class="form-control">
-                                                    {% for category in categories %}
-                                                        <option 
-                                                            value="{{ category.storage }}" 
-                                                            data-price="{{ category.price }}" 
-                                                            data-offer-price="{{ category.offer_price }}">
-                                                            {{ category.storage }}
-                                                        </option>
-                                                    {% endfor %}
-                                                </select>
-                                                
-                                            </form>
-                                        {% endif %}
-                                    </div>
-                     
-                                    
-                                    <div class="col-md-6">
-                                        {% if is_phone or is_laptop %}
-                                            <h4>Color</h4>
-                                            <select name="color" class="form-control" >
-                                                {% for category in categories %}
-                                                    <option>{{ category.color }}</option>
-                                                {% endfor %}
-                                            </select>
-                                        {% endif %}
-                                    </div>
-                                </div>
-                                <div class="row mt-5">
-                                    {% if is_dress %}
-                                        <div class="col-md-6">
-                                            <h4>Size</h4>
-                                            <form method="GET">
-                                                <select id="size-select" name="size" class="form-control">
-                                                    {% for category in categories %}
-                                                        <option 
-                                                            value="{{ category.size }}" 
-                                                            data-price="{{ category.price }}" 
-                                                            data-offer-price="{{ category.offer_price }}">
-                                                            {{ category.size }}
-                                                        </option>
-                                                    {% endfor %}
-                                                </select>
-                                            </form>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <h4>Color</h4>
-                                            <form method="GET">
-                                                <select name="color" class="form-control">
-                                                    {% for category in categories %}
-                                                        <option value="{{ category.color }}">{{ category.color }}</option>
-                                                    {% endfor %}
-                                                </select>
-                                            </form>
-                                        </div>
-                                    {% endif %}
-                                </div>
-                                
-                    <hr class="mt-5 mb-5">
     
-                    <div>
-                        <h5 class="mt-5">Highlights</h5>
-                        <p>{{ product.highlights|linebreaksbr|safe }}</p>
-                        <h5 class="mt-5">Description</h5>
-                        <p>{{product.description}}</p>
+                <div class="row mt-5">
+                    {% if is_dress %}
+                    <div class="col-md-6">
+                        <h4>Size</h4>
+                        <select id="size-select" name="size" class="form-control">
+                            {% for category in categories %}
+                                {% if category.product_id == product.id %}
+                                    <option value="{{ category.size }}">{{ category.size }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
                     </div>
+                    <div class="col-md-6">
+                        <h4>Color</h4>
+                        <select name="color" class="form-control">
+                            {% for category in categories %}
+                                {% if category.product_id == product.id %}
+                                    <option value="{{ category.color }}">{{ category.color }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                    {% endif %}
+                </div>
+    
+
+                <hr class="mt-5 mb-5">
+
+                <div>
+                    <h5 class="mt-5">Highlights</h5>
+                    <p>{{ product.highlights|linebreaksbr|safe }}</p>
+                    <h5 class="mt-5">Description</h5>
+                    <p>{{product.description}}</p>
                 </div>
             </div>
         </div>
-        {% endfor %}
-    
-      
+    </div>
+    {% endfor %}
+
+
 
 </body>
 

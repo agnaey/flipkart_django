@@ -401,6 +401,8 @@ def view_bookings(req):
     user=User.objects.get(username=req.session['username'])
     data1=Buy.objects.filter(user=user)[::-1]
     categories = Categorys.objects.select_related('product')
+    selected_category = categories.first() if categories else None
+
     is_phone = Products.objects.filter(phone=True)
     is_dress = Products.objects.filter(dress=True)
     is_laptop = Products.objects.filter(laptop=True)
@@ -409,6 +411,7 @@ def view_bookings(req):
     context = {
         'data1': data1,
         'categories': categories,
+          'selected_category': selected_category,
         'is_phone': is_phone,
         'is_dress': is_dress,
         'is_laptop': is_laptop,
