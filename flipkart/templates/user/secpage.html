@@ -324,9 +324,9 @@
                         {% if is_phone or is_laptop %}
                         <h4>Storage</h4>
                         <form method="GET">
-                            <select id="storage-select" name="storage" class="form-control">
+                            <select id="storage-select" name="cat" class="form-control">
                                 {% for category in categories %}
-                                <option value="{{ category.storage }}" data-price="{{ category.price }}"
+                                <option value="{{ category.pk }}" data-price="{{ category.price }}"
                                     data-offer-price="{{ category.offer_price }}">
                                     {{ category.storage }}
                                 </option>
@@ -358,7 +358,7 @@
                                 {% for category in categories %}
                                 <option value="{{ category.size }}" data-price="{{ category.price }}"
                                     data-offer-price="{{ category.offer_price }}">
-                                    {{ category.size }}
+                                    <a href="demo/{{category.pk}}">{{ category.size }}</a>
                                 </option>
                                 {% endfor %}
                             </select>

@@ -23,7 +23,7 @@ urlpatterns = [
     # ----------------------user--------------------------------------
 
     path('index', views.index),
-    path('sec/<id>', views.secpage),
+    path('sec/<id>', views.secpage,name='sec'),
     path('add_to_cart/<pid>', views.add_to_cart),
     path('cart_disp', views.cart_display),
     path('delete_cart/<id>', views.cart_delete),
@@ -33,7 +33,8 @@ urlpatterns = [
     path('delete_order/<id>',views.delete_order),
     path('orders/', views.user_orders, name='user_orders'),
     path('confirm_order/<order_id>', views.confirm_order),
-    path('see_more/<a>',views.see_more)
+    path('see_more/<a>',views.see_more),
+    path('demo/<id>',views.demo)
 
     
 ]

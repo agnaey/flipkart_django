@@ -23,11 +23,11 @@ class Categorys(models.Model):
 
 class Cart(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE)
-    product=models.ForeignKey(Products,on_delete=models.CASCADE)
+    category=models.ForeignKey(Categorys,on_delete=models.CASCADE)
 
 class Buy(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE)
-    product=models.ForeignKey(Products,on_delete=models.CASCADE)
+    category=models.ForeignKey(Categorys,on_delete=models.CASCADE)
     price=models.IntegerField()
     date=models.DateField(auto_now_add=True)
     is_confirmed = models.BooleanField(default=False)
