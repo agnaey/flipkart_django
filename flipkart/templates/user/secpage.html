@@ -244,6 +244,21 @@
         #cart1:hover {
             background-color: rgb(196, 64, 14);
         }
+
+        #categ{
+            width: 30%;
+            padding: 10px;
+            border: 3px solid grey;
+        }
+        #categ:hover{
+            border-color: rgb(0, 0, 0);
+
+        }
+        .active{
+            border: 1px solid blue;
+        }
+
+
     </style>
     <title>product</title>
     <link rel="icon" href="{% static '/images/flips1.png' %}" type="image/x-icon"></head>
@@ -308,8 +323,28 @@
             </div>
 
             <div id="details-section" class="col-lg-6 mt-5">
-                <h4 class="product_name">{{ product.name }}</h4><br><br>
+                <h4 class="product_name">{{ product.name }} </h4><br><br>
 
+                <!-- <p class="offer_price" id="offer-price">
+                    <b>Offer Price: ₹<span id="selected-offer-price">{{ categories.first.offer_price }}</span></b>
+                </p>
+                <p class="price" id="price" style="text-decoration: line-through;">
+                    ₹<span id="selected-price">{{ categories.first.price }}</span>
+                </p> -->
+
+                {% if category_id %}
+                {% for cat in categories %}
+                {% if category_id.pk is cat.pk %} 
+                <p class="offer_price" id="offer-price">
+                    <b>Offer Price: ₹<span id="selected-offer-price">{{ cat.offer_price }}</span></b>
+                </p>
+                <p class="price" id="price" style="text-decoration: line-through;">
+                    ₹<span id="selected-price">{{ cat.price }}</span>
+                </p>
+
+                {% endif %}
+                {% endfor %}
+                {% else %}
                 <p class="offer_price" id="offer-price">
                     <b>Offer Price: ₹<span id="selected-offer-price">{{ categories.first.offer_price }}</span></b>
                 </p>
@@ -317,15 +352,17 @@
                     ₹<span id="selected-price">{{ categories.first.price }}</span>
                 </p>
 
+                {% endif %}
 
                 <!-- ----------------------------------------------------------- -->
                 <div class="row mt-5">
                     <div class="col-md-6">
                         {% if is_phone or is_laptop %}
                         <h4>Storage</h4>
-                        <form method="GET">
+                        <!-- <form method="GET">
                             <select id="storage-select" name="cat" class="form-control">
                                 {% for category in categories %}
+
                                 <option value="{{ category.pk }}" data-price="{{ category.price }}"
                                     data-offer-price="{{ category.offer_price }}">
                                     {{ category.storage }}
@@ -333,7 +370,22 @@
                                 {% endfor %}
                             </select>
 
-                        </form>
+                        </form> -->
+                        <div >
+                            
+                        {% for category in categories %}
+
+                            <a href="../demo/{{category.pk}}" style="color: black;">
+                                
+                                <div id="categ" class="card mb-3" {% if category_id.pk is category.pk %}  style="border:1px solid blue"{% endif %}>
+                                   
+                                   {{ category.storage }}</a>
+
+                                </div>
+                                
+                            {% endfor %}
+                        </div>
+                        
                         {% endif %}
                     </div>
 
@@ -341,7 +393,7 @@
                     <div class="col-md-6">
                         {% if is_phone or is_laptop %}
                         <h4>Color</h4>
-                        <select name="color" class="form-control">
+                        <select id="categ" name="color" class="form-control">
                             {% for category in categories %}
                             <option>{{ category.color }}</option>
                             {% endfor %}
@@ -563,12 +615,11 @@
     </div>
 
     <!-- ----------------------------------------laptop--------------------------------------- -->
-    <div id="best_sales" class="sample container p-3 mt-4">
+    <!-- <div id="best_sales" class="sample container p-3 mt-4">
         <div class="d-flex justify-content-between align-items-center mb-1">
             <h3 class="mb-0"><b>Best Laptops</b></h3>
         </div>
 
-        <!-- The slideshow/carousel -->
         <div class="carousel-inner">
             <div class="carousel-item active ">
                 <div class="row ">
@@ -592,6 +643,8 @@
                     {% endfor %}
                 </div>
             </div>
+        </div>
+    </div> -->
 
 
             <script>

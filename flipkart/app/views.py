@@ -266,12 +266,19 @@ def secpage(request, id):
     # except Cart.DoesNotExist:
     cart1 = None
 
-    # Related products based on categories
     phones = Products.objects.filter(phone=True)
     dress = Products.objects.filter(dress=True)
     laptop = Products.objects.filter(laptop=True)
+    category_id=request.session['cat']
+    f=0
+    for i in category:
+        if i.pk==int(category_id):
+            category_data = Categorys.objects.get(pk=category_id)
+            f=1
+    if f==0:
+        category_data=None
+    
 
-    # Context to pass to the template
     context = {
         'product': product,
         'categories': category,
@@ -281,16 +288,19 @@ def secpage(request, id):
         'cart1': cart1,
         'phones': phones,
         'dress': dress,
-        'laptop': laptop
+        'laptop': laptop,
+        'category_id':category_data
     }
 
     return render(request, 'user/secpage.html', context)
 def demo(req,id):
-    print(id)
-    return redirect('sec',id=44)
+    req.session['cat']=id
+    category=Categorys.objects.get(pk=id)
+    return redirect('sec',id=category.product_id)
+
 
 def add_to_cart(req,pid):
-    print(req.GET['cat'])
+    print(req.POST.get('cat'))
     product=Products.objects.get(pk=pid)
     user=User.objects.get(username=req.session['username'])
     data=Cart.objects.create(user=user,category=category)

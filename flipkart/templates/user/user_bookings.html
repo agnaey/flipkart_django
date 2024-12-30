@@ -278,6 +278,7 @@
     <div id="container" class="container mt-4">
         <b id="mycart">My Orders</b>
         <hr class="mt-4 mb-5">
+        
         {% for cart_obj in data1 %}
 
 
@@ -300,18 +301,21 @@
                 <div class="col-md-6">
                     {% if is_phone or is_laptop %}
                     <h4>Storage</h4>
-                    <form method="GET">
                         <select id="storage-select" name="storage" class="form-control">
                             {% for category in categories|dictsort:"storage" %}
                                 {% if category.product_id == cart_obj.product.id %}
+                                <a href="demo/{{category.pk}}">
                                     <option value="{{ category.storage }}" data-price="{{ category.price }}"
-                                        data-offer-price="{{ category.offer_price }}">{{ category.storage }}</option>
+                                        data-offer-price="{{ category.offer_price }}">
+                                        
+                                        {{ category.storage }}hgfgvj
+                                    </option>
+                                </a>
                                 {% endif %}
                             {% endfor %}
                         </select>
                         
 
-                    </form>
                     {% endif %}
                 </div>
 
@@ -361,7 +365,6 @@
                  
    
                 
-                        <!-- Display the confirmation status -->
                         {% if cart_obj.is_confirmed %}
                             <span class="badge bg-success" style="font-size: 16px;" id="confirm">
                                 <i class="fa-solid fa-check" style="margin-right:5px;"></i> Confirmed
