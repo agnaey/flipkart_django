@@ -230,6 +230,20 @@
             margin-top: 13px;
             margin-bottom: 17px;
         }
+        #categ {
+            width: 30%;
+            padding: 10px;
+            border: 3px solid grey;
+        }
+
+        #categ:hover {
+            border-color: rgb(0, 0, 0);
+
+        }
+
+        .active {
+            border: 1px solid blue;
+        }
     </style>
     <title>Cart</title>
     <link rel="icon" href="{% static '/images/flips1.png' %}" type="image/x-icon"></head>
@@ -266,99 +280,108 @@
         </div>
     </nav>
     
-    <h1 class="text-center" id="mycart">My cart</h1>
+   <h1 class="text-center" id="mycart">My Cart</h1>
+
     {% for cart_obj in data %}
-    <div id="container" class="container mt-1">
+        <div id="container" class="container mt-1">
+            <div class="row">
+                <div class="col-lg-5 mt-2">
+                    <img src="{{ cart_obj.category.product.image.url }}" class="product_img img-fluid" alt="Product Image"
+                         style="width:400px; height: 500px;">
+                </div>
 
-
-        <div class="row">
-            <div class="col-lg-5 mt-2">
-                <img src="{{cart_obj.product.image.url}}" class="product_img img-fluid" alt=""
-                    style="width:400px; height: 500px;">
-            </div>
-            <div id="details-section" class="col-lg-6 mt-5">
-                <h4 class="product_name">{{ cart_obj.product.name }}</h4>
-                <br>
-                {% for category in categories %}
-                {% if category.product_id == cart_obj.product.id %}
-                <p class="offer_price" style="display: inline;">Offer Price: ₹{{ category.offer_price }}</p>
-                <p class="price" style="text-decoration: line-through; padding-left: 10px; display: inline;">₹{{ category.price }}</p>
-                {% endif %}
-                {% endfor %}
-
-                </p><br>
-                <div class="row mt-5">
-                    <div class="col-md-6">
-                        {% if is_phone or is_laptop %}
-                        <h4>Storage</h4>
-                        <form method="GET">
-                            <select id="storage-select" name="storage" class="form-control">
-                                {% for category in categories|dictsort:"storage" %}
-                                    {% if category.product_id == cart_obj.product.id %}
-                                        <option value="{{ category.storage }}" data-price="{{ category.price }}"
-                                            data-offer-price="{{ category.offer_price }}">{{ category.storage }}</option>
-                                    {% endif %}
-                                {% endfor %}
-                            </select>
-                            
-    
-                        </form>
+                <div id="details-section" class="col-lg-6 mt-5">
+                    <h4 class="product_name">{{ cart_obj.category.product.name }}</h4>
+                    <br>
+                    {% for category in categories %}
+                        {% if category.product_id is cart_obj.category.product.id %}
+                            <p class="offer_price" style="display: inline;">Offer Price: ₹{{ category.offer_price }}</p>
+                            <p class="price" style="text-decoration: line-through; padding-left: 10px; display: inline;">
+                                ₹{{ category.price }}</p>
                         {% endif %}
-                    </div>
-    
-    
-                    <div class="col-md-6">
-                        {% if is_phone or is_laptop %}
-                        <h4>Color</h4>
-                        <select name="color" class="form-control">
-                            {% for category in categories|dictsort:"color" %}
-                                {% if category.product_id == cart_obj.product.id %}
-                                    <option>{{ category.color }}</option>
+                    {% endfor %}
+                    <br><br>
+
+                    <!-- Display Storage and Color Options (if relevant) -->
+                    {% if is_phone or is_laptop %}
+                    <div class="row mt-5">
+                        <div class="col-md-6">
+                            <h4>Storage</h4>
+                            {% for category in categories %}
+                            {% if category.product_id == cart_obj.category.product.id %}
+                                <!-- <a href="../demo/{{ category.pk }}" style="color: black;"> -->
+                                    <div id="categ" class="card mb-3" {% if category_id.pk is category.pk %} style="border:4px solid rgb(0, 0, 0);" {% endif %} required>
+                                        {{ category.storage }}
+                                    </div>
+                                <!-- </a> -->
                                 {% endif %}
                             {% endfor %}
-                        </select>
+                        </div>
                         
-                        {% endif %}
+                        <!-- Color Section -->
+                        <div class="col-md-6">
+                            <h4>Color</h4>
+                            <select id="categ" name="color" class="form-control">
+                                {% for category in categories %}
+                                {% if category.product_id == cart_obj.category.product.id %}
+
+                                    <option>{{ category.color }}</option>
+                                {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
                     </div>
+                {% endif %}
+    
+                <!-- Size and Color Section for Dresses -->
+                {% if is_dress %}
+                    <div class="row mt-3 mb-4">
+                        <div class="col-md-6">
+                            <h4>Size</h4>
+                            {% for category in categories %}
+                            {% if category.product_id == cart_obj.category.product.id %}
+                            <!-- <a href="../demo/{{ category.pk }}" style="color: black;"> -->
+                                <div id="categ" class="card mb-3" {% if category_id.pk is category.pk %} style="border:4px solid rgb(0, 0, 0);" {% endif %}>
+                                    {{ category.size }}
+                                </div>
+                            <!-- </a> -->
+                            {% endif %}
+                        {% endfor %}
+                        </div>
+                        <div class="col-md-6">
+                            <h4>Color</h4>
+                            <select id="categ" name="color" class="form-control">
+                                {% for category in categories %}
+                                {% if category.product_id == cart_obj.category.product.id %}
+                                    <option>{{ category.color }}</option>
+                                {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                {% endif %}
+
+                    <br>
+
+                    <!-- Cart Item Actions -->
+                    <a href="../delete_cart/{{ cart_obj.id }}" id="cart" class="btn">
+                        <i class="fa-solid fa-trash" style="margin-right:5px;"></i>Remove from Cart
+                    </a>
+                    <a href="../cart_buy/{{ cart_obj.id }}" id="buy" class="btn">
+                        <i class="fa-solid fa-bolt-lightning" style="margin-right:5px;"></i>Buy Now
+                    </a>
                 </div>
-                <div class="row mt-5">
-                    {% if is_dress %}
-        <div class="col-md-6">
-            <h4>Size</h4>
-            <select id="size-select" name="size" class="form-control">
-                {% for category in categories %}
-                    {% if category.product_id == cart_obj.product.id %}
-                        <option value="{{ category.size }}">{{ category.size }}</option>
-                    {% endif %}
-                {% endfor %}
-            </select>
-        </div>
-        <div class="col-md-6">
-            <h4>Color</h4>
-            <select name="color" class="form-control">
-                {% for category in categories %}
-                    {% if category.product_id == cart_obj.product.id %}
-                        <option value="{{ category.color }}">{{ category.color }}</option>
-                    {% endif %}
-                {% endfor %}
-            </select>
-        </div>
-    {% endif %}
-                </div><br>
-                <a href="../delete_cart/{{cart_obj.id}}" id="cart" class="btn"><i class="fa-solid fa-trash "
-                        style="margin-right:5px;"></i>remove from cart</a>
-                <a href="../cart_buy/{{cart_obj.id}}" id="buy" class="btn"><i class="fa-solid fa-bolt-lightning"
-                        style="margin-right:5px;"></i>Buy Now</a>
             </div>
             <hr class="mt-5 mb-5">
-
         </div>
-    </div>
     {% endfor %}
 
 
 
-    <script>
+
+
+
+    <!-- <script>
 
         // --------------------------------storage------------------------------
 
@@ -394,7 +417,7 @@
             document.getElementById('selected-offer-price').textContent = offerPrice;
         });
 
-    </script>
+    </script> -->
 
 </body>
 

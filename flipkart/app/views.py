@@ -269,6 +269,9 @@ def secpage(request, id):
     phones = Products.objects.filter(phone=True)
     dress = Products.objects.filter(dress=True)
     laptop = Products.objects.filter(laptop=True)
+    # category_id = request.session.get('cat')
+    # category_data = Categorys.objects.filter(pk=category_id).first() if category_id else None
+
     category_id=request.session['cat']
     f=0
     for i in category:
@@ -299,30 +302,59 @@ def demo(req,id):
     return redirect('sec',id=category.product_id)
 
 
-def add_to_cart(req,pid):
-    print(req.POST.get('cat'))
-    product=Products.objects.get(pk=pid)
-    user=User.objects.get(username=req.session['username'])
-    data=Cart.objects.create(user=user,category=category)
-    data.save()
-    return redirect(cart_display)
+from django.shortcuts import redirect
+from .models import Products, User, Cart, Categorys
+
+def add_to_cart(request, pid):
+    log_user = User.objects.get(username=request.session['username'])
+    product = Products.objects.get(pk=pid)
+    category_id = request.POST.get('cat') or request.session.get('cat')
+    category = Categorys.objects.get(product=product, pk=category_id)
+
+    cart_item, created = Cart.objects.get_or_create(user=log_user,  category=category)
+
+    return redirect(cart_display) 
+
+
 def cart_display(req):
-    user=User.objects.get(username=req.session['username']) 
-    data=Cart.objects.filter(user=user)[::-1]
-    categories = Categorys.objects.select_related('product')
+    user = User.objects.get(username=req.session['username'])
+    data = Cart.objects.filter(user=user)[::-1]
+    category = Categorys.objects.select_related('product')
     is_phone = Products.objects.filter(phone=True)
     is_dress = Products.objects.filter(dress=True)
     is_laptop = Products.objects.filter(laptop=True)
-    # others = Products.objects.filter(others=True)
+    # print(data)
+    # print(category)
     context = {
         'data': data,
-        'categories': categories,
+        'categories': category,
         'is_phone': is_phone,
         'is_dress': is_dress,
         'is_laptop': is_laptop
     }
-
     return render(req, 'user/cart.html', context)
+
+
+# def cart_display(request):
+#     user = User.objects.get(username=request.session['username'])
+
+#     cart_items = Cart.objects.filter(user=user)[::-1]
+
+    #  category = Categorys.objects.filter(product=product)
+
+#     is_phone = Products.objects.filter(phone=True)
+#     is_dress = Products.objects.filter(dress=True)
+#     is_laptop = Products.objects.filter(laptop=True)
+
+#     context = {
+#         'cart_items': cart_items,
+#         'categories': categories,
+#         'is_phone': is_phone,
+#         'is_dress': is_dress,
+#         'is_laptop': is_laptop,
+#     }
+
+#     return render(request, 'user/cart.html', context)
 
 
 def cart_delete(req,id):

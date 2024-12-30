@@ -245,23 +245,24 @@
             background-color: rgb(196, 64, 14);
         }
 
-        #categ{
-            width: 30%;
+        #categ {
+            width: 70%;
             padding: 10px;
             border: 3px solid grey;
         }
-        #categ:hover{
+
+        #categ:hover {
             border-color: rgb(0, 0, 0);
 
         }
-        .active{
+
+        .active {
             border: 1px solid blue;
         }
-
-
     </style>
     <title>product</title>
-    <link rel="icon" href="{% static '/images/flips1.png' %}" type="image/x-icon"></head>
+    <link rel="icon" href="{% static '/images/flips1.png' %}" type="image/x-icon">
+</head>
 
 <body style="background-color: rgb(241,242,244);">
     <nav id="nav1" class="navbar navbar-expand-lg">
@@ -295,7 +296,7 @@
             </div>
         </div>
     </nav>
-    <nav  class="container mt-2 mb-3">
+    <nav class="container mt-2 mb-3">
         <ul id="nav2" class="nav justify-content-center">
             <li class="nav-item">
                 <a id="navsub1" class="nav-link" href="../see_more/dress">Dress</a>
@@ -306,7 +307,7 @@
             <li class="nav-item">
                 <a id="navsub1" class="nav-link" href="../see_more/dress">Fashion</a>
             </li>
-            
+
             <li class="nav-item">
                 <a id="navsub1" class="nav-link" href="../see_more/laptop">Laptop</a>
             </li>
@@ -317,137 +318,157 @@
 
     <div id="container" class="container">
         <div class="row">
+            <!-- Image Section -->
             <div id="image-section" class="col-lg-6 mb-5 mt-2">
-                <img src="{{ product.image.url }}" class="product_img img-fluid" alt="Card image"
-                    style="width:400px; height: 500px;">
+                <img src="{{ product.image.url }}" class="product_img img-fluid" alt="Product Image" style="width:400px; height: 500px;">
             </div>
-
+    
+            <!-- Details Section -->
             <div id="details-section" class="col-lg-6 mt-5">
-                <h4 class="product_name">{{ product.name }} </h4><br><br>
-
-                <!-- <p class="offer_price" id="offer-price">
-                    <b>Offer Price: ₹<span id="selected-offer-price">{{ categories.first.offer_price }}</span></b>
-                </p>
-                <p class="price" id="price" style="text-decoration: line-through;">
-                    ₹<span id="selected-price">{{ categories.first.price }}</span>
-                </p> -->
-
+                <h4 class="product_name">{{ product.name }}</h4><br><br>
+    
                 {% if category_id %}
-                {% for cat in categories %}
-                {% if category_id.pk is cat.pk %} 
-                <p class="offer_price" id="offer-price">
-                    <b>Offer Price: ₹<span id="selected-offer-price">{{ cat.offer_price }}</span></b>
-                </p>
-                <p class="price" id="price" style="text-decoration: line-through;">
-                    ₹<span id="selected-price">{{ cat.price }}</span>
-                </p>
-
-                {% endif %}
-                {% endfor %}
+                    {% for cat in categories %}
+                        {% if category_id.pk == cat.pk %}
+                            <p class="offer_price" id="offer-price">
+                                <b>Offer Price: ₹<span id="selected-offer-price">{{ cat.offer_price }}</span></b>
+                            </p>
+                            <p class="price" id="price" style="text-decoration: line-through;">
+                                ₹<span id="selected-price">{{ cat.price }}</span>
+                            </p>
+                        {% endif %}
+                    {% endfor %}
                 {% else %}
-                <p class="offer_price" id="offer-price">
-                    <b>Offer Price: ₹<span id="selected-offer-price">{{ categories.first.offer_price }}</span></b>
-                </p>
-                <p class="price" id="price" style="text-decoration: line-through;">
-                    ₹<span id="selected-price">{{ categories.first.price }}</span>
-                </p>
-
+                    <p class="offer_price" id="offer-price">
+                        <b>Offer Price: ₹<span id="selected-offer-price">{{ categories.first.offer_price }}</span></b>
+                    </p>
+                    <p class="price" id="price" style="text-decoration: line-through;">
+                        ₹<span id="selected-price">{{ categories.first.price }}</span>
+                    </p>
                 {% endif %}
-
-                <!-- ----------------------------------------------------------- -->
-                <div class="row mt-5">
-                    <div class="col-md-6">
-                        {% if is_phone or is_laptop %}
+    
+                <!-- Storage Section -->
+                {% if is_phone or is_laptop %}
+                    <div class="row mt-5">
                         <h4>Storage</h4>
-                        <!-- <form method="GET">
-                            <select id="storage-select" name="cat" class="form-control">
-                                {% for category in categories %}
-
-                                <option value="{{ category.pk }}" data-price="{{ category.price }}"
-                                    data-offer-price="{{ category.offer_price }}">
-                                    {{ category.storage }}
-                                </option>
-                                {% endfor %}
-                            </select>
-
-                        </form> -->
-                        <div >
-                            
                         {% for category in categories %}
-
-                            <a href="../demo/{{category.pk}}" style="color: black;">
-                                
-                                <div id="categ" class="card mb-3" {% if category_id.pk is category.pk %}  style="border:1px solid blue"{% endif %}>
-                                   
-                                   {{ category.storage }}</a>
-
-                                </div>
-                                
-                            {% endfor %}
-                        </div>
-                        
-                        {% endif %}
+                            <div class="col-md-3">
+                                <a href="../demo/{{ category.pk }}" style="color: black;">
+                                    <div id="categ" class="card mb-3" {% if category_id.pk is category.pk %} style="border:4px solid rgb(0, 0, 0);" {% endif %} >
+                                        {{ category.storage }}
+                                    </div>
+                                </a>
+                            </div>
+                        {% endfor %}
                     </div>
 
-
-                    <div class="col-md-6">
-                        {% if is_phone or is_laptop %}
-                        <h4>Color</h4>
-                        <select id="categ" name="color" class="form-control">
-                            {% for category in categories %}
+     
+                
+                <div class="col-md-6">
+                    <h4>Color</h4>
+                    <select id="categ" name="color" class="form-control">
+                        {% for category in categories %}
                             <option>{{ category.color }}</option>
-                            {% endfor %}
-                        </select>
-                        {% endif %}
-                    </div>
+                        {% endfor %}
+                    </select>
                 </div>
-                <div class="row mt-3 mb-4">
-                    {% if is_dress %}
-                    <div class="col-md-6">
-                        <h4>Size</h4>
-                        <form method="GET">
-                            <select id="size-select" name="size" class="form-control">
-                                {% for category in categories %}
-                                <option value="{{ category.size }}" data-price="{{ category.price }}"
-                                    data-offer-price="{{ category.offer_price }}">
-                                    <a href="demo/{{category.pk}}">{{ category.size }}</a>
-                                </option>
-                                {% endfor %}
-                            </select>
-                        </form>
-                    </div>
-                    <div class="col-md-6">
-                        <h4>Color</h4>
-                        <form method="GET">
-                            <select name="color" class="form-control">
-                                {% for category in categories %}
-                                <option value="{{ category.color }}">{{ category.color }}</option>
-                                {% endfor %}
-                            </select>
-                        </form>
-                    </div>
-                    {% endif %}
-                </div>
-                {% if cart1 %}
-                <a href="../cart_disp" id="cart1" class=""><i class="fa-solid fa-cart-shopping"></i>Go to cart</a>
-                {% else %}
-                <a href="../add_to_cart/{{product.pk}}" id="cart" class="btn "><i
-                        class="fa-solid fa-cart-shopping"></i>add to cart</a>
-                {% endif %}
-                <a href="../buy_product/{{product.pk}}" id="buy" class="btn"><i
-                        class="fa-solid fa-bolt-lightning"></i>Buy Now</a><br>
-
-                <hr class="mt-5 mb-5">
-
-
             </div>
+        {% endif %}
+
+    
+                <!-- Size and Color Section for Dresses -->
+                {% if is_dress %}
+                    <div class="row mt-3 mb-4">
+                        <div class="col-md-6">
+                            <h4>Size</h4>
+                            {% for category in categories %}
+                            <a href="../demo/{{ category.pk }}" style="color: black;">
+                                <div id="categ" class="card mb-3" {% if category_id.pk is category.pk %} style="border:4px solid rgb(0, 0, 0);" {% endif %}>
+                                    {{ category.size }}
+                                </div>
+                            </a>
+                        {% endfor %}
+                        </div>
+                        <div class="col-md-6">
+                            <h4>Color</h4>
+                            <select id="categ" name="color" class="form-control">
+                                {% for category in categories %}
+                                    <option>{{ category.color }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                {% endif %}
+    
+                <!-- Cart and Buy Buttons -->
+                <div class="mt-4">
+                    {% if cart1 %}
+                        <a href="../cart_disp" id="cart1" class="btn"><i class="fa-solid fa-cart-shopping"></i> Go to Cart</a>
+                    {% else %}
+                        <a href="../add_to_cart/{{ product.pk }}" id="cart" class="btn"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</a>
+                    {% endif %}
+                    <a href="../buy_product/{{ product.pk }}" id="buy" class="btn"><i class="fa-solid fa-bolt-lightning"></i> Buy Now</a>
+                </div>
+    
+                <hr class="mt-5 mb-5">
+            </div>
+    
+            <!-- Highlights and Description -->
             <div class="mb-5">
                 <h5 class="mt-5 text-center">Highlights</h5>
                 <p>{{ product.highlights|linebreaksbr|safe }}</p>
                 <h5 class="mt-5 text-center">Description</h5>
-                <p>{{product.description}}</p>
+                <p>{{ product.description }}</p>
             </div>
         </div>
+    </div>
+    
+<!-- ---------------------------------------------------- -->
+
+    <div id="best_sales" class="sample container p-3 mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-1">
+            
+            <h3 class="mb-0"><b>Best Sales on SmartPhone</b></h3>
+            <a href="see_more/phone" class="btn btn-dark" style="float: right;">See More</a>
+        </div>
+        <div id="demo2" class="carousel slide" data-bs-ride="false">
+
+            <!-- The slideshow/carousel -->
+            <div class="carousel-inner">
+                <div class="carousel-item active "style="border: none;">
+                    <div class="row ">
+                        {% for i in phones %}
+                        <div class="col-md-3">
+                            <a class="text-decoration-none text-black" href="../sec/{{ i.id }}">
+                                <div id="card" class="movie-card justify-content-center">
+                                    <img src="{{ i.image.url }}" style="width: auto; height: 400px" class="img-fluid">
+                                    <div class="Phone-details text-center">
+                        
+                                        <h5 class="phone-title mt-3">{{ i.name }}</h5>
+                        
+                                        {% with i.categorys_set.all|first as category %}
+                                        {% if category %}
+                                            <p class="offer_price text-danger text-decoration-line-through">
+                                                Price: ₹{{ category.price }}
+                                            </p>
+                                            <h5 class="Phone-price text-success">
+                                                <b>Offer Price: ₹{{ category.offer_price }}</b>
+                                            </h5>
+                                        {% else %}
+                                            <p>No category information available.</p>
+                                        {% endif %}
+                                    {% endwith %}
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+  
     </div>
 
     <!-- ---------------------------------dress------------------------------------------- -->
@@ -456,61 +477,33 @@
     <div id="best_sales" class="sample container p-5 mt-4">
         <div class="d-flex justify-content-between align-items-center mb-1">
             <h3 class="mb-0"><b>Best Dress</b></h3>
+            <a href="see_more/dress" class="btn btn-dark" style="float: right;">See More</a>
+
         </div>
         <div id="demo3" class="carousel slide" data-bs-ride="false">
-
-            <!-- The slideshow/carousel -->
             <div class="carousel-inner">
-                <div class="carousel-item active ">
-                    <div class="row">
+                <div class="carousel-item active" style="border: none;" >
+                    <div class="row" >
                         {% for i in dress %}
-                        <div class="col-md-3">
-                            <a class="text-decoration-none text-black" href="../sec/{{i.id}}">
+                        <div class="col-md-3" >
+                            <a class="text-decoration-none text-black" href="sec/{{i.id}}">
                                 <div id="card" class="movie-card justify-content-center">
-                                    <img src="{{i.image.url}}" style="width: 100%; height: 400px;" class="img-fluid">
+                                    <img src="{{i.image.url}}" style="width: 400px; height: 440px;" class="img-fluid">
                                     <div class="Phone-details text-center">
-                                        <h5 class="phone-title ">{{i.name}}</h5>
+                                        <h5 class="phone-title">{{i.name}}</h5>
                                         {% with i.categorys_set.all|first as category %}
                                         {% if category %}
-                                            <p class="Phone-price text-danger text-decoration-line-through">
+                                            <p class="offer_price text-danger text-decoration-line-through">
                                                 Price: ₹{{ category.price }}
                                             </p>
-                                            <h6 class="offer_price text-success">
-                                                <b>Offer Price: ₹{{ category.offer_price }}</b>
-                                            </h6>
-                                        {% endif %}
-                                    {% endwith %}
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                        {% empty %}
-                        <p>No Dress for Sale</p>
-                        {% endfor %}
-                    </div>
-                </div>
-                <div class="carousel-item">
-                    <div class="row">
-                        {% for i in dress1 %}
-                        <div class="col-md-3">
-                            <a class="text-decoration-none text-black" href="../sec/{{i.id}}">
-                                <div class="movie-card">
-                                    <img src="{{i.image.url}}" style="width: 100%; height: 400px;" class="img-fluid">
-                                    <div class="movie-details ">
-
-                                        <h5 class="movie-title">{{i.name}}</h5>
-                                        {% with i.categorys_set.all|first as category %}
-                                        {% if category %}
-                                            <p class="Phone-price text-danger text-decoration-line-through">
-                                                Price: ₹{{ category.price }}
-                                            </p>
-                                            <h5 class="offer_price text-success">
+                                            <h5 class="Phone-price text-success">
                                                 <b>Offer Price: ₹{{ category.offer_price }}</b>
                                             </h5>
+                                        {% else %}
+                                            <p>No category information available.</p>
                                         {% endif %}
                                     {% endwith %}
                                     </div>
-
                                 </div>
                             </a>
                         </div>
@@ -519,166 +512,80 @@
                 </div>
             </div>
         </div>
-        <button
-            style="background-color: #5c5e5c; border-radius: 50%; width: 25px; height: 25px; position: absolute; top: 145%; left: 6%;"
-            class="carousel-control-prev " type="button1" data-bs-target="#demo3" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon"></span>
-        </button>
-        <button
-            style="background-color: #747774; border-radius: 50%; width: 25px; height: 25px; position: absolute; top: 145%; right: 6%;"
-            class="carousel-control-next" type="button1" data-bs-target="#demo3" data-bs-slide="next">
-            <span class="carousel-control-next-icon"></span>
-        </button>
     </div>
 
-    <!-- ----------------------------------------phone--------------------------------------- -->
-    <div id="best_sales" class="sample container p-3 mt-4">
-        <div class="d-flex justify-content-between align-items-center mb-1">
-            <h3 class="mb-0"><b>Best Sales on SmartPhone</b></h3>
-        </div>
-        <div id="demo2" class="carousel slide" data-bs-ride="false">
 
-            <!-- The slideshow/carousel -->
-            <div class="carousel-inner">
-                <div class="carousel-item active ">
-                    <div class="row ">
-                        {% for i in phones %}
-                        <div class="col-md-3">
-                            <a class="text-decoration-none text-black" href="../sec/{{i.id}}">
-                                <div id="card" class="movie-card justify-content-center">
-                                    <img src="{{ i.image.url  }}" style="width: auto; height: 400px" class="img-fluid">
-                                    <div class="Phone-details text-center">
 
-                                        <h5 class="phone-title mt-3 ">{{i.name}}</h5>
-                                        {% with i.categorys_set.all|first as category %}
-                                        {% if category %}
-                                            <p class="Phone-price text-danger text-decoration-line-through">
-                                                Price: ₹{{ category.price }}
-                                            </p>
-                                            <h6 class="offer_price text-success">
-                                                <b>Offer Price: ₹{{ category.offer_price }}</b>
-                                            </h6>
-                                        {% endif %}
-                                    {% endwith %}
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                        {% empty %}
-                        <p>No Phones for sale</p>
-                        {% endfor %}
-                    </div>
-                </div>
-                <div class="carousel-item">
-                    <div class="row ">
-                        {% for i in data1 %}
-                        {% if i.phone %}
-                        <div class="col-md-3" id="card1">
-                            <a class="text-decoration-none text-black" href="../sec/{{i.id}}">
-                                <div class="movie-card">
-                                    <img src="{{i.image.url}}" style="width: auto; height: 400px;" class="img-fluid">
-                                    <div class="phone-details text-center ">
-
-                                        <h5 class="phone-title mt-3">{{i.Phone_name}}</h5>
-                                         {% with i.categorys_set.all|first as category %}
-                                {% if category %}
-                                    <p class="Phone-priceprice text-danger text-decoration-line-through">
-                                        Price: ₹{{ category.price }}
-                                    </p>
-                                    <h5 class=" offer_price text-success">
-                                        <b>Offer Price: ₹{{ category.offer_price }}</b>
-                                    </h5>
-                                {% endif %}
-                            {% endwith %}
-                                    </div>
-                                </div>
-                            </a>
-
-                        </div>
-                        {% endif %}
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-        </div>
-        <button
-            style="background-color: #5c5e5c; border-radius: 50%; width: 25px; height: 25px; position: absolute; top: 230%; left: 6%;"
-            class="carousel-control-prev " type="button1" data-bs-target="#demo2" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon"></span>
-        </button>
-        <button
-            style="background-color: #747774; border-radius: 50%; width: 25px; height: 25px; position: absolute; top: 230%; right:6% ;"
-            class="carousel-control-next" type="button1" data-bs-target="#demo2" data-bs-slide="next">
-            <span class="carousel-control-next-icon"></span>
-        </button>
-    </div>
-    </div>
-
-    <!-- ----------------------------------------laptop--------------------------------------- -->
-    <!-- <div id="best_sales" class="sample container p-3 mt-4">
+    <div id="best_sales" class="sample container p-5 mt-4">
         <div class="d-flex justify-content-between align-items-center mb-1">
             <h3 class="mb-0"><b>Best Laptops</b></h3>
+            <a href="see_more/laptop" class="btn btn-dark" style="float: right;">See More</a>
+
         </div>
 
-        <div class="carousel-inner">
-            <div class="carousel-item active ">
-                <div class="row ">
-                    {% for i in laptop %}
-                    <div class="col-md-3">
-                        <a class="text-decoration-none text-black" href="../sec/{{i.id}}">
-                            <div id="card" class="movie-card justify-content-center">
-                                <img src="{{ i.image.url  }}" style="width: auto; height: 400px" class="img-fluid">
-                                <div class="Phone-details text-center">
-
-                                    <h5 class="phone-title mt-3 ">{{i.name}}</h5>
-                                    <p class="oprice text-danger text-decoration-line-through">price :
-                                        ₹{{i.offer_price}}</p>
-                                    <h5 class="offer_price text-success"><b>Offer Price : ₹{{i.price}}</b></h5>
-                                </div>
-                            </div>
-                        </a>
+        <!-- The slideshow/carousel -->
+        <div class="row">
+            {% for i in laptop %}
+            <div class="col-md-3">
+                <a class="text-decoration-none text-black" href="sec/{{i.id}}">
+                    <div id="card" class="movie-card justify-content-center">
+                        <img src="{{i.image.url}}" style="width: 400px; height: 440px;" class="img-fluid">
+                        <div class="Phone-details text-center">
+                            <h5 class="phone-title">{{i.name}}</h5>
+                            {% with i.categorys_set.all|first as category %}
+                            {% if category %}
+                                <p class="offer_price text-danger text-decoration-line-through">
+                                    Price: ₹{{ category.price }}
+                                </p>
+                                <h5 class="Phone-price text-success">
+                                    <b>Offer Price: ₹{{ category.offer_price }}</b>
+                                </h5>
+                            {% else %}
+                                <p>No category information available.</p>
+                            {% endif %}
+                        {% endwith %}
+                        </div>
                     </div>
-                    {% empty %}
-                    <p>No laptop for sale</p>
-                    {% endfor %}
-                </div>
+                </a>
             </div>
+            {% empty %}
+            <p>No Laptops added</p>
+            {% endfor %}
         </div>
-    </div> -->
+    </div>
+
+    <script>
+
+        // --------------------------------storage------------------------------
 
 
-            <script>
+        document.getElementById('storage-select').addEventListener('change', function () {
+            // Get the selected option
+            const selectedOption = this.options[this.selectedIndex];
 
-                // --------------------------------storage------------------------------
+            // Extract data attributes
+            const price = selectedOption.getAttribute('data-price');
+            const offerPrice = selectedOption.getAttribute('data-offer-price');
 
-
-                document.getElementById('storage-select').addEventListener('change', function () {
-                    // Get the selected option
-                    const selectedOption = this.options[this.selectedIndex];
-
-                    // Extract data attributes
-                    const price = selectedOption.getAttribute('data-price');
-                    const offerPrice = selectedOption.getAttribute('data-offer-price');
-
-                    // Update the price display
-                    document.getElementById('selected-price').textContent = price;
-                    document.getElementById('selected-offer-price').textContent = offerPrice;
-                });
+            // Update the price display
+            document.getElementById('selected-price').textContent = price;
+            document.getElementById('selected-offer-price').textContent = offerPrice;
+        });
 
 
-                // --------------------------------size------------------------------
-            </script>
-            <script>
-                    document.getElementById('size-select').addEventListener('change', function () {
-                    const selectedOption = this.options[this.selectedIndex];
+        // --------------------------------size------------------------------
+    </script>
+    <script>
+        document.getElementById('size-select').addEventListener('change', function () {
+            const selectedOption = this.options[this.selectedIndex];
 
-                    const price = selectedOption.getAttribute('data-price');
-                    const offerPrice = selectedOption.getAttribute('data-offer-price');
+            const price = selectedOption.getAttribute('data-price');
+            const offerPrice = selectedOption.getAttribute('data-offer-price');
 
-                    document.getElementById('selected-price').textContent = price;
-                    document.getElementById('selected-offer-price').textContent = offerPrice;
-                });
-            </script>
+            document.getElementById('selected-price').textContent = price;
+            document.getElementById('selected-offer-price').textContent = offerPrice;
+        });
+    </script>
 </body>
 
 </html>
