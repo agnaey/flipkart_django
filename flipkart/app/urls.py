@@ -25,7 +25,7 @@ urlpatterns = [
     path('index', views.index),
     path('sec/<id>', views.secpage,name='sec'),
     path('add_to_cart/<pid>', views.add_to_cart),
-    path('cart_disp', views.cart_display),
+    path('cart_disp', views.cart_display,name='cart_disp'),
     path('delete_cart/<id>', views.cart_delete),
     path('cart_buy/<id>',views.cart_buy),
     path('buy_product/<id>',views.buy_pro),
@@ -34,7 +34,9 @@ urlpatterns = [
     path('orders/', views.user_orders, name='user_orders'),
     path('confirm_order/<order_id>', views.confirm_order),
     path('see_more/<a>',views.see_more),
-    path('demo/<id>',views.demo)
+    path('demo/<id>',views.demo),
+    # path('demo1/<id>',views.demo1),
+
 
     
 ]

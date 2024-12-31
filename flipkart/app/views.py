@@ -214,12 +214,11 @@ def cancel_order(req,id):
 
 def confirm_order(request, order_id):
     order = get_object_or_404(Buy, id=order_id)
-    order.is_confirmed = True  # Assuming `is_confirmed` field in the `Buy` model
+    order.is_confirmed = True 
     order.save()
     return redirect(admin_bookings)
 
 def view_pro(req):
-        product=Products.objects.all()
         categories = Categorys.objects.select_related('product')
 
         is_phone = Products.objects.filter(phone=True)
@@ -228,7 +227,6 @@ def view_pro(req):
         others = Products.objects.filter(others=True)
         
         context = {
-            'product': product,
             'categories': categories,
             'is_phone': is_phone,
             'is_dress': is_dress,
@@ -239,7 +237,7 @@ def view_pro(req):
 
 def toggle_confirmation(request, order_id):
         order = get_object_or_404(Buy, id=order_id)
-        order.is_confirmed = True  # Toggle confirmation
+        order.is_confirmed = True  
         order.save()
         return redirect('admin_bookings') 
 
@@ -303,6 +301,12 @@ def demo(req,id):
     category=Categorys.objects.get(pk=id)
     return redirect('sec',id=category.product_id)
 
+# def demo1(req,id):
+#     req.session['cat']=id
+#     category=Categorys.objects.get(pk=id)
+#     return redirect('cart_disp',id=category.product_id)
+
+
 
 
 
@@ -364,13 +368,12 @@ def cart_delete(req,id):
     return redirect(cart_display)
 
 def buy_pro(req, id):
-    product = Products.objects.get(pk=id)
     user = User.objects.get(username=req.session['username'])
    
     storage = req.GET.get('storage')
     color = req.GET.get('color')
     size = req.GET.get('size')
-    category = Categorys.objects.filter(product=product)
+    category = Categorys.objects.select_related('product')
 
     if storage:
         category = category.filter(storage=storage)
@@ -388,7 +391,7 @@ def buy_pro(req, id):
     if isinstance(price, str): 
         price = float(price.replace(",", ""))
 
-    data = Buy.objects.create(user=user, product=product, price=price)
+    data = Buy.objects.create(user=user, category=category, price=price)
     data.save()
 
     return redirect(view_bookings)
@@ -397,13 +400,12 @@ def buy_pro(req, id):
 
 def cart_buy(req, id):
     cart = Cart.objects.get(pk=id)
-    product = cart.product
 
     storage = req.GET.get('storage')
     color = req.GET.get('color')
     size = req.GET.get('size')
     
-    category = Categorys.objects.filter(product=product)
+    category = Categorys.objects.select_related('product')
 
     if storage:
         category = category.filter(storage=storage)
@@ -422,7 +424,7 @@ def cart_buy(req, id):
     if isinstance(price, str): 
         price = float(price.replace(",", ""))
 
-    buy = Buy.objects.create(product=cart.product, user=cart.user, price=price)
+    buy = Buy.objects.create(category=cart.category, user=cart.user, price=price)
     buy.save()
 
     # product.stock -= cart.qty

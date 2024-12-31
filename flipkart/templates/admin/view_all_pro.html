@@ -300,12 +300,12 @@
             </li>
     </nav>
 
-    {% for product in product %}
+    {% for i in categories %}
 
     <div id="container" class="container mt-4">
         <div class="row">
             <div id="image-section" class="col-lg-6 mb-5 mt-2">
-                <img src="{{product.image.url}}" class="product_img" alt="Card image"
+                <img src="{{i.product.image.url}}" class="product_img" alt="Card image"
                     style="width:400px; height: 500px;">
 
 
@@ -320,29 +320,28 @@
                 </div>
             </div>
             <div id="details-section" class="col-lg-6 mt-5">
-                <h4 class="product_name">{{product.name}}</h4><br>
+                <h4 class="product_name">{{i.product.name}}</h4><br>
                 <br>
 
-                {% for category in categories %}
-                {% if category.product == product %}
+     
                 <p class="price text-danger text-decoration-line-through">
-                    Price: ₹{{ category.price }}
+                    Price: ₹{{ i.price }}
                 </p>
                 <h5 class="offer_price text-success">
-                    <b>Offer Price: ₹{{ category.offer_price }}</b>
+                    <b>Offer Price: ₹{{ i.offer_price }}</b>
                 </h5>
-                {% endif %}
-                {% endfor %}
+     
                 <div class="row mt-5">
                     <div class="col-md-6">
-                        {% if is_phone or is_laptop %}
+                        {% if i.storage  %}
                         <h4>Storage</h4>
                         <form method="GET">
                             <select id="storage-select" name="storage" class="form-control">
                                 {% for category in categories %}
                                     {% if category.product_id == product.id %}
-                                        <option value="{{ category.storage }}" data-price="{{ category.price }}"
-                                            data-offer-price="{{ category.offer_price }}">{{ category.storage }}</option>
+                                    <div id="categ" class="card mb-3">
+                                        {{ category.storage }}
+                                    </div>
                                     {% endif %}
                                 {% endfor %}
                             </select>
@@ -365,13 +364,15 @@
                 </div>
     
                 <div class="row mt-5">
-                    {% if is_dress %}
+                    {% if i.size %}
                     <div class="col-md-6">
                         <h4>Size</h4>
                         <select id="size-select" name="size" class="form-control">
                             {% for category in categories %}
                                 {% if category.product_id == product.id %}
-                                    <option value="{{ category.size }}">{{ category.size }}</option>
+                                <div id="categ" class="card mb-3">
+                                    {{ category.size }}
+                                </div>                                
                                 {% endif %}
                             {% endfor %}
                         </select>

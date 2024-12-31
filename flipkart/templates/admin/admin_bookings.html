@@ -293,20 +293,15 @@
         {% for i in data %}
 <div class="row">
     <div class="col-lg-5 mt-2">
-        <img src="{{ i.product.image.url }}" class="product_img img-fluid" alt="" style="width:400px; height: 500px;">
+        <img src="{{ i.category.product.image.url }}" class="product_img img-fluid" alt="" style="width:400px; height: 500px;">
     </div>
     <div id="details-section" class="col-lg-6 mt-5">
         <h4>User: {{ i.user }}</h4>
         <h4 class="product_name">{{ i.product.name }}</h4><br><br>
 
-        <!-- Fetch offer_price and price from the first related category -->
-        {% with i.product.categorys_set.all|first as category %}
-            {% if category %}
-                <p class="offer_price" style="display: inline;">Price: ₹{{ category.offer_price }}</p>
-            {% else %}
-                <p>No category data available.</p>
-            {% endif %}
-        {% endwith %}
+  
+                <p class="offer_price" style="display: inline;">Price: ₹{{ i.category.offer_price }}</p>
+ 
 
         <p class="date">Order Date: {{ i.date }}</p>
         <br><br>

@@ -234,6 +234,7 @@
             width: 30%;
             padding: 10px;
             border: 3px solid grey;
+            text-align: center;
         }
 
         #categ:hover {
@@ -268,9 +269,7 @@
                         <a class="nav-link " id="login" href="../logout"><i
                                 class="fa-solid fa-user">&nbsp;&nbsp;</i>Logout</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fa-solid fa-cart-shopping"></i>&nbsp;&nbsp;Cart</a>
-                    </li>
+                   
                     <li class="nav-item">
                         <a class="nav-link" href="../user_vew_booking"><i class="fa-solid fa-shop"></i>&nbsp; view
                             bookings</a>
@@ -308,7 +307,7 @@
                             <h4>Storage</h4>
                             {% for category in categories %}
                             {% if category.product_id == cart_obj.category.product.id %}
-                                <!-- <a href="../demo/{{ category.pk }}" style="color: black;"> -->
+                                <!-- <a href="../demo1/{{ category.pk }}" style="color: black;"> -->
                                     <div id="categ" class="card mb-3" {% if category_id.pk is category.pk %} style="border:4px solid rgb(0, 0, 0);" {% endif %} required>
                                         {{ category.storage }}
                                     </div>
@@ -333,13 +332,13 @@
                 {% endif %}
     
                 <!-- Size and Color Section for Dresses -->
-                {% if is_dress %}
-                    <div class="row mt-3 mb-4">
+                {% if cart_obj.category.size %}
+                <div class="row mt-3 mb-4">
                         <div class="col-md-6">
                             <h4>Size</h4>
                             {% for category in categories %}
                             {% if category.product_id == cart_obj.category.product.id %}
-                            <!-- <a href="../demo/{{ category.pk }}" style="color: black;"> -->
+                            <!-- <a href="../demo1/{{ category.pk }}" style="color: black;"> -->
                                 <div id="categ" class="card mb-3" {% if category_id.pk is category.pk %} style="border:4px solid rgb(0, 0, 0);" {% endif %}>
                                     {{ category.size }}
                                 </div>
