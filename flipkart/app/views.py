@@ -272,12 +272,14 @@ def secpage(request, id):
     # category_id = request.session.get('cat')
     # category_data = Categorys.objects.filter(pk=category_id).first() if category_id else None
 
-    category_id=request.session['cat']
+    category_id=request.session.get('cat')
+
     f=0
     for i in category:
-        if i.pk==int(category_id):
-            category_data = Categorys.objects.get(pk=category_id)
-            f=1
+        if category_id:
+            if i.pk==int(category_id):
+                category_data = Categorys.objects.get(pk=category_id)
+                f=1
     if f==0:
         category_data=None
     
@@ -302,8 +304,7 @@ def demo(req,id):
     return redirect('sec',id=category.product_id)
 
 
-from django.shortcuts import redirect
-from .models import Products, User, Cart, Categorys
+
 
 def add_to_cart(request, pid):
     log_user = User.objects.get(username=request.session['username'])

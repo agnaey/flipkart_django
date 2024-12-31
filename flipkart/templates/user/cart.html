@@ -293,17 +293,16 @@
                 <div id="details-section" class="col-lg-6 mt-5">
                     <h4 class="product_name">{{ cart_obj.category.product.name }}</h4>
                     <br>
-                    {% for category in categories %}
-                        {% if category.product_id is cart_obj.category.product.id %}
-                            <p class="offer_price" style="display: inline;">Offer Price: ₹{{ category.offer_price }}</p>
+
+                            <p class="offer_price" style="display: inline;">Offer Price: ₹{{ cart_obj.category.offer_price }}</p>
                             <p class="price" style="text-decoration: line-through; padding-left: 10px; display: inline;">
-                                ₹{{ category.price }}</p>
-                        {% endif %}
-                    {% endfor %}
+                                ₹{{ cart_obj.category.price }}                                   {{ cart_obj.category.storage }}</p>
+
+
                     <br><br>
 
                     <!-- Display Storage and Color Options (if relevant) -->
-                    {% if is_phone or is_laptop %}
+                    {% if cart_obj.category.storage %}
                     <div class="row mt-5">
                         <div class="col-md-6">
                             <h4>Storage</h4>
