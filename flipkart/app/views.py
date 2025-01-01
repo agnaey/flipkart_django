@@ -189,6 +189,11 @@ def edit_category(req, id):
         return redirect(admin_home)
     return render(req, 'admin/edit_category.html', {'product': product, 'categories': categories})
 
+def del_category(req,id):
+    data=Categorys.objects.get(id=id)
+    data.delete()
+    return redirect(admin_home)
+
 def delete_product(req,id):
     data=Products.objects.get(pk=id)
     url=data.image.url
@@ -225,6 +230,9 @@ def view_pro(req):
         is_dress = Products.objects.filter(dress=True)
         is_laptop = Products.objects.filter(laptop=True)
         others = Products.objects.filter(others=True)
+        for category in categories:
+            print(category.product, category.storage, category.color, category.size)
+
         
         context = {
             'categories': categories,

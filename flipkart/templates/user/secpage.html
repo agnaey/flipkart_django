@@ -320,114 +320,122 @@
         <div class="row">
             <!-- Image Section -->
             <div id="image-section" class="col-lg-6 mb-5 mt-2">
-                <img src="{{ product.image.url }}" class="product_img img-fluid" alt="Product Image" style="width:400px; height: 500px;">
+                <img src="{{ product.image.url }}" class="product_img img-fluid" alt="Product Image"
+                    style="width:400px; height: 500px;">
             </div>
-    
+
             <!-- Details Section -->
             <div id="details-section" class="col-lg-6 mt-5">
                 <h4 class="product_name">{{ product.name }}</h4><br><br>
-    
+
                 {% if category_id %}
-                    {% for cat in categories %}
-                        {% if category_id.pk == cat.pk %}
-                            <p class="offer_price" id="offer-price">
-                                <b>Offer Price: ₹<span id="selected-offer-price">{{ cat.offer_price }}</span></b>
-                            </p>
-                            <p class="price" id="price" style="text-decoration: line-through;">
-                                ₹<span id="selected-price">{{ cat.price }}</span>
-                            </p>
-                        {% endif %}
-                    {% endfor %}
-                {% else %}
-                    <p class="offer_price" id="offer-price">
-                        <b>Offer Price: ₹<span id="selected-offer-price">{{ categories.first.offer_price }}</span></b>
-                    </p>
-                    <p class="price" id="price" style="text-decoration: line-through;">
-                        ₹<span id="selected-price">{{ categories.first.price }}</span>
-                    </p>
+                {% for cat in categories %}
+                {% if category_id.pk == cat.pk %}
+                <p class="offer_price" id="offer-price">
+                    <b>Offer Price: ₹<span id="selected-offer-price">{{ cat.offer_price }}</span></b>
+                </p>
+                <p class="price" id="price" style="text-decoration: line-through;">
+                    ₹<span id="selected-price">{{ cat.price }}</span>
+                </p>
                 {% endif %}
-    
+                {% endfor %}
+                {% else %}
+                <p class="offer_price" id="offer-price">
+                    <b>Offer Price: ₹<span id="selected-offer-price">{{ categories.first.offer_price }}</span></b>
+                </p>
+                <p class="price" id="price" style="text-decoration: line-through;">
+                    ₹<span id="selected-price">{{ categories.first.price }}</span>
+                </p>
+                {% endif %}
+
                 <!-- Storage Section -->
                 {% if is_phone or is_laptop %}
-                    <div class="row mt-5">
-                        <h4>Storage</h4>
-                        {% for category in categories %}
-                            <div class="col-md-3">
-                                <a href="../demo/{{ category.pk }}" style="color: black;">
-                                    <div id="categ" class="card mb-3" {% if category_id.pk is category.pk %} style="border:4px solid rgb(0, 0, 0);" {% endif %} >
-                                        {{ category.storage }}
-                                    </div>
-                                </a>
+                <div class="row mt-5">
+                    <h4>Storage</h4>
+                    {% for category in categories %}
+                    <div class="col-md-3">
+                        <a href="../demo/{{ category.pk }}" style="color: black;">
+                            <div id="categ" class="card mb-3" {% if category_id.pk is category.pk %}
+                                style="border:4px solid rgb(0, 0, 0);" {% endif %}>
+                                {{ category.storage }}
                             </div>
-                        {% endfor %}
+                        </a>
                     </div>
+                    {% endfor %}
+                </div>
 
-     
-                
+
+
+                    <h4 class="col-md-2">Color</h4>
+                    <div class="row">
+
+                    {% for category in categories %}
+                    <div class="col-md-3">
+                        <div id="categ" class="card mb-3" {% if category_id.pk is category.pk %}
+                            style="border:4px solid rgb(0, 0, 0);" {% endif %}>
+                            {{ category.color }}
+                        </div>
+                    </div> {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+
+            <!-- Size and Color Section for Dresses -->
+            {% if is_dress %}
+            <div class="row mt-3 mb-4">
+                <div class="col-md-6">
+                    <h4>Size</h4>
+                    {% for category in categories %}
+                    <a href="../demo/{{ category.pk }}" style="color: black;">
+                        <div id="categ" class="card mb-3" {% if category_id.pk is category.pk %}
+                            style="border:4px solid rgb(0, 0, 0);" {% endif %}>
+                            {{ category.size }}
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
                 <div class="col-md-6">
                     <h4>Color</h4>
                     <select id="categ" name="color" class="form-control">
                         {% for category in categories %}
-                            <option>{{ category.color }}</option>
+                        <option>{{ category.color }}</option>
                         {% endfor %}
                     </select>
                 </div>
             </div>
-        {% endif %}
+            {% endif %}
 
-    
-                <!-- Size and Color Section for Dresses -->
-                {% if is_dress %}
-                    <div class="row mt-3 mb-4">
-                        <div class="col-md-6">
-                            <h4>Size</h4>
-                            {% for category in categories %}
-                            <a href="../demo/{{ category.pk }}" style="color: black;">
-                                <div id="categ" class="card mb-3" {% if category_id.pk is category.pk %} style="border:4px solid rgb(0, 0, 0);" {% endif %}>
-                                    {{ category.size }}
-                                </div>
-                            </a>
-                        {% endfor %}
-                        </div>
-                        <div class="col-md-6">
-                            <h4>Color</h4>
-                            <select id="categ" name="color" class="form-control">
-                                {% for category in categories %}
-                                    <option>{{ category.color }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                    </div>
+            <!-- Cart and Buy Buttons -->
+            <div class="mt-4">
+                {% if cart1 %}
+                <a href="../cart_disp" id="cart1" class="btn"><i class="fa-solid fa-cart-shopping"></i> Go to Cart</a>
+                {% else %}
+                <a href="../add_to_cart/{{ product.pk }}" id="cart" class="btn"><i
+                        class="fa-solid fa-cart-shopping"></i> Add to Cart</a>
                 {% endif %}
-    
-                <!-- Cart and Buy Buttons -->
-                <div class="mt-4">
-                    {% if cart1 %}
-                        <a href="../cart_disp" id="cart1" class="btn"><i class="fa-solid fa-cart-shopping"></i> Go to Cart</a>
-                    {% else %}
-                        <a href="../add_to_cart/{{ product.pk }}" id="cart" class="btn"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</a>
-                    {% endif %}
-                    <a href="../buy_product/{{ product.pk }}" id="buy" class="btn"><i class="fa-solid fa-bolt-lightning"></i> Buy Now</a>
-                </div>
-    
-                <hr class="mt-5 mb-5">
+                <a href="../buy_product/{{ product.pk }}" id="buy" class="btn"><i
+                        class="fa-solid fa-bolt-lightning"></i> Buy Now</a>
             </div>
-    
-            <!-- Highlights and Description -->
-            <div class="mb-5">
-                <h5 class="mt-5 text-center">Highlights</h5>
-                <p>{{ product.highlights|linebreaksbr|safe }}</p>
-                <h5 class="mt-5 text-center">Description</h5>
-                <p>{{ product.description }}</p>
-            </div>
+
+            <hr class="mt-5 mb-5">
+        </div>
+
+        <!-- Highlights and Description -->
+        <div class="mb-5">
+            <h5 class="mt-5 text-center">Highlights</h5>
+            <p>{{ product.highlights|linebreaksbr|safe }}</p>
+            <h5 class="mt-5 text-center">Description</h5>
+            <p>{{ product.description }}</p>
         </div>
     </div>
-    
-<!-- ---------------------------------------------------- -->
+    </div>
+
+    <!-- ---------------------------------------------------- -->
 
     <div id="best_sales" class="sample container p-3 mt-4">
         <div class="d-flex justify-content-between align-items-center mb-1">
-            
+
             <h3 class="mb-0"><b>Best Sales on SmartPhone</b></h3>
             <a href="see_more/phone" class="btn btn-dark" style="float: right;">See More</a>
         </div>
@@ -435,7 +443,7 @@
 
             <!-- The slideshow/carousel -->
             <div class="carousel-inner">
-                <div class="carousel-item active "style="border: none;">
+                <div class="carousel-item active " style="border: none;">
                     <div class="row ">
                         {% for i in phones %}
                         <div class="col-md-3">
@@ -443,21 +451,21 @@
                                 <div id="card" class="movie-card justify-content-center">
                                     <img src="{{ i.image.url }}" style="width: auto; height: 400px" class="img-fluid">
                                     <div class="Phone-details text-center">
-                        
+
                                         <h5 class="phone-title mt-3">{{ i.name }}</h5>
-                        
+
                                         {% with i.categorys_set.all|first as category %}
                                         {% if category %}
-                                            <p class="offer_price text-danger text-decoration-line-through">
-                                                Price: ₹{{ category.price }}
-                                            </p>
-                                            <h5 class="Phone-price text-success">
-                                                <b>Offer Price: ₹{{ category.offer_price }}</b>
-                                            </h5>
+                                        <p class="offer_price text-danger text-decoration-line-through">
+                                            Price: ₹{{ category.price }}
+                                        </p>
+                                        <h5 class="Phone-price text-success">
+                                            <b>Offer Price: ₹{{ category.offer_price }}</b>
+                                        </h5>
                                         {% else %}
-                                            <p>No category information available.</p>
+                                        <p>No category information available.</p>
                                         {% endif %}
-                                    {% endwith %}
+                                        {% endwith %}
                                     </div>
                                 </div>
                             </a>
@@ -468,7 +476,7 @@
 
             </div>
         </div>
-  
+
     </div>
 
     <!-- ---------------------------------dress------------------------------------------- -->
@@ -482,10 +490,10 @@
         </div>
         <div id="demo3" class="carousel slide" data-bs-ride="false">
             <div class="carousel-inner">
-                <div class="carousel-item active" style="border: none;" >
-                    <div class="row" >
+                <div class="carousel-item active" style="border: none;">
+                    <div class="row">
                         {% for i in dress %}
-                        <div class="col-md-3" >
+                        <div class="col-md-3">
                             <a class="text-decoration-none text-black" href="sec/{{i.id}}">
                                 <div id="card" class="movie-card justify-content-center">
                                     <img src="{{i.image.url}}" style="width: 400px; height: 440px;" class="img-fluid">
@@ -493,16 +501,16 @@
                                         <h5 class="phone-title">{{i.name}}</h5>
                                         {% with i.categorys_set.all|first as category %}
                                         {% if category %}
-                                            <p class="offer_price text-danger text-decoration-line-through">
-                                                Price: ₹{{ category.price }}
-                                            </p>
-                                            <h5 class="Phone-price text-success">
-                                                <b>Offer Price: ₹{{ category.offer_price }}</b>
-                                            </h5>
+                                        <p class="offer_price text-danger text-decoration-line-through">
+                                            Price: ₹{{ category.price }}
+                                        </p>
+                                        <h5 class="Phone-price text-success">
+                                            <b>Offer Price: ₹{{ category.offer_price }}</b>
+                                        </h5>
                                         {% else %}
-                                            <p>No category information available.</p>
+                                        <p>No category information available.</p>
                                         {% endif %}
-                                    {% endwith %}
+                                        {% endwith %}
                                     </div>
                                 </div>
                             </a>
@@ -534,16 +542,16 @@
                             <h5 class="phone-title">{{i.name}}</h5>
                             {% with i.categorys_set.all|first as category %}
                             {% if category %}
-                                <p class="offer_price text-danger text-decoration-line-through">
-                                    Price: ₹{{ category.price }}
-                                </p>
-                                <h5 class="Phone-price text-success">
-                                    <b>Offer Price: ₹{{ category.offer_price }}</b>
-                                </h5>
+                            <p class="offer_price text-danger text-decoration-line-through">
+                                Price: ₹{{ category.price }}
+                            </p>
+                            <h5 class="Phone-price text-success">
+                                <b>Offer Price: ₹{{ category.offer_price }}</b>
+                            </h5>
                             {% else %}
-                                <p>No category information available.</p>
+                            <p>No category information available.</p>
                             {% endif %}
-                        {% endwith %}
+                            {% endwith %}
                         </div>
                     </div>
                 </a>

@@ -236,6 +236,13 @@
             background-color: rgb(255, 255, 255);
             color: #000;
         }
+
+        #categ {
+            width: 30%;
+            padding: 10px;
+            border: 3px solid grey;
+            text-align: center;
+        }
     </style>
     <title>Flipkart</title>
     <link rel="icon" href="{% static '/images/flips1.png' %}" type="image/x-icon">
@@ -305,90 +312,76 @@
     <div id="container" class="container mt-4">
         <div class="row">
             <div id="image-section" class="col-lg-6 mb-5 mt-2">
-                <img src="{{i.product.image.url}}" class="product_img" alt="Card image"
+                <a href="../product_details/{{i.product.id}}">
+                    <img src="{{i.product.image.url}}" class="product_img" alt="Card image"
                     style="width:400px; height: 500px;">
+                </a>
 
 
-                <a href="../delete_pro/{{product.id}}" id="cart" class="btn "><i
+                <!-- <a href="../delete_pro/{{product.id}}" id="cart" class="btn "><i
                         class="fa-solid fa-trash"></i>Delete</a>
+                        {{ product.id }}
 
                 <a href="../edit_pro/{{product.id}}" id="buy" class="btn"><i
-                        class="fa-solid fa-pen-to-square"></i>Edit</a>
+                        class="fa-solid fa-pen-to-square"></i>Edit</a> -->
 
                 <div class="mt-5">
 
                 </div>
             </div>
             <div id="details-section" class="col-lg-6 mt-5">
+               <a href="../product_details/{{i.product.id}}">
                 <h4 class="product_name">{{i.product.name}}</h4><br>
                 <br>
 
-     
                 <p class="price text-danger text-decoration-line-through">
                     Price: ₹{{ i.price }}
                 </p>
                 <h5 class="offer_price text-success">
                     <b>Offer Price: ₹{{ i.offer_price }}</b>
                 </h5>
+               </a>
      
+               
+                {% if i.storage %}
                 <div class="row mt-5">
                     <div class="col-md-6">
-                        {% if i.storage  %}
                         <h4>Storage</h4>
-                        <form method="GET">
-                            <select id="storage-select" name="storage" class="form-control">
-                                {% for category in categories %}
-                                    {% if category.product_id == product.id %}
-                                    <div id="categ" class="card mb-3">
-                                        {{ category.storage }}
-                                    </div>
-                                    {% endif %}
-                                {% endfor %}
-                            </select>
-                        </form>
-                        {% endif %}
+                           <!-- <a href="../demo1/{{ category.pk }}" style="color: black;"> -->
+                                <div id="categ" class="card mb-3" {% if category_id.pk is category.pk %} style="border:4px solid rgb(0, 0, 0);" {% endif %} required>
+                                    <b>{{ i.storage }}</b>
+                                </div>
+                            <!-- </a> -->
                     </div>
-    
+                    
+                    <!-- Color Section -->
                     <div class="col-md-6">
-                        {% if is_phone or is_laptop %}
                         <h4>Color</h4>
-                        <select name="color" class="form-control">
-                            {% for category in categories %}
-                                {% if category.product_id == product.id %}
-                                    <option>{{ category.color }}</option>
-                                {% endif %}
-                            {% endfor %}
-                        </select>
-                        {% endif %}
+                            <div id="categ" class="card mb-3" {% if category_id.pk is category.pk %} style="border:4px solid rgb(0, 0, 0);" {% endif %} required>
+                                <b>{{ i.color }}</b>
+                            </div>                          
+                    
                     </div>
                 </div>
-    
-                <div class="row mt-5">
-                    {% if i.size %}
+            {% endif %}
+
+            <!-- Size and Color Section for Dresses -->
+            {% if i.size %}
+            <div class="row mt-3 mb-4">
                     <div class="col-md-6">
                         <h4>Size</h4>
-                        <select id="size-select" name="size" class="form-control">
-                            {% for category in categories %}
-                                {% if category.product_id == product.id %}
-                                <div id="categ" class="card mb-3">
-                                    {{ category.size }}
-                                </div>                                
-                                {% endif %}
-                            {% endfor %}
-                        </select>
+                        <div id="categ" class="card mb-3">
+                            <b>{{ i.size }}</b>
+                        </div>
                     </div>
                     <div class="col-md-6">
                         <h4>Color</h4>
-                        <select name="color" class="form-control">
-                            {% for category in categories %}
-                                {% if category.product_id == product.id %}
-                                    <option value="{{ category.color }}">{{ category.color }}</option>
-                                {% endif %}
-                            {% endfor %}
-                        </select>
+                        <div id="categ" class="card mb-3">
+                            <b>{{ i.color }}</b>
+                        </div>
                     </div>
-                    {% endif %}
                 </div>
+            {% endif %}
     
 
                 <hr class="mt-5 mb-5">

@@ -332,6 +332,7 @@
                     <div class="col-md-6">
                         {% if is_phone or is_laptop %}
                         <h4>Storage</h4>
+
                         <form method="GET">
                             <select id="storage-select" name="storage" class="form-control">
                                 {% for category in categories %}
@@ -343,6 +344,7 @@
                             </select>
 
                         </form>
+                    
                         {% endif %}
                     </div>
 
@@ -398,6 +400,9 @@
                 <a href="../edit_category/{{ product.id }}" id="buy" class="btn">
                     <i class="fa-solid fa-pen-to-square"></i>Edit Category
                 </a>
+                <!-- <a href="../del_cat/{{ product.id }}" id="cart" class="btn">
+                    <i class="fa-solid fa-trash"></i>Delete Category
+                </a> -->
                 <a href="../category/{{ product.id }}" id="category" class="btn">
                     <i class="fa-solid fa-plus"></i>Add Category
                 </a>
