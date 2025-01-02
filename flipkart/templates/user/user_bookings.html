@@ -329,66 +329,42 @@
 
 
                 </p><br><br>
-                {% if cart_obj.category.storage %}
                 <div class="row mt-5">
-                    <div class="col-md-6">
-                        <h4>Storage</h4>
-                        {% for category in categories %}
-                        {% if category.product_id == cart_obj.category.product.id %}
-                        <!-- <a href="../demo/{{ category.pk }}" style="color: black;"> -->
-                        <div id="categ" class="card mb-3" {% if category_id.pk is category.pk %}
-                            style="border:4px solid rgb(0, 0, 0);" {% endif %} required>
-                            {{ category.storage }}
+                    {% if cart_obj.category.storage %}
+                        <div class="col-md-6">
+                            <h4>Storage</h4>
+                            <div id="categ" class="card mb-3" style="border:4px solid rgb(0, 0, 0);">
+                                {{ cart_obj.category.storage }}
+                            </div>
                         </div>
-                        <!-- </a> -->
-                        {% endif %}
-                        {% endfor %}
-                    </div>
-
-                    <!-- Color Section -->
-                    <div class="col-md-6">
-                        <h4>Color</h4>
-                        <select id="categ" name="color" class="form-control">
-                            {% for category in categories %}
-                            {% if category.product_id == cart_obj.category.product.id %}
-
-                            <option>{{ category.color }}</option>
-                            {% endif %}
-                            {% endfor %}
-                        </select>
-                    </div>
+                
+                        <div class="col-md-6">
+                            <h4>Color</h4>
+                            <div id="categ" class="card mb-3" style="border:4px solid rgb(0, 0, 0);">
+                                {{ cart_obj.category.color }}
+                            </div>
+                        </div>
+                    {% endif %}
                 </div>
-                {% endif %}
-
-                <!-- Size and Color Section for Dresses -->
+                
                 {% if cart_obj.category.size %}
-                <div class="row mt-3 mb-4">
-                    <div class="col-md-6">
-                        <h4>Size</h4>
-                        {% for category in categories %}
-                        {% if category.product_id == cart_obj.category.product.id %}
-                        <!-- <a href="../demo/{{ category.pk }}" style="color: black;"> -->
-                        <div id="categ" class="card mb-3" {% if category_id.pk is category.pk %}
-                            style="border:4px solid rgb(0, 0, 0);" {% endif %}>
-                            {{ category.size }}
+                    <div class="row mt-3 mb-4">
+                        <div class="col-md-6">
+                            <h4>Size</h4>
+                            <div id="categ" class="card mb-3" style="border:4px solid rgb(0, 0, 0);">
+                                {{ cart_obj.category.size }}
+                            </div>
                         </div>
-                        <!-- </a> -->
-                        {% endif %}
-                        {% endfor %}
+                        <div class="col-md-6">
+                            <h4>Color</h4>
+                            <div id="categ" class="card mb-3" style="border:4px solid rgb(0, 0, 0);">
+                                {{ cart_obj.category.color }}
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-6">
-                        <h4>Color</h4>
-                        <select id="categ" name="color" class="form-control">
-                            {% for category in categories %}
-                            {% if category.product_id == cart_obj.category.product.id %}
-                            <option>{{ category.color }}</option>
-                            {% endif %}
-                            {% endfor %}
-                        </select>
-                    </div>
-                </div>
                 {% endif %}
-
+                
+            
                 <br>
 
                 <div>

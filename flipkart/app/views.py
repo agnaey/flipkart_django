@@ -320,9 +320,10 @@ def demo(req,id):
 
 def add_to_cart(request, pid):
     log_user = User.objects.get(username=request.session['username'])
-    product = Products.objects.get(pk=pid)
-    category_id = request.POST.get('cat') or request.session.get('cat')
-    category = Categorys.objects.get(product=product, pk=category_id)
+    # category_id =request.session['cat']=pid
+
+    category = Categorys.objects.get(pk=request.session['cat'])  
+    
 
     cart_item, created = Cart.objects.get_or_create(user=log_user,  category=category)
 
@@ -378,7 +379,6 @@ def cart_delete(req,id):
 def buy_pro(req,id):
     user = User.objects.get(username=req.session['username'])
    
-
     category = Categorys.objects.get(pk=req.session['cat'])  
     price = category.offer_price
 
@@ -437,27 +437,20 @@ def user_orders(request):
     
     return render(request, 'user/user_bookings.html', {'data1': orders})
 
-def view_bookings(req):
-    user=User.objects.get(username=req.session['username'])
-    data1=Buy.objects.filter(user=user)[::-1]
-    categories = Categorys.objects.select_related('product')
-    selected_category = categories.first() if categories else None
 
-    is_phone = Products.objects.filter(phone=True)
-    is_dress = Products.objects.filter(dress=True)
-    is_laptop = Products.objects.filter(laptop=True)
-    # orders = Buy.objects.filter(user=req.user) 
-    # others = Products.objects.filter(others=True)
+def view_bookings(req):
+    user = User.objects.get(username=req.session['username'])
+    data1 = Buy.objects.filter(user=user).select_related('category', 'category__product')[::-1]
+    category_id = [item.category.id for item in data1]
+
+    categories = Categorys.objects.filter(id__in=category_id).select_related('product')
+
     context = {
         'data1': data1,
         'categories': categories,
-          'selected_category': selected_category,
-        'is_phone': is_phone,
-        'is_dress': is_dress,
-        'is_laptop': is_laptop,
-        # 'orders': orders
-    }    
-    return render(req,'user/user_bookings.html',context)
+    }
+    return render(req, 'user/user_bookings.html', context)
+
 
 def delete_order(req,id):
     data=Buy.objects.get(pk=id)
