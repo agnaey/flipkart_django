@@ -375,29 +375,12 @@ def cart_delete(req,id):
     data.delete()
     return redirect(cart_display)
 
-def buy_pro(req, id):
+def buy_pro(req,id):
     user = User.objects.get(username=req.session['username'])
    
-    storage = req.GET.get('storage')
-    color = req.GET.get('color')
-    size = req.GET.get('size')
-    category = Categorys.objects.select_related('product')
 
-    if storage:
-        category = category.filter(storage=storage)
-    if color:
-        category = category.filter(color=color)
-    if size:
-        category = category.filter(size=size)
-
-    category = category.first()
-    if not category:
-        return redirect('error_page')  
-    
+    category = Categorys.objects.get(pk=req.session['cat'])  
     price = category.offer_price
-
-    if isinstance(price, str): 
-        price = float(price.replace(",", ""))
 
     data = Buy.objects.create(user=user, category=category, price=price)
     data.save()
