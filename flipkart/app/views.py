@@ -329,6 +329,36 @@ def add_to_cart(request, pid):
 
     return redirect(cart_display) 
 
+def add_quantity(request, category_id):
+    category = Categorys.objects.get( id=category_id)
+    
+    cart_item, created = Cart.objects.get_or_create(user=request.user, category=category)
+    
+    if not created:
+        cart_item.quantity += 1
+        cart_item.save()
+    else:
+        
+         return redirect('cart_display')
+    return redirect(cart_display)
+
+    
+def remove_quantity(request, category_id):
+    category = Categorys.objects.get( id=category_id)
+    
+    cart_item = Cart.objects.filter(user=request.user, category=category).first()
+    
+    if cart_item:
+        if cart_item.quantity > 1:
+            cart_item.quantity -= 1
+            cart_item.save()
+        else:
+            cart_item.delete()
+    else:
+            return redirect('cart_display')
+
+    
+    return redirect(cart_display)
 
 def cart_display(req):
     user = User.objects.get(username=req.session['username'])
@@ -337,14 +367,20 @@ def cart_display(req):
     is_phone = Products.objects.filter(phone=True)
     is_dress = Products.objects.filter(dress=True)
     is_laptop = Products.objects.filter(laptop=True)
-    # print(data)
-    # print(category)
+    cart_items = Cart.objects.filter(user=req.user)
+    total_price = 0
+    for item in cart_items:
+        product_price = item.category.offer_price 
+        total_price += product_price * item.quantity 
+    
     context = {
         'data': data,
         'categories': category,
         'is_phone': is_phone,
         'is_dress': is_dress,
-        'is_laptop': is_laptop
+        'is_laptop': is_laptop,
+        'cart_items': cart_items, 
+        'total_price': total_price
     }
     return render(req, 'user/cart.html', context)
 

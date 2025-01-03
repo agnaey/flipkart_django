@@ -281,22 +281,36 @@
     
    <h1 class="text-center" id="mycart">My Cart</h1>
 
-    {% for cart_obj in data %}
-        <div id="container" class="container mt-1">
-            <div class="row">
-                <div class="col-lg-5 mt-2">
-                    <img src="{{ cart_obj.category.product.image.url }}" class="product_img img-fluid" alt="Product Image"
-                         style="width:400px; height: 500px;">
-                </div>
+   {% for cart_obj in data %}
+   <div id="container" class="container mt-1">
+       <div class="row">
+           <div class="col-lg-5 mt-2">
+               <img src="{{ cart_obj.category.product.image.url }}" class="product_img img-fluid" alt="Product Image"
+                    style="width:400px; height: 500px;">
+           </div>
+   
+           <div id="details-section" class="col-lg-6 mt-5">
+               <h4 class="product_name">{{ cart_obj.category.product.name }}</h4>
+               <br>
+   
+               <p class="offer_price" style="display: inline;">Offer Price: ₹{{ cart_obj.category.offer_price }}</p>
+               <p class="price" style="text-decoration: line-through; padding-left: 10px; display: inline;">
+                   ₹{{ cart_obj.category.price }}
+               </p>
+               <p><p class="total_price">
+                Total: ₹{{ total_price }}
+            </p></p>
+               <br><br>
+   
+               <!-- Quantity Display and Add/Remove Buttons -->
+               <p>Quantity: {{ cart_obj.quantity }}</p>
 
-                <div id="details-section" class="col-lg-6 mt-5">
-                    <h4 class="product_name">{{ cart_obj.category.product.name }}</h4>
-                    <br>
-
-                            <p class="offer_price" style="display: inline;">Offer Price: ₹{{ cart_obj.category.offer_price }}</p>
-                            <p class="price" style="text-decoration: line-through; padding-left: 10px; display: inline;">
-                                ₹{{ cart_obj.category.price }}                                   </p>
-
+               <!-- Add Quantity Button -->
+               <a href="../add_quantity/{{cart_obj.category.id}}" class="btn btn-outline-success btn-sm">Add Quantity</a>
+   
+               <!-- Remove Quantity Button -->
+               <a href="../remove_quantity/{{cart_obj.category.id}} " class="btn btn-outline-danger btn-sm">Remove Quantity</a>
+          
 
                     <br><br>
 

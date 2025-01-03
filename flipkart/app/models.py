@@ -17,13 +17,14 @@ class Categorys(models.Model):
     product=models.ForeignKey(Products,on_delete=models.CASCADE)
     storage=models.TextField()
     color=models.TextField()
-    price =models.TextField()
-    offer_price = models.TextField()
+    price =models.IntegerField()
+    offer_price = models.IntegerField()
     size=models.TextField()
 
 class Cart(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE)
     category=models.ForeignKey(Categorys,on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
 
 class Buy(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE)
