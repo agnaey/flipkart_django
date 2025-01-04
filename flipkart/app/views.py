@@ -49,8 +49,8 @@ def register(req):
         try:
             data=User.objects.create_user(first_name=username,username=email,email=email,password=password)
             data.save()
-            messages.success(req, "User Registered Successfully")
-            return redirect(login)
+            # messages.success(req, "User Registered Successfully")
+            # return redirect(login)
         except:
             messages.warning(req,'user details already exits') 
             return redirect(register)   
@@ -326,6 +326,12 @@ def add_to_cart(request, pid):
     
 
     cart_item, created = Cart.objects.get_or_create(user=log_user,  category=category)
+    if cart_item.quantity < 5:
+        cart_item.quantity += 1
+        cart_item.save()
+    else:
+        messages.warning(request, "Maximum quantity limit of 5 reached.")
+    
 
     return redirect(cart_display) 
 
@@ -334,12 +340,12 @@ def add_quantity(request, category_id):
     
     cart_item, created = Cart.objects.get_or_create(user=request.user, category=category)
     
-    if not created:
+    if cart_item.quantity < 5:
         cart_item.quantity += 1
         cart_item.save()
     else:
-        
-         return redirect('cart_display')
+        messages.warning(request, "Maximum quantity limit of 5 reached.")
+    
     return redirect(cart_display)
 
     
@@ -353,7 +359,9 @@ def remove_quantity(request, category_id):
             cart_item.quantity -= 1
             cart_item.save()
         else:
-            cart_item.delete()
+            messages.warning(request, "Minimum quantity limit of 1 reached.")
+
+
     else:
             return redirect('cart_display')
 
@@ -368,10 +376,24 @@ def cart_display(req):
     is_dress = Products.objects.filter(dress=True)
     is_laptop = Products.objects.filter(laptop=True)
     cart_items = Cart.objects.filter(user=req.user)
-    total_price = 0
-    for item in cart_items:
-        product_price = item.category.offer_price 
-        total_price += product_price * item.quantity 
+    cart_items = []
+    grand_total_price = 0 
+    grand_dis_price=0 
+
+    for item in data:
+        product_price = (item.category.offer_price)
+        total_price = product_price * item.quantity 
+        grand_total_price += total_price  
+
+        dis_price=float(item.category.price)
+        total_dis_price=dis_price*item.quantity
+        grand_dis_price+=total_dis_price
+        
+        cart_items.append({
+            'cart_obj': item,
+            'total_price': total_price,
+            'total_dis_price':total_dis_price
+        })
     
     context = {
         'data': data,
@@ -480,6 +502,14 @@ def view_bookings(req):
     category_id = [item.category.id for item in data1]
 
     categories = Categorys.objects.filter(id__in=category_id).select_related('product')
+
+    # cart_items = Cart.objects.filter(user=user)
+    # for booking in data1:
+    #     cart_item = Cart.objects.filter(user=user, category=booking.category).first()
+    #     quantity = cart_item.quantity if cart_item else 1
+    #     price = float(booking.category.offer_price or booking.category.price)
+    #     booking.total_price = price * quantity
+    #     booking.quantity = quantity
 
     context = {
         'data1': data1,
