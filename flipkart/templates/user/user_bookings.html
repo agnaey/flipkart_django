@@ -328,13 +328,13 @@
             <div id="details-section" class="col-lg-6 mt-5">
                 <h4 class="product_name">{{cart_obj.category.product.name}}</h4><br>
                 <br>
-                <!-- {% if cart_obj.price == cart_obj.category.offer_price %}
-                <p class="offer_price" style="display: inline;">Total Price: ₹{{ cart_obj.total_price }}</p><br>
+                {% if cart_obj.price == cart_obj.category.offer_price %}
+                <p class="offer_price" style="display: inline;">Price: ₹{{ cart_obj.price }}</p><br>
                 {% else %}
-                <p class="offer_price" style="display: inline;">Total Price: ₹{{ cart_obj.total_price }}</p><br> -->
-                <p class="offer_price" style="display: inline; ">Offer Price: ₹{{ cart_obj.category.offer_price }}</p>
-                <!-- {% endif %} -->
-
+                <p class="offer_price" style="display: inline; font-size: 25px; ">price per unit: ₹{{ cart_obj.category.offer_price }}</p><br>
+                <p class="offer_price" style="display: inline;">Total Price: ₹{{ cart_obj.price }}</p><br>
+                {% endif %}
+                
                 <!-- <p>Quantity: 
                     {% with cart_item=cart_obj.category.cart_set.first %}
                         {% if cart_item %}

@@ -372,9 +372,6 @@ def cart_display(req):
     user = User.objects.get(username=req.session['username'])
     data = Cart.objects.filter(user=user)[::-1]
     category = Categorys.objects.select_related('product')
-    is_phone = Products.objects.filter(phone=True)
-    is_dress = Products.objects.filter(dress=True)
-    is_laptop = Products.objects.filter(laptop=True)
     cart_items = Cart.objects.filter(user=req.user)
     cart_items = []
     grand_total_price = 0 
@@ -398,35 +395,11 @@ def cart_display(req):
     context = {
         'data': data,
         'categories': category,
-        'is_phone': is_phone,
-        'is_dress': is_dress,
-        'is_laptop': is_laptop,
         'cart_items': cart_items, 
         'total_price': total_price
     }
     return render(req, 'user/cart.html', context)
 
-
-# def cart_display(request):
-#     user = User.objects.get(username=request.session['username'])
-
-#     cart_items = Cart.objects.filter(user=user)[::-1]
-
-    #  category = Categorys.objects.filter(product=product)
-
-#     is_phone = Products.objects.filter(phone=True)
-#     is_dress = Products.objects.filter(dress=True)
-#     is_laptop = Products.objects.filter(laptop=True)
-
-#     context = {
-#         'cart_items': cart_items,
-#         'categories': categories,
-#         'is_phone': is_phone,
-#         'is_dress': is_dress,
-#         'is_laptop': is_laptop,
-#     }
-
-#     return render(request, 'user/cart.html', context)
 
 
 def cart_delete(req,id):
@@ -450,50 +423,20 @@ def buy_pro(req,id):
 def cart_buy(req, id):
     cart = Cart.objects.get(pk=id)
 
-    storage = req.GET.get('storage')
-    color = req.GET.get('color')
-    size = req.GET.get('size')
     
-    category = Categorys.objects.select_related('product')
-
-    if storage:
-        category = category.filter(storage=storage)
-    if color:
-        category = category.filter(color=color)
-    if size:
-        category = category.filter(size=size)
-
-    category = category.first()
+    category = Categorys.objects.select_related('product').filter(id=cart.category_id).first()
 
     if not category:
         return redirect('error_page') 
+    
+    total_price = category.offer_price * cart.quantity
 
-    price = category.offer_price
-
-    if isinstance(price, str): 
-        price = float(price.replace(",", ""))
-
-    buy = Buy.objects.create(category=cart.category, user=cart.user, price=price)
+    buy = Buy.objects.create(category=cart.category, user=cart.user, price=total_price)
     buy.save()
 
-    # product.stock -= cart.qty
-    # product.save()
+
 
     return redirect(view_bookings)
-
-def confirm_order(order_id):
-    order = Buy.objects.get(id=order_id)
-    order.is_confirmed = True
-    order.save()
-
-def user_orders(request):
-    user = User.objects.get(username=request.session['username'])
-    orders = Buy.objects.filter(user=user)
-    for order in orders:
-        print(f"Order ID: {order.id}, Is Confirmed: {order.is_confirmed}")
-    
-    
-    return render(request, 'user/user_bookings.html', {'data1': orders})
 
 
 def view_bookings(req):
@@ -517,6 +460,20 @@ def view_bookings(req):
     }
     return render(req, 'user/user_bookings.html', context)
 
+
+def confirm_order(order_id):
+    order = Buy.objects.get(id=order_id)
+    order.is_confirmed = True
+    order.save()
+
+def user_orders(request):
+    user = User.objects.get(username=request.session['username'])
+    orders = Buy.objects.filter(user=user)
+    for order in orders:
+        print(f"Order ID: {order.id}, Is Confirmed: {order.is_confirmed}")
+    
+    
+    return render(request, 'user/user_bookings.html', {'data1': orders})
 
 def delete_order(req,id):
     data=Buy.objects.get(pk=id)
