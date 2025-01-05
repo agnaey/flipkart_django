@@ -431,7 +431,7 @@ def cart_buy(req, id):
     
     total_price = category.offer_price * cart.quantity
 
-    buy = Buy.objects.create(category=cart.category, user=cart.user, price=total_price)
+    buy = Buy.objects.create(category=cart.category, user=cart.user, price=total_price,quantity=cart.quantity)
     buy.save()
 
 

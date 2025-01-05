@@ -335,15 +335,14 @@
                 <p class="offer_price" style="display: inline;">Total Price: ₹{{ cart_obj.price }}</p><br>
                 {% endif %}
                 
-                <!-- <p>Quantity: 
-                    {% with cart_item=cart_obj.category.cart_set.first %}
-                        {% if cart_item %}
-                            {{ cart_item.quantity }}
-                        {% else %}
-                            1  
-                        {% endif %}
-                    {% endwith %}
-                </p> -->
+                <p><b>Ordered Quantity</b>: 
+                    {% if cart_obj.category.cart_set.exists %}
+                        {{ cart_obj.quantity }}
+                    {% else %}
+                        1
+                    {% endif %}
+                </p>
+       
 
                 </p><br><br>
                 <div class="row mt-5">
