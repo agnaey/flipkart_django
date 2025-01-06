@@ -167,46 +167,10 @@
   }
   .product_img{
     border-radius: 15px;
+    padding-left: 30px;
   }
 
 
-
-#image-section {
-    flex: 1;
-    position: sticky;
-    top: 20px; 
-    max-height: 500px; 
-}
-
-#details-section {
-    flex: 2;
-    max-height: 100vh; 
-    overflow-y: auto;
-    padding-left: 20px; 
-}
-#buy {
-    background-color: orange;
-    padding: 17px 60px;
-    color: white;
-    font-weight: bold;
-    font-size: 20px;
-    margin-top: 20px;
-}
-#buy:hover {
-    background-color: #e69500; 
-}
-#cart {
-    background-color: rgb(251, 100, 27);
-    padding: 17px 60px;
-    color: white;
-    font-weight: bold;
-    font-size: 20px;
-    margin-top: 20px;
-    margin-right: 10px;
-}
-#cart:hover {
-    background-color: rgb(196, 64, 14); 
-}
 #confirm {
     background-color: green;
     padding: 17px 60px;
@@ -252,6 +216,10 @@
     font-size: 16px;
     border-radius: 5px;
 }
+td, th {
+    text-align: center;
+    
+}
     </style>
     <title>Flipkart</title>
     <link rel="icon" href="{% static '/images/flips1.png' %}" type="image/x-icon"></head>
@@ -290,40 +258,54 @@
         <b id="mycart">User Orders</b>
         <hr class="mt-4 mb-5">
 
-        {% for i in data %}
-<div class="row">
-    <div class="col-lg-5 mt-2">
-        <img src="{{ i.category.product.image.url }}" class="product_img img-fluid" alt="" style="width:400px; height: 500px;">
-    </div>
-    <div id="details-section" class="col-lg-6 mt-5">
-        <h4>User: {{ i.user }}</h4>
-        <h4 class="product_name">{{ i.product.name }}</h4><br><br>
-
-  
-                <p class="offer_price" style="display: inline;">Price: ₹{{ i.category.offer_price }}</p>
- 
-
-        <p class="date">Order Date: {{ i.date }}</p>
-        <br><br>
-        <a href="../cancel_order/{{ i.id }}" id="cart" class="btn">
-            <i class="fa-solid fa-trash" style="margin-right:5px;"></i>Cancel the order
-        </a>
-        <form action="{% url 'confirm_order' i.id %}" method="post" style="display: inline;">
-            {% csrf_token %}
-            {% if i.is_confirmed %}
-                <button type="submit" class="btn btn-success" id="confirm" disabled>
-                    <i class="fa-solid fa-check" style="margin-right:5px;"></i>Confirmed
-                </button>
-            {% else %}
-                <button type="submit " id="pending" class="btn btn-warning">
-                    <i class="fa-solid fa-clock" style="margin-right:5px;"></i>Pending (Confirm)
-                </button>
-            {% endif %}
-        </form>
-    </div>
-    <hr class="mt-5 mb-5">
-</div>
-{% endfor %}
+        <div class="table-responsive mt-4">
+            <table class="table table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Image</th>
+                        <th>Username</th>
+                        <th>Product Name</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Order Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in data %}
+                    <tr>
+                        <td>
+                            <img src="{{ i.category.product.image.url }}" class="product_img img-fluid" alt="" style="width:100%; height:125px;">
+                        </td>
+                        <td>{{ i.user }}</td>
+                        <td>{{ i.category.product.name }}</td>
+                        <td class="text-success"><b>₹{{ i.price }}</b></td>
+                        <td><b>{{ i.quantity }}</b></td>
+                        <td>{{ i.date }}</td>
+                        <td>
+                            <a href="../cancel_order/{{ i.id }}" class="btn btn-danger btn-sm">
+                                <i class="fa-solid fa-trash"></i> Delete
+                            </a>
+                            <form action="../confirm_order/{{i.id }}" method="post" style="display:inline;">
+                                {% csrf_token %}
+                                {% if i.is_confirmed %}
+                                
+                                    <button type="submit" class="btn btn-success btn-sm" disabled>
+                                        <i class="fa-solid fa-check"></i> Confirmed
+                                    </button>
+                                {% else %}
+                                    <button type="submit" class="btn btn-warning btn-sm">
+                                        <i class="fa-solid fa-clock"></i> pending
+                                    </button>
+                                {% endif %}
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
 
     </div>
 

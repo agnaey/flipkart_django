@@ -157,6 +157,7 @@
             height: auto;
             margin-bottom: 30px;
             border-radius: 3px;
+            height: auto;
         }
 
         .product_name {
@@ -183,6 +184,8 @@
         #image-section {
             top: 20px;
             max-height: 500px;
+            margin-bottom: 300px;
+            padding-bottom: 850px;
         }
 
         #details-section {
@@ -314,6 +317,23 @@
             <div id="image-section" class="col-lg-6 mb-5 mt-2">
                 <img src="{{ product.image.url }}" class="product_img img-fluid" alt="Card image"
                     style="width:400px; height: 500px;">
+                                    <br><br>
+                <a href="../delete_pro/{{ product.id }}" id="cart" class="btn">
+                    <i class="fa-solid fa-trash"></i>Delete
+                </a>
+                <a href="../edit_pro/{{ product.id }}" id="buy" class="btn">
+                    <i class="fa-solid fa-pen-to-square"></i>Edit Item
+                </a>
+                <a href="../edit_category/{{ product.id }}" id="buy" class="btn">
+                    <i class="fa-solid fa-pen-to-square"></i>Edit Category
+                </a>
+                <!-- <a href="../del_cat/{{ product.id }}" id="cart" class="btn">
+                    <i class="fa-solid fa-trash"></i>Delete Category
+                </a> -->
+                <a href="../category/{{ product.id }}" id="category" class="btn">
+                    <i class="fa-solid fa-plus"></i>Add Category
+                </a>
+                <br><br>
             </div>
 
             <div id="details-section" class="col-lg-6 mt-5">
@@ -390,82 +410,23 @@
 
 
 
-                <br><br>
-                <a href="../delete_pro/{{ product.id }}" id="cart" class="btn">
-                    <i class="fa-solid fa-trash"></i>Delete
-                </a>
-                <a href="../edit_pro/{{ product.id }}" id="buy" class="btn">
-                    <i class="fa-solid fa-pen-to-square"></i>Edit Item
-                </a>
-                <a href="../edit_category/{{ product.id }}" id="buy" class="btn">
-                    <i class="fa-solid fa-pen-to-square"></i>Edit Category
-                </a>
-                <!-- <a href="../del_cat/{{ product.id }}" id="cart" class="btn">
-                    <i class="fa-solid fa-trash"></i>Delete Category
-                </a> -->
-                <a href="../category/{{ product.id }}" id="category" class="btn">
-                    <i class="fa-solid fa-plus"></i>Add Category
-                </a>
-                <br><br>
-            </div>
+
             <hr class="mt-5 mb-5">
 
-            <!-- ----------------------------------------------------------- -->
-
-
-
-
-
-            <!-- ----------------------------------------------------------- -->
 
 
             <h5 class="mt-5 text-center">Highlights</h5>
             <p>{{ product.highlights|linebreaksbr|safe }}</p>
 
-            <h5 class="mt-5 text-center">Description</h5>
+            <h5 class="mt-5 mb-5 text-center">Description</h5>
             <p>{{ product.description }}</p>
         </div>
     </div>
-    </div>
 
-    <!-- 
-        <div class="row mt-5">
-            <div class="col-lg-12">
-                <h5>Categories</h5>
-                {% if categories %}
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                {% if is_phone or is_laptop %}
-                                    <th>Storage</th>
-                                {% endif %}
-                                {% if is_dress or is_phone %}
-                                    <th>Color</th>
-                                {% endif %}
-                                {% if is_dress %}
-                                    <th>Size</th>
-                                {% endif %}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for category in categories %}
-                            <tr>
-                                {% if is_phone or is_laptop %}
-                                    <td>{{ category.storage }}</td>
-                                {% endif %}
-                                {% if is_dress or is_phone %}
-                                    <td>{{ category.color }}</td>
-                                {% endif %}
-                                {% if is_dress %}
-                                    <td>{{ category.size }}</td>
-                                {% endif %}
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                {% endif %}
-            </div>
-        </div> -->
+    </div>
+    </div>
+</div>
+    
 
 
     </div>

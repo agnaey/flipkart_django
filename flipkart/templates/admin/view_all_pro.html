@@ -180,14 +180,11 @@
 
 
         #image-section {
-            flex: 1;
-            position: sticky;
             top: 20px;
             max-height: 500px;
         }
 
         #details-section {
-            flex: 2;
             max-height: 100vh;
             overflow-y: auto;
             padding-left: 20px;
@@ -308,95 +305,73 @@
     </nav>
 
     {% for i in categories %}
-
     <div id="container" class="container mt-4">
         <div class="row">
-            <div id="image-section" class="col-lg-6 mb-5 mt-2">
-                <a href="../product_details/{{i.product.id}}">
-                    <img src="{{i.product.image.url}}" class="product_img" alt="Card image"
-                    style="width:400px; height: 500px;">
+            <!-- Image Section -->
+            <div id="image-section" class="col-lg-6 col-md-12 col-12 order-1 mb-5 mt-2">
+                <a href="../product_details/{{ i.product.id }}">
+                    <img src="{{ i.product.image.url }}" class="product_img img-fluid" alt="Product image" style="width:400px; height: 500px;">
                 </a>
-
-
-                <!-- <a href="../delete_pro/{{product.id}}" id="cart" class="btn "><i
-                        class="fa-solid fa-trash"></i>Delete</a>
-                        {{ product.id }}
-
-                <a href="../edit_pro/{{product.id}}" id="buy" class="btn"><i
-                        class="fa-solid fa-pen-to-square"></i>Edit</a> -->
-
-                <div class="mt-5">
-
-                </div>
             </div>
-            <div id="details-section" class="col-lg-6 mt-5">
-               <a href="../product_details/{{i.product.id}}">
-                <h4 class="product_name">{{i.product.name}}</h4><br>
-                <br>
-
-                <p class="price text-danger text-decoration-line-through">
-                    Price: ₹{{ i.price }}
-                </p>
-                <h5 class="offer_price text-success">
-                    <b>Offer Price: ₹{{ i.offer_price }}</b>
-                </h5>
-               </a>
-     
-               
+    
+            <!-- Details Section -->
+            <div id="details-section" class="col-lg-6 col-md-12 col-12 order-2 mt-5">
+                <a href="../product_details/{{ i.product.id }}">
+                    <h4 class="product_name text-dark">{{ i.product.name }}</h4>
+                    <p class="price text-danger text-decoration-line-through">
+                        Price: ₹{{ i.price }}
+                    </p>
+                    <h5 class="offer_price text-success">
+                        <b>Offer Price: ₹{{ i.offer_price }}</b>
+                    </h5>
+                </a>
+    
                 {% if i.storage %}
                 <div class="row mt-5">
-                    <div class="col-md-6">
+                    <div class="col-md-6 col-12">
                         <h4>Storage</h4>
-                           <!-- <a href="../demo1/{{ category.pk }}" style="color: black;"> -->
-                                <div id="categ" class="card mb-3" {% if category_id.pk is category.pk %} style="border:4px solid rgb(0, 0, 0);" {% endif %} required>
-                                    <b>{{ i.storage }}</b>
-                                </div>
-                            <!-- </a> -->
-                    </div>
-                    
-                    <!-- Color Section -->
-                    <div class="col-md-6">
-                        <h4>Color</h4>
-                            <div id="categ" class="card mb-3" {% if category_id.pk is category.pk %} style="border:4px solid rgb(0, 0, 0);" {% endif %} required>
-                                <b>{{ i.color }}</b>
-                            </div>                          
-                    
-                    </div>
-                </div>
-            {% endif %}
-
-            <!-- Size and Color Section for Dresses -->
-            {% if i.size %}
-            <div class="row mt-3 mb-4">
-                    <div class="col-md-6">
-                        <h4>Size</h4>
                         <div id="categ" class="card mb-3">
-                            <b>{{ i.size }}</b>
+                            <b>{{ i.storage }}</b>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 col-12">
                         <h4>Color</h4>
                         <div id="categ" class="card mb-3">
                             <b>{{ i.color }}</b>
                         </div>
                     </div>
                 </div>
-            {% endif %}
+                {% endif %}
     
-
+                {% if i.size %}
+                <div class="row mt-3 mb-4">
+                    <div class="col-md-6 col-12">
+                        <h4>Size</h4>
+                        <div id="categ" class="card mb-3">
+                            <b>{{ i.size }}</b>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <h4>Color</h4>
+                        <div id="categ" class="card mb-3">
+                            <b>{{ i.color }}</b>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+    
                 <hr class="mt-5 mb-5">
-
                 <div>
                     <h5 class="mt-5">Highlights</h5>
-                    <p>{{ product.highlights|linebreaksbr|safe }}</p>
+                    <p>{{ i.product.highlights|linebreaksbr|safe }}</p>
                     <h5 class="mt-5">Description</h5>
-                    <p>{{product.description}}</p>
+                    <p>{{ i.product.description }}</p>
                 </div>
             </div>
         </div>
     </div>
     {% endfor %}
-
+    
 
 
 </body>

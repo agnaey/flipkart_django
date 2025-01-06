@@ -331,16 +331,13 @@
                 {% if cart_obj.price == cart_obj.category.offer_price %}
                 <p class="offer_price" style="display: inline;">Price: ₹{{ cart_obj.price }}</p><br>
                 {% else %}
-                <p class="offer_price" style="display: inline; font-size: 25px; ">price per unit: ₹{{ cart_obj.category.offer_price }}</p><br>
+                <p class="offer_price text-warning" style="display: inline; font-size: 25px; ">price per unit: ₹{{ cart_obj.category.offer_price }}</p><br>
                 <p class="offer_price" style="display: inline;">Total Price: ₹{{ cart_obj.price }}</p><br>
                 {% endif %}
                 
                 <p><b>Ordered Quantity</b>: 
-                    {% if cart_obj.category.cart_set.exists %}
-                        {{ cart_obj.quantity }}
-                    {% else %}
-                        1
-                    {% endif %}
+                        <b>{{ cart_obj.quantity }}</b>
+
                 </p>
        
 

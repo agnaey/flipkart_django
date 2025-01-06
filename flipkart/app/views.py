@@ -206,11 +206,10 @@ def admin_bookings(req):
     user=User.objects.all()
     data=Buy.objects.all()[::-1]
     category = Categorys.objects.select_related('product')
-    is_phone = Products.objects.filter(phone=True)
-    is_dress = Products.objects.filter(dress=True)
-    is_laptop = Products.objects.filter(laptop=True)
+    
+
     # others = Products.objects.filter(others=True)
-    return render(req,'admin/admin_bookings.html',{'user':user,'data':data,'category':category,'is_phone':is_phone,'is_dress':is_dress,'is_laptop':is_laptop})
+    return render(req,'admin/admin_bookings.html',{'user':user,'data':data,'category':category})
 
 def cancel_order(req,id):
     data=Buy.objects.get(pk=id)
@@ -218,36 +217,27 @@ def cancel_order(req,id):
     return redirect(admin_bookings)
 
 def confirm_order(request, order_id):
-    order = get_object_or_404(Buy, id=order_id)
-    order.is_confirmed = True 
-    order.save()
-    return redirect(admin_bookings)
+    if request.method == 'POST':
+        order = Buy.objects.get( id=order_id)
+        order.is_confirmed = True
+        order.save()
+    return redirect('admin_bookings')
 
 def view_pro(req):
-        categories = Categorys.objects.select_related('product')
+    categories = Categorys.objects.select_related('product').all()
 
-        is_phone = Products.objects.filter(phone=True)
-        is_dress = Products.objects.filter(dress=True)
-        is_laptop = Products.objects.filter(laptop=True)
-        others = Products.objects.filter(others=True)
-        for category in categories:
-            print(category.product, category.storage, category.color, category.size)
+    context = {
+        'categories': categories,
+    }
 
-        
-        context = {
-            'categories': categories,
-            'is_phone': is_phone,
-            'is_dress': is_dress,
-            'is_laptop': is_laptop
-        }
+    return render(req, 'admin/view_all_pro.html', context)
 
-        return render(req,'admin/view_all_pro.html',context)
 
 def toggle_confirmation(request, order_id):
-        order = get_object_or_404(Buy, id=order_id)
-        order.is_confirmed = True  
-        order.save()
-        return redirect('admin_bookings') 
+    order = Buy.objects.get(id=order_id)
+    order.is_confirmed =True
+    order.save()
+    return redirect('admin_bookings')
 
 
 # -----------------------------user-----------------------------------------------------
@@ -382,7 +372,7 @@ def cart_display(req):
         total_price = product_price * item.quantity 
         grand_total_price += total_price  
 
-        dis_price=float(item.category.price)
+        dis_price=(item.category.price)
         total_dis_price=dis_price*item.quantity
         grand_dis_price+=total_dis_price
         
