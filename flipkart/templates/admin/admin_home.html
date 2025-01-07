@@ -128,7 +128,7 @@
             border: 1px solid rgba(90, 87, 87, 0.314);
             padding: 10px;
             /* padding-left: 30px; */
-            border-radius: 10px;
+            border-radius: 2px;
             margin-right: 20px;
             height: 630px;
             border: none;
@@ -271,9 +271,9 @@
                                            
                                                 <a href="../edit_category/{{i.id}}" id="delete" class="btn mt-1"><i id="edit"
                                                     class="fa-solid fa-pen-to-square" style="margin-right:5px;"></i>edit Category</a>
-                                                    
-                                                <!-- <a href="../del_cat/{{ i.id }}" id="delete" class="btn"><i id="delete"
-                                                    class="fa-solid fa-trash " style="margin-right:5px;"></i>delete Category</a> -->
+                                                     
+                                                <a href="../del_cat/{{ i.id }}" id="delete" class="btn"><i id="delete"
+                                                    class="fa-solid fa-trash " style="margin-right:5px;"></i>delete Category</a> 
 
                                             {% endif %}
                                     {% endfor %}
@@ -361,7 +361,7 @@
             <div class="col-md-3">
                 <a class="text-decoration-none text-black" href="../product_details/{{i.id}}">
                     <div id="card1" style="height: auto;" class="movie-card justify-content-center">
-                        <img src="{{i.image.url}}" style="width: 400px; height: 440px;" class="img-fluid">
+                        <img src="{{i.image.url}}" style="width: auto; height: 350px;" class="img-fluid">
                         <div class="Phone-details text-center">
                             <h5 class="phone-title ">{{i.name}}</h5>
                             {% for category in categories %}
@@ -405,7 +405,7 @@
                 <div class="col-md-3">
                     <a class="text-decoration-none text-black" href="../product_details/{{i.id}}">
                         <div id="card1" style="height: auto;" class="movie-card justify-content-center">
-                            <img src="{{i.image.url}}" style="width: 400px; height: 440px;" class="img-fluid">
+                            <img src="{{i.image.url}}" style="width: auto; height: 320px;" class="img-fluid">
                             <div class="Phone-details text-center">
                                 <h5 class="phone-title">{{ i.name }}</h5>
                                 {% for category in categories %}

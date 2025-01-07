@@ -402,11 +402,16 @@
                 </div>
                 <div class="col-md-6">
                     <h4>Color</h4>
-                    <select id="categ" name="color" class="form-control">
+                    <div class="row">
+
                         {% for category in categories %}
-                        <option>{{ category.color }}</option>
-                        {% endfor %}
-                    </select>
+                        <div class="col-md-5">
+                            <div id="categ" class="card mb-5" {% if category_id.pk is category.pk %}
+                                style="border:4px solid rgb(0, 0, 0);" {% endif %}>
+                                {{ category.color }}
+                            </div>
+                        </div> {% endfor %}
+                    </div>
                 </div>
             </div>
             {% endif %}
@@ -499,7 +504,7 @@
                     <div class="row">
                         {% for i in dress %}
                         <div class="col-md-3">
-                            <a class="text-decoration-none text-black" href="sec/{{i.id}}">
+                            <a class="text-decoration-none text-black" href="../sec/{{i.id}}">
                                 <div id="card" class="movie-card justify-content-center">
                                     <img src="{{i.image.url}}" style="width: 400px; height: 440px;" class="img-fluid">
                                     <div class="Phone-details text-center">

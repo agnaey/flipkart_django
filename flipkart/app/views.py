@@ -190,8 +190,9 @@ def edit_category(req, id):
     return render(req, 'admin/edit_category.html', {'product': product, 'categories': categories})
 
 def del_category(req,id):
-    data=Categorys.objects.get(id=id)
-    data.delete()
+    product = Products.objects.get(pk=id)
+    categories = Categorys.objects.get(product=product)
+    categories.delete()
     return redirect(admin_home)
 
 def delete_product(req,id):

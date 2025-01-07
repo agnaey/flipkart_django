@@ -167,7 +167,6 @@
   }
   .product_img{
     border-radius: 15px;
-    padding-left: 30px;
   }
 
 
@@ -218,7 +217,16 @@
 }
 td, th {
     text-align: center;
-    
+}
+
+
+
+@media screen and (max-width:978px){
+    .product_img{
+        width:400px;
+        height:200px;
+        padding: none;
+    }
 }
     </style>
     <title>Flipkart</title>
@@ -275,7 +283,7 @@ td, th {
                     {% for i in data %}
                     <tr>
                         <td>
-                            <img src="{{ i.category.product.image.url }}" class="product_img img-fluid" alt="" style="width:100%; height:125px;">
+                            <img src="{{ i.category.product.image.url }}" class="product_img img-fluid" alt="" >
                         </td>
                         <td>{{ i.user }}</td>
                         <td>{{ i.category.product.name }}</td>
