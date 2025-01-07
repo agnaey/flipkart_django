@@ -50,7 +50,7 @@ def register(req):
             data=User.objects.create_user(first_name=username,username=email,email=email,password=password)
             data.save()
             # messages.success(req, "User Registered Successfully")
-            # return redirect(login)
+            return redirect(login)
         except:
             messages.warning(req,'user details already exits') 
             return redirect(register)   
@@ -95,19 +95,47 @@ def admin_home(req):
     
 
 def pro_details(req,id):
+
+    product = Products.objects.get(id=id)
+    category = Categorys.objects.filter(product=product)
+    category_id=req.session.get('cat')
+
+    phones = Products.objects.filter(phone=True)
+    dress = Products.objects.filter(dress=True)
+    laptop = Products.objects.filter(laptop=True)
+
     product=Products.objects.get(pk=id)
     categories = Categorys.objects.filter(product=product)
+    f=0
+    for i in category:
+        if category_id:
+            if i.pk==int(category_id):
+                category_data = Categorys.objects.get(pk=category_id)
+                f=1
+    if f==0:
+        category_data=None
 
     context = {
         'product': product,
         'categories': categories,
         'is_phone': product.phone,
         'is_dress': product.dress,
-        'is_laptop': product.laptop
+        'is_laptop': product.laptop,
+        'phones': phones,
+        'dress': dress,
+        'laptop': laptop,
+        'category_id':category_data
+
     }
     
     return render(req,'admin/product_details.html',context)
-    
+
+def demo2(req,id):
+    req.session['cat']=id
+    category=Categorys.objects.get(pk=id)
+    return redirect(pro_details,id=category.product_id)
+
+
 def add_product(req):
     if req.method == 'POST':
         pro_id = req.POST['pro_id']
@@ -189,9 +217,9 @@ def edit_category(req, id):
         return redirect(admin_home)
     return render(req, 'admin/edit_category.html', {'product': product, 'categories': categories})
 
-def del_category(req,id):
-    product = Products.objects.get(pk=id)
-    categories = Categorys.objects.get(product=product)
+def del_category(req,category_id):
+    # product = Products.objects.get(pk=id)
+    categories = Categorys.objects.get(id=category_id)
     categories.delete()
     return redirect(admin_home)
 
@@ -257,19 +285,19 @@ def secpage(request, id):
     product = Products.objects.get(id=id)
     category = Categorys.objects.filter(product=product)
 
-    # Check if the product is in the user's cart
-    # try:
-    #     catr1 = Cart.objects.get(category=category, user=log_user)
-    # except Cart.DoesNotExist:
+    categories = Categorys.objects.filter(product=product)
+
     cart1 = None
 
     phones = Products.objects.filter(phone=True)
     dress = Products.objects.filter(dress=True)
     laptop = Products.objects.filter(laptop=True)
+    others = Products.objects.filter(others=True)
     # category_id = request.session.get('cat')
     # category_data = Categorys.objects.filter(pk=category_id).first() if category_id else None
 
     category_id=request.session.get('cat')
+    category_data = None
 
     f=0
     for i in category:
@@ -279,7 +307,7 @@ def secpage(request, id):
                 f=1
     if f==0:
         category_data=None
-    
+
 
     context = {
         'product': product,
@@ -287,11 +315,13 @@ def secpage(request, id):
         'is_phone': product.phone,
         'is_dress': product.dress,
         'is_laptop': product.laptop,
+        'is_others': product.others,
         'cart1': cart1,
         'phones': phones,
         'dress': dress,
         'laptop': laptop,
-        'category_id':category_data
+        'others': others,
+        'category_id':category_data,
     }
 
     return render(request, 'user/secpage.html', context)
@@ -317,13 +347,14 @@ def add_to_cart(request, pid):
     
 
     cart_item, created = Cart.objects.get_or_create(user=log_user,  category=category)
-    if cart_item.quantity < 5:
-        cart_item.quantity += 1
-        cart_item.save()
-    else:
-        messages.warning(request, "Maximum quantity limit of 5 reached.")
     
-
+    if created:
+        cart_item.quantity = 1
+    elif cart_item.quantity < 5:
+        cart_item.quantity += 1
+    else:
+         messages.warning(request, "Maximum quantity limit of 5 reached.")
+    cart_item.save()
     return redirect(cart_display) 
 
 def add_quantity(request, category_id):
@@ -400,11 +431,11 @@ def cart_delete(req,id):
 
 def buy_pro(req,id):
     user = User.objects.get(username=req.session['username'])
-   
+    quantity = req.GET.get('quantity', 1)   
     category = Categorys.objects.get(pk=req.session['cat'])  
     price = category.offer_price
 
-    data = Buy.objects.create(user=user, category=category, price=price)
+    data = Buy.objects.create(user=user, category=category, price=price,quantity=quantity)
     data.save()
 
     return redirect(view_bookings)

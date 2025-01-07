@@ -360,7 +360,7 @@
                     {% for category in categories %}
                     <div class="col-md-3">
                         <a href="../demo/{{ category.pk }}" style="color: black;">
-                            <div id="categ" class="card mb-3" {% if category_id.pk is category.pk %}
+                            <div id="categ" class="card mb-3" {% if category_id.pk is category.pk  %}
                                 style="border:4px solid rgb(0, 0, 0);" {% endif %}>
                                 {{ category.storage }}
                             </div>
@@ -415,18 +415,40 @@
                 </div>
             </div>
             {% endif %}
+            {% if is_others %}
+            <div class="row mt-3 mb-4">
+                <div class="col-md-6">
+                    <h4>Color</h4>
+                    {% for category in categories %}
+                    <a href="../demo/{{ category.pk }}" style="color: black;">
+                        <div id="categ" class="card mb-3" {% if category_id.pk is category.pk %}
+                            style="border:4px solid rgb(0, 0, 0);" {% endif %}>
+                            {{ category.color }}
+                        </div>
+                    </a>
+                    {% endfor %}
+            {% endif %}
 
             <!-- Cart and Buy Buttons -->
             <div class="mt-4">
-                {% if cart1 %}
-                <a href="../cart_disp" id="cart1" class="btn"><i class="fa-solid fa-cart-shopping"></i> Go to Cart</a>
+                {% if category_id %}
+                    <a href="../add_to_cart/{{ product.pk }}?category_id={{ category_id.pk }}" id="cart" class="btn ">
+                        <i class="fa-solid fa-cart-shopping"></i> Add to Cart
+                    </a>
+                    <a href="../buy_product/{{ product.pk }}?category_id={{ category_id.pk }}" id="buy" class="btn m-3">
+                        <i class="fa-solid fa-bolt-lightning"></i> Buy Now
+                    </a>
                 {% else %}
-                <a href="../add_to_cart/{{ product.pk }}" id="cart" class="btn"><i
-                        class="fa-solid fa-cart-shopping"></i> Add to Cart</a>
+                    <button class="btn btn-secondary " id="cart" disabled>
+                        <i class="fa-solid fa-cart-shopping"></i> Add to Cart
+                    </button>
+                    <button class="btn btn-secondary m-3" disabled id="buy">
+                        <i class="fa-solid fa-bolt-lightning"></i> Buy Now
+                    </button>
+                    <p class="text-danger mt-2">Please select a category to proceed.</p>
                 {% endif %}
-                <a href="../buy_product/{{ product.pk }}" id="buy" class="btn"><i
-                        class="fa-solid fa-bolt-lightning"></i> Buy Now</a>
             </div>
+            
 
             <hr class="mt-5 mb-5">
         </div>
