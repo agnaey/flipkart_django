@@ -63,8 +63,7 @@ def register(req):
 # ----------------------------------admin------------------------------------------------------
 
 def admin_home(req):
-    product=Products.objects.all()
-    categories = Categorys.objects.select_related('product')
+    categories = Categorys.objects.all()
 
     if 'admin' in req.session:
         phones = Products.objects.filter(phone=True)
@@ -78,7 +77,6 @@ def admin_home(req):
         # other_categories = Categorys.objects.filter (other_categories=True)
 
         context = {
-            'product': product,
             'categories': categories,
             'phones': phones,
             'dress': dress,
@@ -100,9 +98,7 @@ def pro_details(req,id):
     category = Categorys.objects.filter(product=product)
     category_id=req.session.get('cat')
 
-    phones = Products.objects.filter(phone=True)
-    dress = Products.objects.filter(dress=True)
-    laptop = Products.objects.filter(laptop=True)
+
 
     product=Products.objects.get(pk=id)
     categories = Categorys.objects.filter(product=product)
@@ -121,9 +117,8 @@ def pro_details(req,id):
         'is_phone': product.phone,
         'is_dress': product.dress,
         'is_laptop': product.laptop,
-        'phones': phones,
-        'dress': dress,
-        'laptop': laptop,
+        'is_others': product.others,
+   
         'category_id':category_data
 
     }

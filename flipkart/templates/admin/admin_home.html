@@ -265,30 +265,22 @@
                                 <div class="Phone-details text-center">
                 
                                     <h5 class="phone-title mt-3">{{ i.name }}</h5>
-                                    {% for category in categories %}
-                                            {% if category.product == i %}
+                                    {% with i.categorys_set.all|first as category %}
+                                        {% if category %}
                                             <p class="price text-danger text-decoration-line-through">
                                                 Price: ₹{{ category.price }}
                                             </p>
                                             <h5 class="offer_price text-success">
                                                 <b>Offer Price: ₹{{ category.offer_price }}</b>
-                                            </h5>
-                                           
-                                                <a href="../edit_category/{{i.id}}" id="delete" class="btn mt-1"><i id="edit"
-                                                    class="fa-solid fa-pen-to-square" style="margin-right:5px;"></i>edit Category</a>
-                                                     
-                                                <a href="../del_cat/{{ i.id }}" id="delete" class="btn"><i id="delete"
-                                                    class="fa-solid fa-trash " style="margin-right:5px;"></i>delete Category</a> 
-
-                                            {% endif %}
-                                    {% endfor %}
+                                            </h5>                                                                                         
+                                        {% endif %}
+                                    {% endwith %}
                                     <hr>
                                     <a href="../delete_pro/{{i.id}}" id="delete" class="btn"><i id="delete"
                                         class="fa-solid fa-trash " style="margin-right:5px;"></i>delete</a>
-                               
-
-                                    <a href="../edit_pro/{{i.id}}" id="delete" class="btn mt-1"><i id="edit"
-                                        class="fa-solid fa-pen-to-square" style="margin-right:5px;"></i>edit</a>
+                                   
+                                    <a href="../edit_pro/{{i.id}}" id="edit" class="btn mt-1"><i id="edit"
+                                            class="fa-solid fa-pen-to-square" style="margin-right:5px;"></i>edit</a>
                                     
                                 </div>
                             </div>
@@ -322,19 +314,16 @@
                         <img src="{{i.image.url}}" style="width: 400px; height: 440px;" class="img-fluid">
                         <div class="Phone-details text-center">
                             <h5 class="phone-title ">{{i.name}}</h5>
-                            {% for category in categories %}
-                                    {% if category.product == i %}
-                                        <p class="price text-danger text-decoration-line-through">
-                                            Price: ₹{{ category.price }}
-                                        </p>
-                                        <h5 class="offer_price text-success">
-                                            <b>Offer Price: ₹{{ category.offer_price }}</b>
-                                        </h5>
-                                      
-                                            <a href="../edit_category/{{i.id}}" id="delete" class="btn mt-1"><i id="edit"
-                                                class="fa-solid fa-pen-to-square" style="margin-right:5px;"></i>edit Category</a>
-                                    {% endif %}
-                                {% endfor %}
+                            {% with i.categorys_set.all|first as category %}
+                                        {% if category %}
+                                            <p class="price text-danger text-decoration-line-through">
+                                                Price: ₹{{ category.price }}
+                                            </p>
+                                            <h5 class="offer_price text-success">
+                                                <b>Offer Price: ₹{{ category.offer_price }}</b>
+                                            </h5>                                                                                         
+                                        {% endif %}
+                                    {% endwith %}
                             <hr>
                             <a href="../delete_pro/{{i.id}}" id="delete" class="btn"><i id="delete"
                                 class="fa-solid fa-trash " style="margin-right:5px;"></i>delete</a>
@@ -369,19 +358,16 @@
                         <img src="{{i.image.url}}" style="width: auto; height: 350px;" class="img-fluid">
                         <div class="Phone-details text-center">
                             <h5 class="phone-title ">{{i.name}}</h5>
-                            {% for category in categories %}
-                                    {% if category.product == i %}
-                                        <p class="price text-danger text-decoration-line-through">
-                                            Price: ₹{{ category.price }}
-                                        </p>
-                                        <h5 class="offer_price text-success">
-                                            <b>Offer Price: ₹{{ category.offer_price }}</b>
-                                        </h5>
-                                        
-                                            <a href="../edit_category/{{i.id}}" id="delete" class="btn mt-1"><i id="edit"
-                                                class="fa-solid fa-pen-to-square" style="margin-right:5px;"></i>edit Category</a>
-                                    {% endif %}
-                                {% endfor %}
+                            {% with i.categorys_set.all|first as category %}
+                                        {% if category %}
+                                            <p class="price text-danger text-decoration-line-through">
+                                                Price: ₹{{ category.price }}
+                                            </p>
+                                            <h5 class="offer_price text-success">
+                                                <b>Offer Price: ₹{{ category.offer_price }}</b>
+                                            </h5>                                                                                         
+                                        {% endif %}
+                                    {% endwith %}
                             <hr>
                             <a href="../delete_pro/{{i.id}}" id="delete" class="btn"><i id="delete"
                                 class="fa-solid fa-trash " style="margin-right:5px;"></i>delete</a>
@@ -413,19 +399,16 @@
                             <img src="{{i.image.url}}" style="width: auto; height: 320px;" class="img-fluid">
                             <div class="Phone-details text-center">
                                 <h5 class="phone-title">{{ i.name }}</h5>
-                                {% for category in categories %}
-                                {% if category.product == i %}
-                                    <p class="price text-danger text-decoration-line-through">
-                                        Price: ₹{{ category.price }}
-                                    </p>
-                                    <h5 class="offer_price text-success">
-                                        <b>Offer Price: ₹{{ category.offer_price }}</b>
-                                    </h5>
-                                 
-                                <a href="../edit_category/{{i.id}}" id="edit" class="btn mt-1"><i id="edit"
-                                        class="fa-solid fa-pen-to-square" style="margin-right:5px;"></i>edit Category</a>
-                                {% endif %}
-                                {% endfor %}
+                                {% with i.categorys_set.all|first as category %}
+                                        {% if category %}
+                                            <p class="price text-danger text-decoration-line-through">
+                                                Price: ₹{{ category.price }}
+                                            </p>
+                                            <h5 class="offer_price text-success">
+                                                <b>Offer Price: ₹{{ category.offer_price }}</b>
+                                            </h5>                                                                                         
+                                        {% endif %}
+                                    {% endwith %}
                                 <hr>
                                 <a href="../delete_pro/{{i.id}}" id="delete" class="btn"><i id="delete"
                                     class="fa-solid fa-trash " style="margin-right:5px;"></i>delete</a>

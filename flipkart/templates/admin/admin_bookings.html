@@ -296,7 +296,8 @@ td, th {
                         <td><b>{{ i.quantity }}</b></td>
                         <td>{{ i.date }}</td>
                         <td>
-                            <a href="../cancel_order/{{ i.id }}" class="btn btn-danger btn-sm">
+                            
+                            <a href="../cancel_order/{{ i.id }}" class="btn btn-danger btn-sm mb-3">
                                 <i class="fa-solid fa-trash"></i> Delete
                             </a>
                             <form action="../confirm_order/{{i.id }}" method="post" style="display:inline;">
@@ -318,6 +319,7 @@ td, th {
                 </tbody>
             </table>
         </div>
+        
         
 
     </div>

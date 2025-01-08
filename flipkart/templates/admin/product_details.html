@@ -332,9 +332,12 @@
     <div id="container" class="container">
         <div class="row">
             <div id="image-section" class="col-lg-6 mb-5 mt-2">
+
                 <img src="{{ product.image.url }}" class="product_img img-fluid" alt="Card image"
                     style="width:400px; height: 500px;">
                                     <br><br>
+                {% if category_id %}
+
                 <a href="../delete_pro/{{ product.id }}" id="cart" class="btn">
                     <i class="fa-solid fa-trash"></i>Delete
                 </a>
@@ -351,6 +354,29 @@
                     <i class="fa-solid fa-plus"></i>Add Category
                 </a>
                 <br><br>
+                {% else %}
+                
+
+                                    <br><br>
+                <button id="cart" class="btn" disabled>
+                    <i class="fa-solid fa-trash"></i>Delete
+            </button>
+                <button id="buy" class="btn" disabled>
+                    <i class="fa-solid fa-pen-to-square"></i>Edit Item
+                </button>
+                <button id="buy" class="btn" disabled>
+                    <i class="fa-solid fa-pen-to-square"></i>Edit Category
+                </button>
+                <button id="cart" class="btn" disabled>
+                    <i class="fa-solid fa-trash"></i>Delete Category
+                </button>
+                <button id="category" class="btn" disabled>
+                    <i class="fa-solid fa-plus"></i>Add Category
+                </button>
+
+
+                <p class="text-danger mt-2">Please select a category to proceed.</p>
+                {% endif %}
             </div>
 
             <div id="details-section" class="col-lg-6 mt-5">
@@ -402,10 +428,12 @@
         
                             {% for category in categories %}
                             <div class="col-md-6">
+                                <a href="../demo2/{{ category.pk }}" style="color: black;">
                                 <div id="categ" class="card mb-3" {% if category_id.pk is category.pk %}
                                     style="border:4px solid rgb(0, 0, 0);" {% endif %}>
                                     {{ category.color }}
                                 </div>
+                                </a>
                             </div> {% endfor %}
                         </div>
                     </div>
@@ -432,10 +460,12 @@
         
                                 {% for category in categories %}
                                 <div class="col-md-9 mb-3">
+                                    <a href="../demo2/{{ category.pk }}" style="color: black;">
                                     <div id="categ" class="card mb-6" {% if category_id.pk is category.pk %}
                                         style="border:4px solid rgb(0, 0, 0);" {% endif %}>
                                         {{ category.color }}
                                     </div>
+                                    </a>
                                 </div> {% endfor %}
                             </div>
                         </div>
