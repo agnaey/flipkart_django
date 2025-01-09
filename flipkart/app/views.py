@@ -170,8 +170,8 @@ def category(req, id):
 
     return render(req, 'admin/category.html', {'product': product})
 
-def edit_product(req,id):
-    data=Products.objects.get(pk=id)
+def edit_product(req, id):
+    data = Products.objects.get(pk=id)
     if req.method == 'POST':
         pro_id = req.POST['pro_id']
         name = req.POST['name']
@@ -183,16 +183,24 @@ def edit_product(req,id):
         dress = 'dress' in req.POST
         laptop = 'laptop' in req.POST
         others = 'others' in req.POST
-        print (image)
-        if image:
-            Products.objects.filter(pk=id).update(P_id=pro_id,name=name,image=image,
-            description=description,highlights=highlights,phone=phone,dress=dress,laptop=laptop,others=others)
-        else:
-            Products.objects.filter(pk=id).update(P_id=pro_id,name=name,
-            description=description,highlights=highlights,phone=phone,dress=dress,laptop=laptop,others=others)
         
-        return redirect('edit_category',id=id)
-    return render(req, 'admin/edit_product.html',{'data':data})
+        data.P_id = pro_id
+        data.name = name
+        data.description = description
+        data.highlights = highlights
+        data.phone = phone
+        data.dress = dress
+        data.laptop = laptop
+        data.others = others
+        
+        if image:
+            data.image = image
+        data.save()
+        
+        return redirect('edit_category', id=id)
+    
+    return render(req, 'admin/edit_product.html', {'data': data})
+
 
 def edit_category(req, id):
     product = Products.objects.get(pk=id)
