@@ -222,7 +222,7 @@ def edit_category(req, id):
 
 def del_category(req,category_id):
     # product = Products.objects.get(pk=id)
-    categories = Categorys.objects.get(id=category_id)
+    categories = Categorys.objects.get(pk=req.session['cat'])
     categories.delete()
     return redirect(admin_home)
 
