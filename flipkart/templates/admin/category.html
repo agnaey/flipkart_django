@@ -112,6 +112,9 @@ $(document).ready(function () {
         input,textarea{
             border-radius: 10px;
         }
+        .input1{
+            height: 40px;
+        }
         #add{
             border-radius: 20px;
             color: white;
@@ -210,19 +213,19 @@ $(document).ready(function () {
         <div class="row">
             {% csrf_token %}
             <label for="storage">RAM/ROM:</label>
-            <input type="text" id="pro_id" name="storage" ><br><br>
+            <input class="input1" type="text" id="pro_id" name="storage" ><br><br>
     
             <label for="color">Color:</label>
-            <input type="text" id="name" name="color" ><br><br>
+            <input class="input1" type="text" id="name" name="color" ><br><br>
     
             <label for="price">Price:</label>
-            <input type="text" id="price" name="price" required><br><br>
+            <input class="input1" type="text" id="price" name="price" required><br><br>
     
             <label for="o_price">Offer Price:</label>
-            <input type="text" id="o_price" name="o_price"required><br><br>
+            <input class="input1" type="text" id="o_price" name="o_price"required><br><br>
 
             <label for="size">Size:</label>
-            <input type="text" id="size" name="size" ><br><br>
+            <input class="input1" type="text" id="size" name="size" ><br><br>
 
 
     

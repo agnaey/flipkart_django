@@ -113,6 +113,12 @@
         input,textarea{
             border-radius: 10px;
         }
+        .input1{
+            height: 40px;
+        }
+        .input2{
+            height: 80px;
+        }
         #add{
             border-radius: 20px;
             color: white;
@@ -154,14 +160,14 @@
                                 class="fa-solid fa-user">&nbsp;&nbsp;</i>Logout</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fa-solid fa-cart-shopping"></i>&nbsp;&nbsp;User
+                        <a class="nav-link" href="../admin_booking"><i class="fa-solid fa-cart-shopping"></i>&nbsp;&nbsp;User
                             Bookings</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fa-solid fa-shop"></i>&nbsp; View All Product</a>
+                        <a class="nav-link" href="../view_pro"><i class="fa-solid fa-shop"></i>&nbsp; View All Product</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="add_pro"><i class="fa-solid fa-plus"></i></i>&nbsp; Add products</a>
+                        <a class="nav-link" href="../add_pro"><i class="fa-solid fa-plus"></i></i>&nbsp; Add products</a>
                     </li>
                 </ul>
             </div>
@@ -203,21 +209,21 @@
                 <form method="POST"   enctype="multipart/form-data">
                     {% csrf_token %}
                     <label for="pro_id">Product ID:</label>
-                    <input type="text" id="pro_id" name="pro_id" value="{{ data.P_id }}" required><br><br>
+                    <input class="input1" type="text" id="pro_id" name="pro_id" value="{{ data.P_id }}" required><br><br>
             
                     <label for="name">Name:</label>
-                    <input type="text" id="name" name="name" value="{{ data.name }}" required><br><br>
+                    <input class="input1" type="text" id="name" name="name" value="{{ data.name }}" required><br><br>
             
                 
                     <img src="{{data.image.url}}" alt="" style="width: 250px;height: 300px; margin-top: 10px;"><br>
                     <label for="img">New Image:</label>
-                    <input type="file" id="img" name="img"><br><br>
+                    <input class="input1" type="file" id="img" name="img"><br><br>
             
                     <label for="description">Description:</label>
-                    <textarea id="description" name="description">{{ data.description }}</textarea><br><br>
+                    <textarea class="input2" id="description" name="description">{{ data.description }}</textarea><br><br>
             
                     <label for="highlights">Highlights:</label>
-                    <textarea id="highlights" name="highlights">{{ data.highlights }}</textarea><br><br>
+                    <textarea class="input2" id="highlights" name="highlights">{{ data.highlights }}</textarea><br><br>
             
                     <label><input type="checkbox" name="phone" {% if data.phone %}checked{% endif %}> Phone</label><br>
                     <label><input type="checkbox" name="dress" {% if data.dress %}checked{% endif %}> Dress</label><br>

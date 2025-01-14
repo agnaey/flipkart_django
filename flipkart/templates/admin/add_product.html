@@ -112,6 +112,14 @@ $(document).ready(function () {
         input,textarea{
             border-radius: 10px;
         }
+        .input1{
+            height: 40px;
+        }
+        .input2{
+            height: 80px;
+        }
+
+
         #add{
             border-radius: 20px;
             color: white;
@@ -154,14 +162,14 @@ $(document).ready(function () {
                                 class="fa-solid fa-user">&nbsp;&nbsp;</i>Logout</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fa-solid fa-cart-shopping"></i>&nbsp;&nbsp;User
+                        <a class="nav-link" href="../admin_booking"><i class="fa-solid fa-cart-shopping"></i>&nbsp;&nbsp;User
                             Bookings</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fa-solid fa-shop"></i>&nbsp; View All Product</a>
+                        <a class="nav-link" href="../view_pro"><i class="fa-solid fa-shop"></i>&nbsp; All Product</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="add_pro"><i class="fa-solid fa-plus"></i></i>&nbsp; Add products</a>
+                        <a class="nav-link" href="../add_pro"><i class="fa-solid fa-plus"></i></i>&nbsp; Add products</a>
                     </li>
                 </ul>
             </div>
@@ -202,19 +210,19 @@ $(document).ready(function () {
         <div class="row">
             {% csrf_token %}
             <label for="pro_id">Product ID:</label>
-            <input type="text" id="pro_id" name="pro_id" required><br><br>
+            <input class="input1" type="text" id="pro_id" name="pro_id" required><br><br>
     
             <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required><br><br>
+            <input class="input1" type="text" id="name" name="name" required><br><br>
     
             <label for="img">Image:</label>
-            <input type="file" id="img" name="img" required><br><br>
+            <input class="input1" type="file" id="img" name="img" required><br><br>
     
             <label for="description">Description:</label>
-            <textarea id="description" name="description"></textarea><br><br>
+            <textarea class="input2" id="description" name="description"></textarea><br><br>
     
             <label for="highlights">Highlights:</label>
-            <textarea id="highlights" name="highlights"></textarea><br><br>
+            <textarea class="input2" id="highlights" name="highlights"></textarea><br><br>
     
             <label><input type="checkbox" name="phone"> Phone</label><br>
             <label><input type="checkbox" name="dress"> Dress</label><br>

@@ -112,6 +112,12 @@ $(document).ready(function () {
         input,textarea{
             border-radius: 10px;
         }
+        .input1{
+            height: 40px;
+        }
+        .input2{
+            height: 80px;
+        }
         #add{
             border-radius: 20px;
             color: white;
@@ -154,14 +160,14 @@ $(document).ready(function () {
                                 class="fa-solid fa-user">&nbsp;&nbsp;</i>Logout</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fa-solid fa-cart-shopping"></i>&nbsp;&nbsp;User
+                        <a class="nav-link" href="../admin_booking"><i class="fa-solid fa-cart-shopping"></i>&nbsp;&nbsp;User
                             Bookings</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fa-solid fa-shop"></i>&nbsp; View All Product</a>
+                        <a class="nav-link" href="../view_pro"><i class="fa-solid fa-shop"></i>&nbsp; View All Product</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="add_pro"><i class="fa-solid fa-plus"></i></i>&nbsp; Add products</a>
+                        <a class="nav-link" href="../add_pro"><i class="fa-solid fa-plus"></i></i>&nbsp; Add products</a>
                     </li>
                 </ul>
             </div>
@@ -203,19 +209,19 @@ $(document).ready(function () {
         <div class="row">
             {% csrf_token %}
             <label for="storage">RAM/ROM:</label>
-            <input type="text" id="pro_id" name="storage" value="{{category.storage}}" ><br><br>
+            <input class="input1" type="text" id="pro_id" name="storage" value="{{category.storage}}" ><br><br>
     
             <label for="color">Color:</label>
-            <input type="text" id="name" name="color" value="{{category.color}}" ><br><br>
+            <input class="input1" type="text" id="name" name="color" value="{{category.color}}" ><br><br>
     
             <label for="price">Price:</label>
-            <input type="text" id="price" name="price" value="{{category.price}}" required ><br><br>
+            <input class="input1" type="text" id="price" name="price" value="{{category.price}}" required ><br><br>
     
             <label for="o_price">Offer Price:</label>
-            <input type="text" id="o_price" name="o_price" value="{{category.offer_price}}" required><br><br>
+            <input class="input1" type="text" id="o_price" name="o_price" value="{{category.offer_price}}" required><br><br>
 
             <label for="size">Size:</label>
-            <input type="text" id="size" name="size" value="{{category.size}}" ><br><br>
+            <input class="input1" type="text" id="size" name="size" value="{{category.size}}" ><br><br>
 
 
             <input type="text" id="category" name="category" value="{{category.pk}}" hidden ><br><br>
