@@ -10,6 +10,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
     <!-- alert -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -111,10 +114,10 @@
     <link rel="icon" href="{% static '/images/flips1.png' %}" type="image/x-icon">
 </head>
 
-<body style="background-color: rgb(241,242,244);">
-    <nav class="navbar navbar-expand-lg">
+<body style="background-color: rgb(241,242,244);" data-aos="fade-down" data-aos-duration="1500">
+    <nav class="navbar navbar-expand-lg" data-aos="fade-down" data-aos-duration="1500" >
         <div class="container">
-            <a class="navbar-brand" href="#"><img src="{% static '/images/logo.jpg' %}" style="width: 100px; "
+            <a class="navbar-brand" href="#"><img src="{% static '/images/logo.jpg' %}" data-aos="fade-down" data-aos-duration="1500" data-aos-delay="100" style="width: 100px; "
                     alt=""></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -124,26 +127,26 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <form class="d-flex" role="search">
-                        <input id="search" class="form-control me-2" type="search"
+                        <input id="search" data-aos="fade-down" data-aos-duration="1500" data-aos-delay="200"  class="form-control me-2" type="search"
                             placeholder="Search For Product, Brand and More" aria-label="Search">
                     </form>
                     <li class="nav-item ">
-                        <a class="nav-link " id="login" href="logout"><i class="fa-solid fa-user">&nbsp;&nbsp;</i>Logout</a>
+                        <a class="nav-link " data-aos="fade-down" data-aos-duration="1500" data-aos-delay="300"  id="login" href="logout"><i class="fa-solid fa-user">&nbsp;&nbsp;</i>Logout</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="cart_disp"><i class="fa-solid fa-cart-shopping"></i>&nbsp;&nbsp;Cart</a>
+                        <a class="nav-link" data-aos="fade-down" data-aos-duration="1500" data-aos-delay="400"  href="cart_disp"><i class="fa-solid fa-cart-shopping"></i>&nbsp;&nbsp;Cart</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../user_vew_booking"><i class="fa-solid fa-shop"></i>&nbsp; View bookings</a>
+                        <a class="nav-link" data-aos="fade-down" data-aos-duration="1500" data-aos-delay="500"  href="../user_vew_booking"><i class="fa-solid fa-shop"></i>&nbsp; View bookings</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
-    <nav class="container mt-2">
+    <nav class="container mt-2" data-aos="fade-right" data-aos-duration="1500" data-aos-delay="100" >
         <ul class="nav justify-content-center">
             <li class="nav-item">
-                <a id="navsub1" class="nav-link" href="see_more/dress">Dress</a>
+                <a id="navsub1"  class="nav-link" href="see_more/dress">Dress</a>
             </li>
             <li class="nav-item">
                 <a id="navsub1" class="nav-link" href="../see_more/phone">Mobile</a>
@@ -162,7 +165,7 @@
 
     <div id="demo" class="container carousel slide mt-4" data-bs-ride="carousel">
 
-        <div class="carousel-inner">
+        <div data-aos="fade-out" data-aos-duration="1500" data-aos-delay="700"  class="carousel-inner">
             <div class="carousel-item active">
                 <img src="{% static '/images/slide1.png' %}" alt="" class="d-block" style="width:100%">
             </div>
@@ -192,7 +195,7 @@
         </button>
     </div>
 
-    <div id="best_sales" class="sample container p-3 mt-4">
+    <div id="best_sales" class="sample container p-3 mt-4" data-aos="zoom-in" data-aos-duration="1500" data-aos-delay="100" >
         <div class="d-flex justify-content-between align-items-center mb-1">
             
             <h3 class="mb-0"><b>Best Sales on SmartPhone</b></h3>
@@ -201,7 +204,7 @@
         <div id="demo2" class="carousel slide" data-bs-ride="false">
 
             <!-- The slideshow/carousel -->
-            <div class="carousel-inner">
+            <div class="carousel-inner" >
                 <div class="carousel-item active ">
                     <div class="row ">
                         {% for i in phones %}
@@ -241,7 +244,7 @@
     <!-- ---------------------------------dress------------------------------------------- -->
 
 
-    <div id="best_sales" class="sample container p-5 mt-4">
+    <div id="best_sales" class="sample container p-5 mt-4" data-aos="zoom-in" data-aos-duration="1400" data-aos-delay="100" >
         <div class="d-flex justify-content-between align-items-center mb-1">
             <h3 class="mb-0"><b>Best Dress</b></h3>
             <a href="see_more/dress" class="btn btn-dark" style="float: right;">See More</a>
@@ -283,7 +286,7 @@
 
 
 
-    <div id="best_sales" class="sample container p-5 mt-4">
+    <div id="best_sales" class="sample container p-5 mt-4" data-aos="fade-up" data-aos-duration="1500" data-aos-delay="100" >
         <div class="d-flex justify-content-between align-items-center mb-1">
             <h3 class="mb-0"><b>Best Laptops</b></h3>
             <a href="see_more/laptop" class="btn btn-dark" style="float: right;">See More</a>
@@ -322,7 +325,7 @@
     </div>
 
 
-        <div id="best_sales" class="sample container p-5 mt-4">
+        <div id="best_sales" class="sample container p-5 mt-4" data-aos="fade-up" data-aos-duration="1500" data-aos-delay="100" >
             <div class="d-flex justify-content-between align-items-center mb-1">
                 <h3 class="mb-0"><b>Others</b></h3>
                 <a href="see_more/others" class="btn btn-dark" style="float: right;">See More</a>
@@ -356,7 +359,7 @@
             </div>
         </div>
 
-    <div class="container mt-4">
+    <!-- <div class="container mt-4">
         <img class="img-fluid" src="{% static '/images/style.png' %}" alt="">
     </div>
     <div class="container">
@@ -374,7 +377,11 @@
     </div>
     <div class="container mt-3">
         <img class="img-fluid" src="{% static '/images/j5a5tklk.png' %}" alt="">
-    </div>
+    </div> -->
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+      AOS.init({offset:0});
+    </script>
 </body>
 
 </html>

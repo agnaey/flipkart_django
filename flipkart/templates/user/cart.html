@@ -10,6 +10,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
     <!-- alert -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
@@ -257,7 +260,7 @@
     <link rel="icon" href="{% static '/images/flips1.png' %}" type="image/x-icon">
 </head>
 
-<body style="background-color: rgb(241,242,244);">
+<body style="background-color: rgb(241,242,244);" data-aos="fade-down" data-aos-duration="1500" data-aos-delay="100">
     <nav id="nav1" class="navbar navbar-expand-lg">
         <div class="container">
             <a class="navbar-brand" href="../index"><img src="{% static '/images/i4436jrf.png' %}"
@@ -290,18 +293,18 @@
     <h1 class="text-center" id="mycart">My Cart</h1>
 
     {% for cart_item in cart_items %}
-    <div id="container" class="container mt-1">
+    <div id="container" class="container mt-1" data-aos="zoom-in" data-aos-duration="1500" data-aos-delay="100">
         <div class="row">
-            <div class="col-lg-5 mt-2">
+            <div class="col-lg-5 mt-2" data-aos="zoom-out" data-aos-duration="1900" data-aos-delay="300">
                 <img src="{{ cart_item.cart_obj.category.product.image.url }}" class="product_img img-fluid"
                     alt="Product Image" style="width:400px; height: 500px;">
             </div>
 
-            <div id="details-section" class="col-lg-6 mt-5">
-                <h4 class="product_name">{{ cart_item.cart_obj.category.product.name }}</h4>
+            <div id="details-section" class="col-lg-6 mt-5" data-aos="zoom-out-right" data-aos-duration="1900" data-aos-delay="300">
+                <h4 class="product_name" data-aos="zoom-out-right">{{ cart_item.cart_obj.category.product.name }}</h4>
                 <br>
 
-                <p class="offer_price" style="display: inline;">Offer Price: ₹{{ cart_item.total_price }}</p>
+                <p class="offer_price" style="display: inline;" >Offer Price: ₹{{ cart_item.total_price }}</p>
                 <p class="price" style="text-decoration: line-through; padding-left: 10px; display: inline;">
                     ₹{{ cart_item.total_dis_price }}
                 </p>
@@ -439,6 +442,11 @@
     </script>
     {% endfor %}
     {% endif %}
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+      AOS.init({offset:0});
+    </script>
 </body>
 
 </html>
