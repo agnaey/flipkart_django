@@ -300,7 +300,7 @@ td, th {
                             <a href="../cancel_order/{{ i.id }}" class="btn btn-danger btn-sm mb-3">
                                 <i class="fa-solid fa-trash"></i> Delete
                             </a>
-                            <form action="../confirm_order/{{i.id }}" method="post" style="display:inline;">
+                            <form action="../confirm_order/{{i.pk }}" method="post" style="display:inline;">
                                 {% csrf_token %}
                                 {% if i.is_confirmed %}
                                 
@@ -313,7 +313,8 @@ td, th {
                                     </button>
                                 {% endif %}
                             </form>
-                        </td>
+                            <!-- <a class="btn btn-warning btn-sm" href="../confirm_order/{{i.pk }}"> pending</a> -->
+                        </td> 
                     </tr>
                     {% endfor %}
                 </tbody>

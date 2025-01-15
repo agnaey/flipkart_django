@@ -249,11 +249,11 @@ def cancel_order(req,id):
     return redirect(admin_bookings)
 
 def confirm_order(request, order_id):
-    if request.method == 'POST':
-        order = Buy.objects.get( id=order_id)
+    # if request.method == 'POST':
+        order = Buy.objects.get(pk=order_id)
         order.is_confirmed = True
         order.save()
-    return redirect('admin_bookings')
+        return redirect(admin_bookings)
 
 def view_pro(req):
     categories = Categorys.objects.select_related('product').all()
@@ -486,10 +486,6 @@ def view_bookings(req):
     return render(req, 'user/user_bookings.html', context)
 
 
-def confirm_order(order_id):
-    order = Buy.objects.get(id=order_id)
-    order.is_confirmed = True
-    order.save()
 
 def user_orders(request):
     user = User.objects.get(username=request.session['username'])
