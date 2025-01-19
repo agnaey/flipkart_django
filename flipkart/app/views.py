@@ -92,6 +92,14 @@ def admin_home(req):
         return redirect(admin_home)
     
 
+def search_admin(request):
+    if request.method == 'POST':
+        searched = request.POST.get('searched', '')  
+        results = Products.objects.filter(name__icontains=searched) if searched else []
+        return render(request, 'admin/search_admin.html', {'searched': searched, 'results': results})
+    else:
+        return render(request, 'admin/search_admin.html', {'searched': '', 'results': []})
+
 def pro_details(req,id):
 
     product = Products.objects.get(id=id)
@@ -283,6 +291,16 @@ def index(request):
 
     return render(request, 'user/index.html', {'phones': phones,'dress': dress,'laptop': laptop,'others': others
     })
+
+
+def search(request):
+    if request.method == 'POST':
+        searched = request.POST.get('searched', '') 
+        results = Products.objects.filter(name__icontains=searched) if searched else []
+        return render(request, 'user/search.html', {'searched': searched, 'results': results})
+    else:
+        return render(request, 'user/search.html', {'searched': '', 'results': []})
+
 def secpage(request, id):
     log_user = User.objects.get(username=request.session['username'])
     product = Products.objects.get(id=id)

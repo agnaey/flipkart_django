@@ -151,9 +151,12 @@ $(document).ready(function () {
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <form class="d-flex" role="search">
-                        <input id="search" class="form-control me-2" type="search"
-                            placeholder="Search For Product, Brand and More" aria-label="Search">
+                    <form class="d-flex" role="search" action="{% url 'search_admin' %}" method="POST">
+                        {% csrf_token %}
+                        <input id="search" data-aos="fade-down" data-aos-duration="1500" data-aos-delay="200"
+                            class="form-control me-2" type="text" placeholder="Search For Product, Brand and More"
+                            aria-label="Search" name="searched">
+                        <button type="submit" class="btn btn-outline-primary">Search</button>
                     </form>
                     <li class="nav-item ">
                         <a class="nav-link " id="logout" href="logout"><i

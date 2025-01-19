@@ -9,6 +9,8 @@ urlpatterns = [
     # ----------------------admin--------------------------------------
 
     path('admin_home', views.admin_home),
+        path('search_admin/', views.search_admin, name='search_admin'),
+
     path('add_pro', views.add_product),
     path('category/<id>',views.category,name='category'),
     path('delete_pro/<id>', views.delete_product),
@@ -24,7 +26,7 @@ urlpatterns = [
     # ----------------------user--------------------------------------
 
     path('index', views.index),
-    
+    path('search/', views.search, name='search'),
     path('sec/<id>', views.secpage,name='sec'),
     path('add_to_cart/<pid>', views.add_to_cart),
   path('add_quantity/<int:category_id>/', views.add_quantity, name='add_quantity'),

@@ -180,7 +180,7 @@
             background-color: white;
             padding: 70px;
             height: auto;
-            margin-bottom: 30px;
+            margin-bottom: 330px;
             border-radius: 3px;
         }
 
@@ -370,9 +370,12 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <form class="d-flex" role="search">
-                        <input id="search" class="form-control me-2" type="search"
-                            placeholder="Search For Product, Brand and More" aria-label="Search">
+                    <form class="d-flex" role="search" action="{% url 'search' %}" method="POST">
+                        {% csrf_token %}
+                        <input id="search" data-aos="fade-down" data-aos-duration="1500" data-aos-delay="200" 
+                            class="form-control me-2" type="text" 
+                            placeholder="Search For Product, Brand and More" aria-label="Search" name="searched">
+                        <button type="submit" class="btn btn-primary">Search</button>
                     </form>
                     <li class="nav-item ">
                         <a class="nav-link " id="login" href="../logout"><i
@@ -410,148 +413,146 @@
             </li>
     </nav>
 
-    <div id="container" class="container" data-aos="zoom-in" data-aos-duration="1500" data-aos-delay="100">
+    <div id="container" class="container mb-5" data-aos="zoom-in" data-aos-duration="1500" data-aos-delay="100">
         <div class="row">
             <!-- Image Section -->
             <div id="image-section" class="col-lg-6 mb-5 mt-2" data-aos="zoom-out" data-aos-duration="1900" data-aos-delay="300">
-                <img src="{{ product.image.url }}" class="product_img img-fluid" alt="Product Image"
-                    style="width:400px; height: 500px;">
+                <img src="{{ product.image.url }}" class="product_img img-fluid" alt="Product Image" style="width:400px; height: 500px;">
             </div>
-
+    
             <!-- Details Section -->
-            <div id="details-section" class="col-lg-6 mt-5" >
+            <div id="details-section" class="col-lg-6 mt-5">
                 <h4 class="product_name" data-aos="zoom-out-right" data-aos-duration="1900" data-aos-delay="300">{{ product.name }}</h4><br><br>
-
+    
                 {% if category_id %}
-                {% for cat in categories %}
-                {% if category_id.pk == cat.pk %}
-                <p class="offer_price" id="offer-price">
-                    <b>Offer Price: ₹<span id="selected-offer-price">{{ cat.offer_price }}</span></b>
-                </p>
-                <p class="price" id="price" style="text-decoration: line-through;">
-                    ₹<span id="selected-price">{{ cat.price }}</span>
-                </p>
-                {% endif %}
-                {% endfor %}
+                    {% for cat in categories %}
+                        {% if category_id.pk == cat.pk %}
+                            <p class="offer_price" id="offer-price">
+                                <b>Offer Price: ₹<span id="selected-offer-price">{{ cat.offer_price }}</span></b>
+                            </p>
+                            <p class="price" id="price" style="text-decoration: line-through;">
+                                ₹<span id="selected-price">{{ cat.price }}</span>
+                            </p>
+                        {% endif %}
+                    {% endfor %}
                 {% else %}
-                <p class="offer_price" id="offer-price" data-aos="zoom-out-right" data-aos-duration="1900" data-aos-delay="400">
-                    <b>Offer Price: ₹<span id="selected-offer-price">{{ categories.first.offer_price }}</span></b>
-                </p>
-                <p class="price" id="price" data-aos="zoom-out-right" data-aos-duration="1900" data-aos-delay="500" style="text-decoration: line-through;">
-                    ₹<span id="selected-price">{{ categories.first.price }}</span>
-                </p>
+                    <p class="offer_price" id="offer-price" data-aos="zoom-out-right" data-aos-duration="1900" data-aos-delay="400">
+                        <b>Offer Price: ₹<span id="selected-offer-price">{{ categories.first.offer_price }}</span></b>
+                    </p>
+                    <p class="price" id="price" data-aos="zoom-out-right" data-aos-duration="1900" data-aos-delay="500" style="text-decoration: line-through;">
+                        ₹<span id="selected-price">{{ categories.first.price }}</span>
+                    </p>
                 {% endif %}
-
+    
                 <!-- Storage Section -->
                 {% if is_phone or is_laptop %}
-                <div class="row mt-5" data-aos="zoom-out-right" data-aos-duration="1900" data-aos-delay="600">
-                    <h4 >Storage</h4>
-                    {% for category in categories %}
-                    <div class="col-md-3">
-                        <a href="../demo/{{ category.pk }}" style="color: black;">
-                            <div id="categ" class="card mb-3" {% if category_id.pk is category.pk  %}
-                                style="border:4px solid rgb(0, 0, 0);" {% endif %}>
-                                {{ category.storage }}
+                    <div class="row mt-5" data-aos="zoom-out-right" data-aos-duration="1900" data-aos-delay="600">
+                        <h4>Storage</h4>
+                        {% for category in categories %}
+                            <div class="col-md-3">
+                                <a href="../demo/{{ category.pk }}" style="color: black;">
+                                    <div id="categ" class="card mb-3" {% if category_id.pk == category.pk %}
+                                        style="border:4px solid rgb(0, 0, 0);" {% endif %}>
+                                        {{ category.storage }}
+                                    </div>
+                                </a>
                             </div>
-                        </a>
+                        {% endfor %}
                     </div>
-                    {% endfor %}
-                </div>
-
-
-
+    
                     <h4 class="col-md-2" data-aos="zoom-out-right" data-aos-duration="1900" data-aos-delay="700">Color</h4>
                     <div class="row">
-
-                    {% for category in categories %}
-                    <div class="col-md-3" data-aos="zoom-out-right" data-aos-duration="1900" data-aos-delay="700">
-                        <div id="categ" class="card mb-3" {% if category_id.pk is category.pk %}
-                            style="border:4px solid rgb(0, 0, 0);" {% endif %}>
-                            {{ category.color }}
-                        </div>
-                    </div> {% endfor %}
-                </div>
-            </div>
-            {% endif %}
-
-
-            <!-- Size and Color Section for Dresses -->
-            {% if is_dress %}
-            <div class="row mt-3 mb-4" data-aos="zoom-out-right" data-aos-duration="1900" data-aos-delay="600">
-                <div class="col-md-6">
-                    <h4>Size</h4>
-                    {% for category in categories %}
-                    <a href="../demo/{{ category.pk }}" style="color: black;">
-                        <div id="categ" class="card mb-3" {% if category_id.pk is category.pk %}
-                            style="border:4px solid rgb(0, 0, 0);" {% endif %}>
-                            {{ category.size }}
-                        </div>
-                    </a>
-                    {% endfor %}
-                </div>
-                <div class="col-md-6">
-                    <h4>Color</h4>
-                    <div class="row">
-
                         {% for category in categories %}
-                        <div class="col-md-5">
-                            <div id="categ" class="card mb-5" {% if category_id.pk is category.pk %}
-                                style="border:4px solid rgb(0, 0, 0);" {% endif %}>
-                                {{ category.color }}
+                            <div class="col-md-3" data-aos="zoom-out-right" data-aos-duration="1900" data-aos-delay="700">
+                                <div id="categ" class="card mb-3" {% if category_id.pk == category.pk %}
+                                    style="border:4px solid rgb(0, 0, 0);" {% endif %}>
+                                    {{ category.color }}
+                                </div>
                             </div>
-                        </div> {% endfor %}
+                        {% endfor %}
                     </div>
-                </div>
-            </div>
-            {% endif %}
-            {% if is_others %}
-            <div class="row mt-3 mb-4">
-                <div class="col-md-6">
-                    <h4>Color</h4>
-                    {% for category in categories %}
-                    <a href="../demo/{{ category.pk }}" style="color: black;">
-                        <div id="categ" class="card mb-3" {% if category_id.pk is category.pk %}
-                            style="border:4px solid rgb(0, 0, 0);" {% endif %}>
-                            {{ category.color }}
-                        </div>
-                    </a>
-                    {% endfor %}
-            {% endif %}
-
-            <!-- Cart and Buy Buttons -->
-            <div class="mt-4" data-aos="zoom-in-right" data-aos-duration="1900" data-aos-delay="600">
-                {% if category_id %}
-                    <a href="../add_to_cart/{{ product.pk }}?category_id={{ category_id.pk }}" id="cart" class="btn ">
-                        <i class="fa-solid fa-cart-shopping"></i> Add to Cart
-                    </a>
-                    <a href="../buy_product/{{ product.pk }}?category_id={{ category_id.pk }}" id="buy" class="btn m-3">
-                        <i class="fa-solid fa-bolt-lightning"></i> Buy Now
-                    </a>
-                {% else %}
-                    <button class="btn btn-secondary " id="cart" disabled>
-                        <i class="fa-solid fa-cart-shopping"></i> Add to Cart
-                    </button>
-                    <button class="btn btn-secondary m-3" disabled id="buy">
-                        <i class="fa-solid fa-bolt-lightning"></i> Buy Now
-                    </button>
-                    <p class="text-danger mt-2">Please select a category to proceed.</p>
                 {% endif %}
+    
+                <!-- Size and Color Section for Dresses -->
+                {% if is_dress %}
+                    <div class="row mt-3 mb-4" data-aos="zoom-out-right" data-aos-duration="1900" data-aos-delay="600">
+                        <div class="col-md-6">
+                            <h4>Size</h4>
+                            {% for category in categories %}
+                                <a href="../demo/{{ category.pk }}" style="color: black;">
+                                    <div id="categ" class="card mb-3" {% if category_id.pk == category.pk %}
+                                        style="border:4px solid rgb(0, 0, 0);" {% endif %}>
+                                        {{ category.size }}
+                                    </div>
+                                </a>
+                            {% endfor %}
+                        </div>
+                        <div class="col-md-6">
+                            <h4>Color</h4>
+                            <div class="row">
+                                {% for category in categories %}
+                                    <div class="col-md-5">
+                                        <div id="categ" class="card mb-5" {% if category_id.pk == category.pk %}
+                                            style="border:4px solid rgb(0, 0, 0);" {% endif %}>
+                                            {{ category.color }}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+    
+                <!-- Color Section for Others -->
+                {% if is_others %}
+                    <div class="row mt-3 mb-4">
+                        <div class="col-md-6">
+                            <h4>Color</h4>
+                            {% for category in categories %}
+                                <a href="../demo/{{ category.pk }}" style="color: black;">
+                                    <div id="categ" class="card mb-3" {% if category_id.pk == category.pk %}
+                                        style="border:4px solid rgb(0, 0, 0);" {% endif %}>
+                                        {{ category.color }}
+                                    </div>
+                                </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+    
+                <!-- Cart and Buy Buttons -->
+                <div class="mt-4" data-aos="zoom-in-right" data-aos-duration="1900" data-aos-delay="600">
+                    {% if category_id %}
+                        <a href="../add_to_cart/{{ product.pk }}?category_id={{ category_id.pk }}" id="cart" class="btn">
+                            <i class="fa-solid fa-cart-shopping"></i> Add to Cart
+                        </a>
+                        <a href="../buy_product/{{ product.pk }}?category_id={{ category_id.pk }}" id="buy" class="btn m-3">
+                            <i class="fa-solid fa-bolt-lightning"></i> Buy Now
+                        </a>
+                    {% else %}
+                        <button class="btn btn-secondary" id="cart" disabled>
+                            <i class="fa-solid fa-cart-shopping"></i> Add to Cart
+                        </button>
+                        <button class="btn btn-secondary m-3" id="buy" disabled>
+                            <i class="fa-solid fa-bolt-lightning"></i> Buy Now
+                        </button>
+                        <p class="text-danger mt-2">Please select a category to proceed.</p>
+                    {% endif %}
+                </div>
+    
+                <hr class="mt-5 mb-5">
             </div>
-            
-
-            <hr class="mt-5 mb-5">
-        </div>
-
-        <!-- Highlights and Description -->
-        <div class="mb-5" data-aos="zoom-in" data-aos-duration="1500" data-aos-delay="200">
-            <h5 class="mt-5 text-center">Highlights</h5>
-            <p>{{ product.highlights|linebreaksbr|safe }}</p>
-            <h5 class="mt-5 text-center">Description</h5>
-            <p>{{ product.description }}</p>
+    
+            <!-- Highlights and Description -->
+            <div class="mb-5" data-aos="zoom-in" data-aos-duration="1500" data-aos-delay="200">
+                <h5 class="mt-5 text-center">Highlights</h5>
+                <p>{{ product.highlights|linebreaksbr|safe }}</p>
+                <h5 class="mt-5 text-center">Description</h5>
+                <p>{{ product.description }}</p>
+            </div>
         </div>
     </div>
-    </div>
-
+    
     <!-- ---------------------------------------------------- -->
 
     <div id="best_sales" class="sample container p-3 mt-4" data-aos="fade-up" data-aos-duration="1900" data-aos-delay="300">
