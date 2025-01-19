@@ -106,7 +106,93 @@
     color: white;
     border-color:  rgb(91, 91, 91); 
 }
-     
+   
+
+footer {
+    background-color: #172337;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    padding: 30px 20px;
+    line-height: 1.6;
+}
+
+.footer-container {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 20px;
+}
+
+.footer-section h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-section ul li {
+    margin: 5px 0;
+}
+
+.footer-section ul li a {
+    color: #bbb;
+    text-decoration: none;
+}
+
+.footer-section ul li a:hover {
+    color: #fff;
+}
+
+.footer-section p {
+    font-size: 14px;
+    color: #bbb;
+}
+
+.social-links a {
+    display: inline-block;
+    color: #bbb;
+    font-size: 18px;
+    margin-right: 10px;
+}
+
+.social-links a:hover {
+    color: #fff;
+}
+
+.footer-bottom {
+    margin-top: 30px;
+    border-top: 1px solid #444;
+    padding-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.bottom-links a {
+    color: #bbb;
+    margin-right: 20px;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.bottom-links a:hover {
+    color: #fff;
+}
+
+.copyright {
+    text-align: center;
+    font-size: 14px;
+    color: #bbb;
+}
+
+.payment-icons img {
+    width: 40px;
+    margin: 0 5px;
+}
+
  </style>
  <title>Flipkart</title>
  <link rel="icon" href="{% static '/images/flips1.png' %}" type="image/x-icon">
@@ -181,6 +267,95 @@
             </div>
         </div>
 
+
+
+        <footer>
+            <div class="footer-container">
+                <div class="footer-section">
+                    <h3>ABOUT</h3>
+                    <ul>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Flipkart Stories</a></li>
+                        <li><a href="#">Press</a></li>
+                        <li><a href="#">Corporate Information</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>GROUP COMPANIES</h3>
+                    <ul>
+                        <li><a href="#">Myntra</a></li>
+                        <li><a href="#">Cleartrip</a></li>
+                        <li><a href="#">Shopsy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>HELP</h3>
+                    <ul>
+                        <li><a href="#">Payments</a></li>
+                        <li><a href="#">Shipping</a></li>
+                        <li><a href="#">Cancellation & Returns</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>CONSUMER POLICY</h3>
+                    <ul>
+                        <li><a href="#">Cancellation & Returns</a></li>
+                        <li><a href="#">Terms Of Use</a></li>
+                        <li><a href="#">Security</a></li>
+                        <li><a href="#">Privacy</a></li>
+                        <li><a href="#">Sitemap</a></li>
+                        <li><a href="#">Grievance Redressal</a></li>
+                        <li><a href="#">EPR Compliance</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Mail Us:</h3>
+                    <p>Flipkart Internet Private Limited,<br>
+                        Buildings Alyssa, Begonia &<br>
+                        Clove Embassy Tech Village,<br>
+                        Outer Ring Road, Devarabeesanahalli Village,<br>
+                        Bengaluru, 560103,<br>
+                        Karnataka, India
+                    </p>
+                    <div class="social-links">
+                        <a href="#"><i class="fa fa-facebook"></i></a>
+                        <a href="#"><i class="fa fa-twitter"></i></a>
+                        <a href="#"><i class="fa fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Registered Office Address:</h3>
+                    <p>Flipkart Internet Private Limited,<br>
+                        Buildings Alyssa, Begonia &<br>
+                        Clove Embassy Tech Village,<br>
+                        Outer Ring Road, Devarabeesanahalli Village,<br>
+                        Bengaluru, 560103,<br>
+                        Karnataka, India<br>
+                        CIN: U51109KA2012PTC066107<br>
+                        Telephone: 044-45614700 / 044-67415800
+                    </p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="bottom-links" style="display: flex; justify-content: center; gap: 15rem">
+                    <a href="#"><i class="fa fa-briefcase"></i> Become a Seller</a>
+                    <a href="#"><i class="fa fa-ad"></i> Advertise</a>
+                    <a href="#"><i class="fa fa-gift"></i> Gift Cards</a>
+                    <a href="#"><i class="fa fa-question-circle"></i> Help Center</a>
+                </div>
+                <div class="copyright">
+                    <p>© 2007-2025 Flipkart.com</p>
+                    <div class="payment-icons">
+                        <img src="{% static '/images/pay.svg' %}" style="height: 80px; width: 420px;" alt="Visa">
+
+                        <!-- Add more payment method icons -->
+                    </div>
+                </div>
+            </div>
+        </footer>
 
     </body>
 

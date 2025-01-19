@@ -24,6 +24,7 @@ urlpatterns = [
     # ----------------------user--------------------------------------
 
     path('index', views.index),
+    
     path('sec/<id>', views.secpage,name='sec'),
     path('add_to_cart/<pid>', views.add_to_cart),
   path('add_quantity/<int:category_id>/', views.add_quantity, name='add_quantity'),
