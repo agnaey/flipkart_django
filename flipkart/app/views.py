@@ -349,6 +349,96 @@ def secpage(request, id):
     }
 
     return render(request, 'user/secpage.html', context)
+
+
+def buy_pro(req,id):
+    user = User.objects.get(username=req.session['username'])
+    quantity = req.GET.get('quantity', 1)   
+    category = Categorys.objects.get(pk=req.session['cat'])  
+    price = category.offer_price
+
+    data = Buy.objects.create(user=user, category=category, price=price,quantity=quantity)
+    data.save()
+
+    return redirect(view_bookings)
+
+# def buy_pro(req,id):
+#     user = User.objects.get(username=req.session['username'])
+#     quantity = req.GET.get('quantity', 1)   
+#     category = Categorys.objects.get(pk=req.session['cat'])  
+#     price = category.offer_price
+
+#     client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
+#     razorpay_order = client.order.create(
+#         {"amount": price * 100, "currency": "INR", "payment_capture": "1"}
+#     )
+
+#     buy = Buy.objects.create(
+#         user=user,
+#         category=category,
+#         price=price,
+#         quantity=quantity,
+#         razorpay_order_id=razorpay_order['id']
+#     )
+#     buy.save()
+
+#     return render(
+#         req,
+#         "payment_page.html",
+#         {
+#             "order": buy,
+#             "razorpay_key": settings.RAZORPAY_KEY_ID,
+#             "callback_url": "http://127.0.0.1:8000/razorpay/callback",
+#         },
+#     )
+
+
+def order_payment(request):
+    if request.method == "POST":
+        name = request.POST.get("name")
+        amount = request.POST.get("amount")
+
+        client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
+        razorpay_order = client.order.create(
+            {"amount": int(amount) * 100, "currency": "INR", "payment_capture": "1"}
+        )
+        order = Buy.objects.create(
+            user=User.objects.get(username=request.session['username']),
+            category=None, 
+            price=amount,
+            razorpay_order_id=razorpay_order['id'],
+        )
+        order.save()
+
+        return render(
+            request,
+            "user/secpage.html",
+            {
+                "order": order,
+                "razorpay_key": settings.RAZORPAY_KEY_ID,
+                "callback_url": "http://127.0.0.1:8000/razorpay/callback",
+            },
+        )
+
+    return render(request, "user/secpage.html")
+
+
+
+
+def cart_buy(req, id):
+    cart = Cart.objects.get(pk=id)
+    category = Categorys.objects.select_related('product').filter(id=cart.category_id).first()
+    if not category:
+        return redirect('error_page') 
+    total_price = category.offer_price * cart.quantity
+
+    buy = Buy.objects.create(category=cart.category, user=cart.user, price=total_price,quantity=cart.quantity)
+    buy.save()
+
+
+
+    return redirect(view_bookings)
+
 def demo(req,id):
     req.session['cat']=id
     category=Categorys.objects.get(pk=id)
@@ -453,59 +543,7 @@ def cart_delete(req,id):
     data.delete()
     return redirect(cart_display)
 
-def buy_pro(req,id):
-    user = User.objects.get(username=req.session['username'])
-    quantity = req.GET.get('quantity', 1)   
-    category = Categorys.objects.get(pk=req.session['cat'])  
-    price = category.offer_price
 
-    data = Buy.objects.create(user=user, category=category, price=price,quantity=quantity)
-    data.save()
-
-    return redirect(view_bookings)
-
-
-def order_payment(request):
-    if request.method == "POST":
-        name = request.POST.get("name")
-        print(name)
-        amount = request.POST.get("amount")
-        client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
-        razorpay_order = client.order.create(
-            {"amount": int(amount) * 100, "currency": "INR", "payment_capture": "1"}
-        )
-        order_id=razorpay_order['id']
-        order = Categorys.objects.create(
-            name=name, amount=amount, provider_order_id=order_id
-        )
-        order.save()
-        return render(
-            request,
-            "secpage.html",
-            {
-                "callback_url": "http://" + "127.0.0.1:8000" + "razorpay/callback",
-                "razorpay_key": settings.RAZORPAY_KEY_ID,
-                "order": order,
-            },
-        )
-    return render(request, "secpage.html")
-
-
-
-
-def cart_buy(req, id):
-    cart = Cart.objects.get(pk=id)
-    category = Categorys.objects.select_related('product').filter(id=cart.category_id).first()
-    if not category:
-        return redirect('error_page') 
-    total_price = category.offer_price * cart.quantity
-
-    buy = Buy.objects.create(category=cart.category, user=cart.user, price=total_price,quantity=cart.quantity)
-    buy.save()
-
-
-
-    return redirect(view_bookings)
 
 
 def view_bookings(req):
