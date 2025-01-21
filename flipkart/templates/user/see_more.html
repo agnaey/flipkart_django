@@ -192,6 +192,12 @@ footer {
     width: 40px;
     margin: 0 5px;
 }
+@media (max-width:974px) {
+    #search{
+        width: 40%;
+    }
+    
+}
 
  </style>
  <title>Flipkart</title>
@@ -210,10 +216,13 @@ footer {
          </button>
          <div class="collapse navbar-collapse" id="navbarSupportedContent">
              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                 <form class="d-flex" role="search">
-                     <input id="search" class="form-control me-2" type="search"
-                         placeholder="Search For Product, Brand and More" aria-label="Search">
-                 </form>
+                <form class="d-flex" role="search" action="{% url 'search' %}" method="POST">
+                    {% csrf_token %}
+                    <input id="search" data-aos="fade-down" data-aos-duration="1500" data-aos-delay="200" 
+                        class="form-control me-2" type="text" 
+                        placeholder="Search For Product, Brand and More" aria-label="Search" name="searched">
+                    <button type="submit" class="btn btn-outline-secondary">Search</button>
+                </form>
                  <li class="nav-item ">
                      <a class="nav-link " id="login" href="../logout"><i class="fa-solid fa-user">&nbsp;&nbsp;</i>Logout</a>
                  </li>
@@ -269,7 +278,7 @@ footer {
 
 
 
-        <footer>
+        <!-- <footer>
             <div class="footer-container">
                 <div class="footer-section">
                     <h3>ABOUT</h3>
@@ -326,21 +335,10 @@ footer {
                         <a href="#"><i class="fa fa-youtube"></i></a>
                     </div>
                 </div>
-                <div class="footer-section">
-                    <h3>Registered Office Address:</h3>
-                    <p>Flipkart Internet Private Limited,<br>
-                        Buildings Alyssa, Begonia &<br>
-                        Clove Embassy Tech Village,<br>
-                        Outer Ring Road, Devarabeesanahalli Village,<br>
-                        Bengaluru, 560103,<br>
-                        Karnataka, India<br>
-                        CIN: U51109KA2012PTC066107<br>
-                        Telephone: 044-45614700 / 044-67415800
-                    </p>
-                </div>
+  
             </div>
             <div class="footer-bottom">
-                <div class="bottom-links" style="display: flex; justify-content: center; gap: 15rem">
+                <div class="bottom-links" style=" gap: 15rem">
                     <a href="#"><i class="fa fa-briefcase"></i> Become a Seller</a>
                     <a href="#"><i class="fa fa-ad"></i> Advertise</a>
                     <a href="#"><i class="fa fa-gift"></i> Gift Cards</a>
@@ -351,11 +349,10 @@ footer {
                     <div class="payment-icons">
                         <img src="{% static '/images/pay.svg' %}" style="height: 80px; width: 420px;" alt="Visa">
 
-                        <!-- Add more payment method icons -->
                     </div>
                 </div>
             </div>
-        </footer>
+        </footer> -->
 
     </body>
 

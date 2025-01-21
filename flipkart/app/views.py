@@ -7,6 +7,9 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib import messages
+import razorpay
+import json
+from django.views.decorators.csrf import csrf_exempt
 
 
 # Create your views here.
@@ -462,16 +465,39 @@ def buy_pro(req,id):
     return redirect(view_bookings)
 
 
+def order_payment(request):
+    if request.method == "POST":
+        name = request.POST.get("name")
+        print(name)
+        amount = request.POST.get("amount")
+        client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
+        razorpay_order = client.order.create(
+            {"amount": int(amount) * 100, "currency": "INR", "payment_capture": "1"}
+        )
+        order_id=razorpay_order['id']
+        order = Categorys.objects.create(
+            name=name, amount=amount, provider_order_id=order_id
+        )
+        order.save()
+        return render(
+            request,
+            "secpage.html",
+            {
+                "callback_url": "http://" + "127.0.0.1:8000" + "razorpay/callback",
+                "razorpay_key": settings.RAZORPAY_KEY_ID,
+                "order": order,
+            },
+        )
+    return render(request, "secpage.html")
+
+
+
 
 def cart_buy(req, id):
     cart = Cart.objects.get(pk=id)
-
-    
     category = Categorys.objects.select_related('product').filter(id=cart.category_id).first()
-
     if not category:
         return redirect('error_page') 
-    
     total_price = category.offer_price * cart.quantity
 
     buy = Buy.objects.create(category=cart.category, user=cart.user, price=total_price,quantity=cart.quantity)
