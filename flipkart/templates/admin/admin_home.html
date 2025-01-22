@@ -149,6 +149,12 @@
         a#delete {
             border: 1px solid black;
         }
+        @media (max-width:1074px) {
+    #search{
+        width: 40%;
+    }
+    
+}
     </style>
     <title>Flipkart</title>
     <link rel="icon" href="{% static '/images/flips1.png' %}" type="image/x-icon"></head>
@@ -173,7 +179,7 @@
                         <!-- <button type="submit" class="btn btn-outline-primary">Search</button> -->
                     </form>
                     <li class="nav-item ">
-                        <a class="nav-link " id="logout" href="logout"><i
+                        <a class="nav-link " id="logout" href="../logout"><i
                                 class="fa-solid fa-user">&nbsp;&nbsp;</i>Logout</a>
                     </li>
                     <li class="nav-item">
@@ -185,39 +191,13 @@
                             Product</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="add_pro"><i class="fa-solid fa-plus"></i></i>&nbsp; Add products</a>
+                        <a class="nav-link" href="../add_pro"><i class="fa-solid fa-plus"></i></i>&nbsp; Add products</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
-    <nav class="container mt-2">
-        <ul class="nav justify-content-center">
-            <li class="nav-item">
-                <a id="navsub1" class="nav-link active" aria-current="page" href="#">Grocery</a>
-            </li>
-            <li class="nav-item">
-                <a id="navsub1" class="nav-link" href="#">Mobile</a>
-            </li>
-            <li class="nav-item">
-                <a id="navsub1" class="nav-link" href="#">Fashion</a>
-            </li>
-            <li class="nav-item">
-                <a id="navsub1" class="nav-link" href="#">Electronics</a>
-            </li>
-            <li class="nav-item">
-                <a id="navsub1" class="nav-link" href="#">HOME & Furniture</a>
-            </li>
-            <li class="nav-item">
-                <a id="navsub1" class="nav-link" href="#">Appilnces</a>
-            </li>
-            <li class="nav-item">
-                <a id="navsub1" class="nav-link" href="#">Beauty,Toys & More</a>
-            </li>
-            <li class="nav-item">
-                <a id="navsub1" class="nav-link" href="#">Two Wheelers</a>
-            </li>
-    </nav>
+    
 
     <!-- <div id="demo" class="container carousel slide mt-4" data-bs-ride="carousel">
 

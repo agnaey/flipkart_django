@@ -76,11 +76,12 @@
         });
     </script>
     <style>
-                .navbar {
+        .navbar {
             position: sticky;
             top: 0;
             z-index: 1000;
         }
+
         #search {
             width: 750px;
             height: 40px;
@@ -88,7 +89,7 @@
         }
 
         #nav1 {
-            background-color: rgb(0, 147, 217);
+            background-color: white;
             color: #000;
         }
 
@@ -194,8 +195,14 @@
         }
 
         #details-section {
-            max-height: 100vh;
             padding-left: 20px;
+        }
+
+        @media screen and (max-width: 800px) {
+            #details-section {
+                padding-top: 200px;
+            }
+
         }
 
         #buy {
@@ -245,6 +252,7 @@
         #cart1:hover {
             background-color: rgb(196, 64, 14);
         }
+
         #categ {
             width: 70%;
             padding: 10px;
@@ -256,16 +264,22 @@
 
         }
 
- 
+        @media (max-width:1074px) {
+            #search {
+                width: 40%;
+            }
+
+        }
     </style>
-   <title>Flipkart</title>
-   <link rel="icon" href="{% static '/images/flips1.png' %}" type="image/x-icon"></head>
+    <title>Flipkart</title>
+    <link rel="icon" href="{% static '/images/flips1.png' %}" type="image/x-icon">
+</head>
 </head>
 
 <body style="background-color: rgb(241,242,244);">
-    <nav id="nav1" class="navbar navbar-expand-lg">
+    <nav id="nav1" class="navbar navbar-expand-lg ">
         <div class="container">
-            <a class="navbar-brand" href="../admin_home"><img src="{% static '/images/i4436jrf.png' %}"
+            <a class="navbar-brand" href="../admin_home"><img src="{% static '/images/logo.jpg' %}"
                     style="width: 100px; " alt=""></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -279,7 +293,7 @@
                         <input id="search" data-aos="fade-down" data-aos-duration="1500" data-aos-delay="200"
                             class="form-control me-2" type="text" placeholder="Search For Product, Brand and More"
                             aria-label="Search" name="searched">
-                        <button type="submit" class="btn btn-outline-primary">Search</button>
+                        <button type="submit" class="btn btn-outline-secondary">Search</button>
                     </form>
                     <li class="nav-item ">
                         <a class="nav-link " id="login" href="../logout"><i
@@ -305,81 +319,51 @@
             </div>
         </div>
     </nav>
-    <nav id="nav2" class="container ">
-        <ul class="nav justify-content-center">
-            <li class="nav-item">
-                <a id="navsub1" class="nav-link active" aria-current="page" href="#">Grocery</a>
-            </li>
-            <li class="nav-item">
-                <a id="navsub1" class="nav-link" href="#">Mobile</a>
-            </li>
-            <li class="nav-item">
-                <a id="navsub1" class="nav-link" href="#">Fashion</a>
-            </li>
-            <li class="nav-item">
-                <a id="navsub1" class="nav-link" href="#">Electronics</a>
-            </li>
-            <li class="nav-item">
-                <a id="navsub1" class="nav-link" href="#">HOME & Furniture</a>
-            </li>
-            <li class="nav-item">
-                <a id="navsub1" class="nav-link" href="#">Appilnces</a>
-            </li>
-            <li class="nav-item">
-                <a id="navsub1" class="nav-link" href="#">Beauty,Toys & More</a>
-            </li>
-            <li class="nav-item">
-                <a id="navsub1" class="nav-link" href="#">Two Wheelers</a>
-            </li>
-    </nav>
-    <div id="container" class="container">
+
+    <div id="container" class="container mt-3">
         <div class="row">
             <div id="image-section" class="col-lg-6 mb-5 mt-2">
 
                 <img src="{{ product.image.url }}" class="product_img img-fluid" alt="Card image"
                     style="width:400px; height: 500px;">
-                                    <br><br>
-                {% if category_id %}
-
+                <br><br>
                 <a href="../delete_pro/{{ product.id }}" id="cart" class="btn">
                     <i class="fa-solid fa-trash"></i>Delete
                 </a>
+                <a href="../category/{{ product.id }}" id="category" class="btn">
+                    <i class="fa-solid fa-plus"></i>Add Category
+                </a>
+
+
                 <a href="../edit_pro/{{ product.id }}" id="buy" class="btn">
                     <i class="fa-solid fa-pen-to-square"></i>Edit Item
                 </a>
+                {% if category_id %}
+             
                 <a href="../edit_category/{{ product.id }}" id="buy" class="btn">
                     <i class="fa-solid fa-pen-to-square"></i>Edit Category
                 </a>
                 <a href="../del_cat/{{ product.id }}" id="cart" class="btn">
                     <i class="fa-solid fa-trash"></i>Delete Category
                 </a>
-                <a href="../category/{{ product.id }}" id="category" class="btn">
-                    <i class="fa-solid fa-plus"></i>Add Category
-                </a>
+
                 <br><br>
                 {% else %}
-                
+             
 
-                                    <br><br>
-                <button id="cart" class="btn" disabled>
-                    <i class="fa-solid fa-trash"></i>Delete
-            </button>
-                <button id="buy" class="btn" disabled>
-                    <i class="fa-solid fa-pen-to-square"></i>Edit Item
-                </button>
+                
                 <button id="buy" class="btn" disabled>
                     <i class="fa-solid fa-pen-to-square"></i>Edit Category
                 </button>
                 <button id="cart" class="btn" disabled>
                     <i class="fa-solid fa-trash"></i>Delete Category
                 </button>
-                <button id="category" class="btn" disabled>
-                    <i class="fa-solid fa-plus"></i>Add Category
-                </button>
+
 
 
                 <p class="text-danger mt-2">Please select a category to proceed.</p>
                 {% endif %}
+
             </div>
 
             <div id="details-section" class="col-lg-6 mt-5">
@@ -423,26 +407,26 @@
                             </div>
                             {% endfor %}
                         </div>
-        
-        
-        
-                            <h4 class="col-md-2">Color</h4>
-                            <div class="row">
-        
+
+
+
+                        <h4 class="col-md-2">Color</h4>
+                        <div class="row">
+
                             {% for category in categories %}
                             <div class="col-md-6">
                                 <a href="../demo2/{{ category.pk }}" style="color: black;">
-                                <div id="categ" class="card mb-3" {% if category_id.pk is category.pk %}
-                                    style="border:4px solid rgb(0, 0, 0);" {% endif %}>
-                                    {{ category.color }}
-                                </div>
+                                    <div id="categ" class="card mb-3" {% if category_id.pk is category.pk %}
+                                        style="border:4px solid rgb(0, 0, 0);" {% endif %}>
+                                        {{ category.color }}
+                                    </div>
                                 </a>
                             </div> {% endfor %}
                         </div>
                     </div>
                     {% endif %}
-        
-        
+
+
                     <!-- Size and Color Section for Dresses -->
                     {% if is_dress %}
                     <div class="row mt-3 mb-4">
@@ -460,14 +444,14 @@
                         <div class="col-md-6">
                             <h4>Color</h4>
                             <div class="row">
-        
+
                                 {% for category in categories %}
                                 <div class="col-md-9 mb-3">
                                     <a href="../demo2/{{ category.pk }}" style="color: black;">
-                                    <div id="categ" class="card mb-6" {% if category_id.pk is category.pk %}
-                                        style="border:4px solid rgb(0, 0, 0);" {% endif %}>
-                                        {{ category.color }}
-                                    </div>
+                                        <div id="categ" class="card mb-6" {% if category_id.pk is category.pk %}
+                                            style="border:4px solid rgb(0, 0, 0);" {% endif %}>
+                                            {{ category.color }}
+                                        </div>
                                     </a>
                                 </div> {% endfor %}
                             </div>
@@ -487,28 +471,27 @@
                                 </div>
                             </a>
                             {% endfor %}
-                    {% endif %}
+                            {% endif %}
+                        </div>
+
+
+
+
+                        <hr class="mt-5 mb-5">
+
+
+
+                        <h5 class="mt-5 text-center">Highlights</h5>
+                        <p>{{ product.highlights|linebreaksbr|safe }}</p>
+
+                        <h5 class="mt-5 mb-5 text-center">Description</h5>
+                        <p>{{ product.description }}</p>
+                    </div>
                 </div>
 
-
-
-
-            <hr class="mt-5 mb-5">
-
-
-
-            <h5 class="mt-5 text-center">Highlights</h5>
-            <p>{{ product.highlights|linebreaksbr|safe }}</p>
-
-            <h5 class="mt-5 mb-5 text-center">Description</h5>
-            <p>{{ product.description }}</p>
+            </div>
         </div>
     </div>
-
-    </div>
-    </div>
-</div>
-    
 
 
     </div>

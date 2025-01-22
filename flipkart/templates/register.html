@@ -83,17 +83,18 @@ input[type="submit"]:hover {
    
     
     
-<div class="container">
-    <h2>Login</h2>
-
-    {% if messages %}
-    {% for message in messages %}
-    <div class="alert alert-danger alert-dismissible">
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-         {{message}}
-    </div>
-     {% endfor %}
-     {% endif %}
+    <div class="container">
+        <h2>Register</h2>
+    
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+    
         <form action="/register" method="post">
             {% csrf_token %}
             <div class="input-group">
@@ -102,16 +103,18 @@ input[type="submit"]:hover {
             </div>
             <div class="input-group">
                 <label for="Email">Email</label>
-                <input type="email" id="Email" name="Email" placeholder="Enter your Email" required>
+                <input type="email" id="Email" name="Email" placeholder="e.g., example@example.com" required>
             </div>
             <div class="input-group">
-                <label for="password">password</label>
-                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required 
+                       pattern=".{8,}" title="Password must be at least 8 characters long">
             </div>
+          
             <input type="submit" value="Register" class="btn">
-            <a id="register" href="../">Alredy have an Account? Login</a>
-
+            <a id="register" href="../">Already have an Account? Login</a>
         </form>
     </div>
+    
 </body>
 </html>

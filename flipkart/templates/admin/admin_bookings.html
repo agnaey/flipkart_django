@@ -44,13 +44,12 @@
         });
 
         $(document).ready(function () {
-            $('#buy').on('click', function (event) {
+            $('#pending1').on('click', function (event) {
                 event.preventDefault(); // Prevent default link behavior
-                const href = $(this).attr('href'); // Get the href value from the link
     
                 Swal.fire({
                     title: "Are you sure?",
-                    text: "You want to buy this product!",
+                    text: "You won't be able to revert this!",
                     icon: "warning",
                     showCancelButton: true,
                     confirmButtonColor: "#3085d6",
@@ -60,12 +59,10 @@
                     if (result.isConfirmed) {
                         Swal.fire({
                             title: "Confirmed!",
-                            text: "You have successfully ordered the product.",
+                            text: "You have confirmed the order.",
                             icon: "success",
                             timer: 1500,
                             showConfirmButton: false
-                        }).then(() => {
-                            window.location.href = href;
                         });
                     }
                 });
@@ -87,7 +84,7 @@
         }
 
         #nav1 {
-            background-color: rgb(0,147,217);
+            background-color: rgb(255, 255, 255);
             color: #000;
         }
 
@@ -240,7 +237,7 @@ td, th {
 <body style="background-color: rgb(241,242,244);">
     <nav id="nav1" class="navbar navbar-expand-lg">
         <div class="container">
-            <a class="navbar-brand" href="../admin_home"><img src="{% static '/images/i4436jrf.png' %}" style="width: 100px; "
+            <a class="navbar-brand" href="../admin_home"><img src="{% static '/images/logo.jpg' %}" style="width: 100px; "
                     alt=""></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -254,7 +251,7 @@ td, th {
                         <input id="search" data-aos="fade-down" data-aos-duration="1500" data-aos-delay="200"
                             class="form-control me-2" type="text" placeholder="Search For Product, Brand and More"
                             aria-label="Search" name="searched">
-                        <button type="submit" class="btn btn-primary">Search</button>
+                        <button type="submit" class="btn btn-outline-secondary">Search</button>
                     </form>
                     <li class="nav-item ">
                         <a class="nav-link " id="login" href="../logout"><i class="fa-solid fa-user">&nbsp;&nbsp;</i>Logout</a>
@@ -311,8 +308,8 @@ td, th {
                                         <i class="fa-solid fa-check"></i> Confirmed
                                     </button>
                                 {% else %}
-                                    <button type="submit" class="btn btn-warning btn-sm">
-                                        <i class="fa-solid fa-clock"></i> pending
+                                    <button type="submit" id="pending1" class="btn btn-warning btn-sm">
+                                        <i class="fa-solid fa-clock" id="pending1"></i> pending
                                     </button>
                                 {% endif %}
                             </form>

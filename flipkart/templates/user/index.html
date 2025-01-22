@@ -200,6 +200,35 @@
     }
     
 }
+#search1{
+        height: 50px;
+    }
+.styled-select {
+        width: 100%;
+        max-width: 150px;
+        height: 50px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background: #f8f9fa;
+        font-size: 16px;
+        color: #333;
+        outline: none;
+        appearance: none;
+        cursor: pointer;
+        transition: border-color 0.3s, box-shadow 0.3s;
+        margin-right: 10px;
+    }
+
+    .styled-select:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+
+    .styled-select option {
+        font-size: 16px;
+        padding: 5px;
+    }
 
 
         
@@ -222,10 +251,17 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <form class="d-flex" role="search" action="{% url 'search' %}" method="POST">
                         {% csrf_token %}
-                        <input id="search" data-aos="fade-down" data-aos-duration="1500" data-aos-delay="200" 
-                            class="form-control me-2" type="text" 
-                            placeholder="Search For Product, Brand and More" aria-label="Search" name="searched">
-                        <button type="submit" class="btn btn-outline-secondary">Search</button>
+                        <select name="category" class="styled-select">
+                            <option value="">All Categories</option>
+                            <option value="phone" {% if category == 'phone' %}selected{% endif %}>Phone</option>
+                            <option value="dress" {% if category == 'dress' %}selected{% endif %}>Dress</option>
+                            <option value="laptop" {% if category == 'laptop' %}selected{% endif %}>Laptop</option>
+                            <option value="others" {% if category == 'others' %}selected{% endif %}>Others</option>
+                        </select>
+                        <input id="search" data-aos="fade-down" data-aos-duration="1500" data-aos-delay="200"
+                            class="form-control me-2" type="text" placeholder="Search For Product, Brand and More"
+                            aria-label="Search" name="searched">
+                        <button type="submit" id="search1" class="btn btn-outline-primary">Search</button>
                     </form>
                     
                     <li class="nav-item ">
@@ -508,11 +544,7 @@
                         Bengaluru, 560103,<br>
                         Karnataka, India
                     </p>
-                    <div class="social-links">
-                        <a href="#"><i class="fa fa-facebook"></i></a>
-                        <a href="#"><i class="fa fa-twitter"></i></a>
-                        <a href="#"><i class="fa fa-youtube"></i></a>
-                    </div>
+                    
                 </div>
 
             </div>

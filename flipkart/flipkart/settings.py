@@ -134,6 +134,10 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'agnaeyviswanath1234@gmail.com'
 EMAIL_HOST_PASSWORD = 'knec rjhq tvms binz'
+# EMAIL_HOST_USER = 'filpkart8943@gmail.com'
+# EMAIL_HOST_PASSWORD = 'bxpp nboi ymrk lyhs'
+
+
 
 
 RAZORPAY_KEY_ID= 'rzp_test_sOuTt2Y2KdTlzd'

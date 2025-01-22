@@ -60,6 +60,9 @@ def register(req):
     else:
         return render(req,'register.html')
     
+from django.core.mail import send_mail
+
+
 
 
 
@@ -298,11 +301,24 @@ def index(request):
 
 def search(request):
     if request.method == 'POST':
-        searched = request.POST.get('searched', '') 
-        results = Products.objects.filter(name__icontains=searched) if searched else []
-        return render(request, 'user/search.html', {'searched': searched, 'results': results})
-    else:
-        return render(request, 'user/search.html', {'searched': '', 'results': []})
+        searched = request.POST.get('searched', '').strip()  # Get the search term
+        category = request.POST.get('category', '')  # Get the selected category (if any)
+        
+        # Filter products based on the search term and category
+        results = Products.objects.all()
+        
+        if searched:
+            results = results.filter(name__icontains=searched)
+        
+        if category:
+            # Dynamically filter based on the category field
+            category_filter = {f"{category}": True}
+            results = results.filter(**category_filter)
+
+        return render(request, 'user/search.html', {'searched': searched, 'category': category, 'results': results})
+    
+    # Render the empty search page for GET requests
+    return render(request, 'user/search.html', {'searched': '', 'category': '', 'results': []})
 
 def secpage(request, id):
     log_user = User.objects.get(username=request.session['username'])
