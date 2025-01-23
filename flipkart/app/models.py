@@ -21,6 +21,12 @@ class Categorys(models.Model):
     offer_price = models.IntegerField()
     size=models.TextField()
 
+class Address(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)
+    address = models.TextField()
+    phone_number = models.CharField(max_length=20)
+
 class Cart(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE)
     category=models.ForeignKey(Categorys,on_delete=models.CASCADE)

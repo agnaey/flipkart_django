@@ -140,7 +140,8 @@
 
         }
         .img-fluid{
-            border-radius: 30px;
+            border-radius: 5px;
+            margin-left: 10%;
         }
 
         /* #container {
@@ -241,10 +242,10 @@
             <div class="carousel-item active ">
                 <div class="row justify-content-left">
                     {% for i in phones %}
-                    <div class="col-md-3">
+                    <div class="col-md-3 col-sm-6 col-6">
                         <a class="text-decoration-none text-black" href="../product_details/{{i.id}}">
                             <div id="card" style="height: auto;" class="movie-card">
-                                <img src="{{ i.image.url }}" style="width: auto; height: 400px" class="img-fluid">
+                                <img src="{{ i.image.url }}" style="width: auto; height: 200px" class="img-fluid">
                                 <div class="Phone-details text-center">
                 
                                     <h5 class="phone-title mt-3">{{ i.name }}</h5>
@@ -291,10 +292,10 @@
         <!-- The slideshow/carousel -->
         <div class="row">
             {% for i in dress %}
-            <div class="col-md-3">
+            <div class="col-md-3 col-sm-6 col-6">
                 <a class="text-decoration-none text-black" href="../product_details/{{i.id}}">
                     <div id="card1" style="height: auto;" class="movie-card justify-content-center">
-                        <img src="{{i.image.url}}" style="width: 400px; height: 440px;" class="img-fluid">
+                        <img src="{{i.image.url}}" style="width: auto; height: 240px;" class="img-fluid">
                         <div class="Phone-details text-center">
                             <h5 class="phone-title ">{{i.name}}</h5>
                             {% with i.categorys_set.all|first as category %}
@@ -335,10 +336,10 @@
         <!-- The slideshow/carousel -->
         <div class="row">
             {% for i in laptop %}
-            <div class="col-md-3">
+            <div class="col-md-3 col-sm-6 col-6">
                 <a class="text-decoration-none text-black" href="../product_details/{{i.id}}">
                     <div id="card1" style="height: auto;" class="movie-card justify-content-center">
-                        <img src="{{i.image.url}}" style="width: auto; height: 350px;" class="img-fluid">
+                        <img src="{{i.image.url}}" style="width: auto; height: 250px;" class="img-fluid">
                         <div class="Phone-details text-center">
                             <h5 class="phone-title ">{{i.name}}</h5>
                             {% with i.categorys_set.all|first as category %}
@@ -376,10 +377,10 @@
             <!-- The slideshow/carousel -->
             <div class="row">
                 {% for i in others %}
-                <div class="col-md-3">
+                <div class="col-md-3 col-sm-6 col-6">
                     <a class="text-decoration-none text-black" href="../product_details/{{i.id}}">
                         <div id="card1" style="height: auto;" class="movie-card justify-content-center">
-                            <img src="{{i.image.url}}" style="width: auto; height: 320px;" class="img-fluid">
+                            <img src="{{i.image.url}}" style="width: auto; height: 220px;" class="img-fluid">
                             <div class="Phone-details text-center">
                                 <h5 class="phone-title">{{ i.name }}</h5>
                                 {% with i.categorys_set.all|first as category %}
@@ -408,25 +409,7 @@
             </div>
         </div>
 
-        <div class="container mt-4">
-            <img class="img-fluid" src="{% static '/images/style.png' %}" alt="">
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4">
-                    <img src="{% static '/images/special1.png' %}" alt="" class="img-fluid">
-                </div>
-                <div class="col-md-4">
-                    <img src="{% static '/images/special2.png' %}" alt="" class="img-fluid">
-                </div>
-                <div class="col-md-4">
-                    <img src="{% static '/images/special3.png' %}" alt="" class="img-fluid">
-                </div>
-            </div>
-        </div>
-        <div class="container mt-3">
-            <img class="img-fluid" src="{% static '/images/j5a5tklk.png' %}" alt="">
-        </div>
+ 
 </body>
 
 </html>

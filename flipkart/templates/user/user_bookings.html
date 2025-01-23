@@ -423,6 +423,7 @@
                     <p class="offer_price" style="font-size: 0.9rem;">Total Price: ₹{{ cart_obj.price }}</p>
                 {% endif %}
                 <p style="font-size: 0.9rem;"><b>Ordered Quantity:</b> <b>{{ cart_obj.quantity }}</b></p>
+                <p style="font-size: 0.9rem;"><b>Ordered Date:</b> <b>{{ cart_obj.date }}</b></p>
     
                 <div class="row mt-4">
                     {% if cart_obj.category.storage %}
@@ -459,9 +460,11 @@
                 {% endif %}
     
                 <div class="mt-3">
-                    <a href="../delete_order/{{cart_obj.id}}" id="cart" class="btn btn-sm">
-                        <i class="fa-solid fa-trash" style="margin-right:5px;"></i>Cancel the order
-                    </a>
+                    {% if not cart_obj.is_confirmed %}
+                        <a href="../delete_order/{{cart_obj.id}}" id="cart" class="btn btn-sm">
+                            <i class="fa-solid fa-trash" style="margin-right:5px;"></i>Cancel the order
+                        </a>
+                    {% endif %}
                     {% if cart_obj.is_confirmed %}
                         <span class="badge bg-success" style="font-size: 0.9rem;" id="confirm">
                             <i class="fa-solid fa-check" style="margin-right:5px;"></i> Confirmed

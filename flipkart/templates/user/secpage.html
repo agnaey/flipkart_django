@@ -66,34 +66,34 @@
             });
         });
 
-        $(document).ready(function () {
-            $('#buy').on('click', function (event) {
-                event.preventDefault(); // Prevent default link behavior
-                const href = $(this).attr('href'); // Get the href value from the link
+        // $(document).ready(function () {
+        //     $('#buy').on('click', function (event) {
+        //         event.preventDefault(); // Prevent default link behavior
+        //         const href = $(this).attr('href'); // Get the href value from the link
 
-                Swal.fire({
-                    title: "Are you sure?",
-                    text: "You want to buy this product!",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "confirm!"
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        Swal.fire({
-                            title: "confirmed",
-                            text: "You have successfully ordered the product..",
-                            icon: "success",
-                            timer: 1500,
-                            showConfirmButton: false
-                        }).then(() => {
-                            window.location.href = href;
-                        });
-                    }
-                });
-            });
-        });
+        //         Swal.fire({
+        //             title: "Are you sure?",
+        //             text: "You want to buy this product!",
+        //             icon: "warning",
+        //             showCancelButton: true,
+        //             confirmButtonColor: "#3085d6",
+        //             cancelButtonColor: "#d33",
+        //             confirmButtonText: "confirm!"
+        //         }).then((result) => {
+        //             if (result.isConfirmed) {
+        //                 Swal.fire({
+        //                     title: "confirmed",
+        //                     text: "You have successfully ordered the product..",
+        //                     icon: "success",
+        //                     timer: 1500,
+        //                     showConfirmButton: false
+        //                 }).then(() => {
+        //                     window.location.href = href;
+        //                 });
+        //             }
+        //         });
+        //     });
+        // });
     </script>
     <style>
                 .navbar {
@@ -573,9 +573,13 @@
                         <a href="../add_to_cart/{{ product.pk }}?category_id={{ category_id.pk }}" id="cart" class="btn btn-sm">
                             <i class="fa-solid fa-cart-shopping"></i> Add to Cart
                         </a>
-                        <a href="../buy_product/{{ product.pk }}?category_id={{ category_id.pk }}" id="buy" class="btn btn-sm m-2">
+                        <a href="../address_page/{{ product.pk }}" id="buy" class="btn btn-sm m-2">
                             <i class="fa-solid fa-bolt-lightning"></i> Buy Now
                         </a>
+
+                        <!-- <a href="../buy_product/{{ product.pk }}?category_id={{ category_id.pk }}" id="buy" class="btn btn-sm m-2">
+                            <i class="fa-solid fa-bolt-lightning"></i> Buy Now
+                        </a> -->
                     {% else %}
                         <button class="btn btn-secondary btn-sm" id="cart" disabled>
                             <i class="fa-solid fa-cart-shopping"></i> Add to Cart

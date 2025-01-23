@@ -369,14 +369,35 @@ def secpage(request, id):
 
 def buy_pro(req,id):
     user = User.objects.get(username=req.session['username'])
-    quantity = req.GET.get('quantity', 1)   
     category = Categorys.objects.get(pk=req.session['cat'])  
-    price = category.offer_price
 
-    data = Buy.objects.create(user=user, category=category, price=price,quantity=quantity)
-    data.save()
 
-    return redirect(view_bookings)
+    return redirect(address_page)
+
+def address_page(req,id):
+    user = User.objects.get(username=req.session['username'])
+
+
+    category = Categorys.objects.get(pk=req.session['cat'])  
+    
+    if req.method == 'POST':
+        name = req.POST.get('name')
+        address = req.POST.get('address')
+        phone_number = req.POST.get('phone_number')
+
+        user_address = Address(user=user, name=name, address=address, phone_number=phone_number)
+        user_address.save()
+        quantity = req.GET.get('quantity', 1)   
+
+
+        data = Buy.objects.create(user=user, category=category, price=category.price,   quantity=quantity,)
+        data.save()
+
+        return redirect(view_bookings) 
+
+    return render(req, 'user/address.html', {
+        'category': category,
+    })
 
 # def buy_pro(req,id):
 #     user = User.objects.get(username=req.session['username'])

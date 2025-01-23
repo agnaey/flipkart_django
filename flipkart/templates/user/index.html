@@ -341,7 +341,7 @@
             <div class="carousel-inner" >
                 <div class="carousel-item active ">
                     <div class="row">
-                        {% for i in phones %}
+                        {% for i in phones|slice:":4" %}
                         <div class="col-md-3 col-sm-6 col-6">
                             <a class="text-decoration-none text-black" href="../sec/{{ i.id }}">
                                 <div id="card" class="movie-card justify-content-center">
@@ -387,7 +387,7 @@
             <div class="carousel-inner">
                 <div class="carousel-item active">
                     <div class="row">
-                        {% for i in dress %}
+                        {% for i in dress|slice:":4" %}
                         <div class="col-md-3 col-sm-6 col-6">
                             <a class="text-decoration-none text-black" href="sec/{{i.id}}">
                                 <div id="card" class="movie-card justify-content-center">
@@ -428,7 +428,7 @@
 
         <!-- The slideshow/carousel -->
         <div class="row">
-            {% for i in laptop %}
+            {% for i in laptop|slice:":4" %}
             <div class="col-md-3 col-sm-6 col-6">
                 <a class="text-decoration-none text-black" href="sec/{{i.id}}">
                     <div id="card" class="movie-card justify-content-center">
@@ -465,7 +465,7 @@
             </div>
             <!-- The slideshow/carousel -->
             <div class="row">
-                {% for i in others %}
+                {% for i in others|slice:":4" %}
                 <div class="col-md-3 col-sm-6 col-6">
                     <a class="text-decoration-none text-black" href="sec/{{i.id}}">
                         <div id="card" class="movie-card justify-content-center">
@@ -492,7 +492,7 @@
             </div>
         </div>
 
-        <footer class="d-none d-md-block">
+        <footer >
             <div class="footer-container">
                 <div class="footer-section">
                     <h3>ABOUT</h3>
