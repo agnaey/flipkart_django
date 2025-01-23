@@ -86,7 +86,7 @@
         }
 
         #card {
-            border: 1px solid rgba(90, 87, 87, 0.314);
+            border: none;
             padding: 10px;
 
             border-radius: 10px;
@@ -106,7 +106,7 @@
             border-radius: 15px;
         }
         .img-fluid{
-            border-radius: 30px;
+            border-radius: 5px;
         }
 
 
@@ -340,16 +340,14 @@
             <!-- The slideshow/carousel -->
             <div class="carousel-inner" >
                 <div class="carousel-item active ">
-                    <div class="row ">
+                    <div class="row">
                         {% for i in phones %}
-                        <div class="col-md-3">
+                        <div class="col-md-3 col-sm-6 col-6">
                             <a class="text-decoration-none text-black" href="../sec/{{ i.id }}">
                                 <div id="card" class="movie-card justify-content-center">
-                                    <img src="{{ i.image.url }}" style="width: auto; height: 400px" class="img-fluid">
+                                    <img src="{{ i.image.url }}" style="width: auto; height: 200px; margin-left: 10%;" class="img-fluid">
                                     <div class="Phone-details text-center">
-                        
                                         <h5 class="phone-title mt-3">{{ i.name }}</h5>
-                        
                                         {% with i.categorys_set.all|first as category %}
                                         {% if category %}
                                             <p class="offer_price text-danger text-decoration-line-through">
@@ -361,13 +359,14 @@
                                         {% else %}
                                             <p>No category information available.</p>
                                         {% endif %}
-                                    {% endwith %}
+                                        {% endwith %}
                                     </div>
                                 </div>
                             </a>
                         </div>
                         {% endfor %}
                     </div>
+                    
                 </div>
 
             </div>
@@ -389,10 +388,10 @@
                 <div class="carousel-item active">
                     <div class="row">
                         {% for i in dress %}
-                        <div class="col-md-3">
+                        <div class="col-md-3 col-sm-6 col-6">
                             <a class="text-decoration-none text-black" href="sec/{{i.id}}">
                                 <div id="card" class="movie-card justify-content-center">
-                                    <img src="{{i.image.url}}" style="width: 400px; height: 440px;" class="img-fluid">
+                                    <img src="{{i.image.url}}" style="width: auto; height: 200px;" class="img-fluid">
                                     <div class="Phone-details text-center">
                                         <h5 class="phone-title">{{i.name}}</h5>
                                         {% with i.categorys_set.all|first as category %}
@@ -430,10 +429,10 @@
         <!-- The slideshow/carousel -->
         <div class="row">
             {% for i in laptop %}
-            <div class="col-md-3">
+            <div class="col-md-3 col-sm-6 col-6">
                 <a class="text-decoration-none text-black" href="sec/{{i.id}}">
                     <div id="card" class="movie-card justify-content-center">
-                        <img src="{{i.image.url}}" style="width: 400px; height: 440px;" class="img-fluid">
+                        <img src="{{i.image.url}}" style="width: auto; height: 200px;" class="img-fluid">
                         <div class="Phone-details text-center">
                             <h5 class="phone-title">{{i.name}}</h5>
                             {% with i.categorys_set.all|first as category %}
@@ -467,10 +466,10 @@
             <!-- The slideshow/carousel -->
             <div class="row">
                 {% for i in others %}
-                <div class="col-md-3">
+                <div class="col-md-3 col-sm-6 col-6">
                     <a class="text-decoration-none text-black" href="sec/{{i.id}}">
                         <div id="card" class="movie-card justify-content-center">
-                            <img src="{{i.image.url}}" style="width: 400px; height: 440px;" class="img-fluid">
+                            <img src="{{i.image.url}}" style="width: auto; height: 200px;" class="img-fluid">
                             <div class="Phone-details text-center">
                                 <h5 class="phone-title">{{i.name}}</h5>
                                 {% with i.categorys_set.all|first as category %}

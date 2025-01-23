@@ -205,8 +205,9 @@
 
         #buy {
             background-color: orange;
-            padding: 17px 60px;
+            padding: 12px 30px;
             color: white;
+            border: none;
             font-weight: bold;
             font-size: 20px;
             margin-top: 20px;
@@ -218,7 +219,7 @@
 
         #cart {
             background-color: rgb(251, 100, 27);
-            padding: 17px 60px;
+            padding: 12px 30px;
             color: white;
             font-weight: bold;
             font-size: 20px;
@@ -427,81 +428,83 @@
     {% for cart_item in cart_items %}
     <div id="container" class="container mt-1" data-aos="zoom-in" data-aos-duration="1500" data-aos-delay="100">
         <div class="row">
+            <!-- Image Section -->
             <div class="col-lg-5 mt-2" data-aos="zoom-out" data-aos-duration="1900" data-aos-delay="300">
                 <img src="{{ cart_item.cart_obj.category.product.image.url }}" class="product_img img-fluid"
-                    alt="Product Image" style="width:400px; height: 500px;">
+                    alt="Product Image" style="width:300px; height: 400px;">
             </div>
-
-            <div id="details-section" class="col-lg-6 mt-5" data-aos="zoom-out-right" data-aos-duration="1900" data-aos-delay="300">
-                <h4 class="product_name" data-aos="zoom-out-right">{{ cart_item.cart_obj.category.product.name }}</h4>
-                <br>
-
-                <p class="offer_price" style="display: inline;" >Offer Price: ₹{{ cart_item.total_price }}</p>
-                <p class="price" style="text-decoration: line-through; padding-left: 10px; display: inline;">
+    
+            <!-- Details Section -->
+            <div id="details-section" class="col-lg-6 mt-3" data-aos="zoom-out-right" data-aos-duration="1900" data-aos-delay="300">
+                <h5 class="product_name" data-aos="zoom-out-right" style="font-size: 1.2rem;">
+                    {{ cart_item.cart_obj.category.product.name }}
+                </h5>
+                <p class="offer_price" style="font-size: 1rem; display: inline;">
+                    Offer Price: ₹{{ cart_item.total_price }}
+                </p>
+                <p class="price" style="font-size: 0.9rem; text-decoration: line-through; padding-left: 10px; display: inline;">
                     ₹{{ cart_item.total_dis_price }}
                 </p>
-                <br><br>
-
-
-                <p>Quantity: {{ cart_item.cart_obj.quantity }}</p>
-
-                <a href="../add_quantity/{{cart_item.cart_obj.category.id}}" class="btn btn-outline-success btn-sm">Add
-                    Quantity</a>
-
-                <!-- Remove Quantity Button -->
-                <a href="../remove_quantity/{{cart_item.cart_obj.category.id}} "
-                    class="btn btn-outline-danger btn-sm">Remove Quantity</a>
-
-
-                <br><br>
-
-                <div class="row mt-5">
+                <p style="font-size: 0.9rem; margin-top: 10px;">Quantity: {{ cart_item.cart_obj.quantity }}</p>
+    
+                <!-- Add and Remove Quantity Buttons -->
+                <a href="../add_quantity/{{cart_item.cart_obj.category.id}}" class="btn btn-outline-success btn-sm">
+                    Add Quantity
+                </a>
+                <a href="../remove_quantity/{{cart_item.cart_obj.category.id}}" class="btn btn-outline-danger btn-sm">
+                    Remove Quantity
+                </a>
+    
+                <!-- Storage and Color -->
+                <div class="row mt-4">
                     {% if cart_item.cart_obj.category.storage %}
-                    <div class="col-md-6">
-                        <h4>Storage</h4>
-                        <div id="categ" class="card mb-3" style="border:4px solid rgb(0, 0, 0);">
-                            {{ cart_item.cart_obj.category.storage }}
+                        <div class="col-md-6">
+                            <h6 style="font-size: 1rem;">Storage</h6>
+                            <div id="categ" class="card mb-2" style="border:3px solid rgb(0, 0, 0); font-size: 0.9rem;">
+                                {{ cart_item.cart_obj.category.storage }}
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-6">
-                        <h4>Color</h4>
-                        <div id="categ" class="card mb-3" style="border:4px solid rgb(0, 0, 0);">
-                            {{ cart_item.cart_obj.category.color }}
+                        <div class="col-md-6">
+                            <h6 style="font-size: 1rem;">Color</h6>
+                            <div id="categ" class="card mb-2" style="border:3px solid rgb(0, 0, 0); font-size: 0.9rem;">
+                                {{ cart_item.cart_obj.category.color }}
+                            </div>
                         </div>
-                    </div>
                     {% endif %}
                 </div>
-
+    
+                <!-- Size and Color -->
                 {% if cart_item.cart_obj.category.size %}
-                <div class="row mt-3 mb-4">
-                    <div class="col-md-6">
-                        <h4>Size</h4>
-                        <div id="categ" class="card mb-3" style="border:4px solid rgb(0, 0, 0);">
-                            {{ cart_item.cart_obj.category.size }}
+                    <div class="row mt-3 mb-3">
+                        <div class="col-md-6">
+                            <h6 style="font-size: 1rem;">Size</h6>
+                            <div id="categ" class="card mb-2" style="border:3px solid rgb(0, 0, 0); font-size: 0.9rem;">
+                                {{ cart_item.cart_obj.category.size }}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 style="font-size: 1rem;">Color</h6>
+                            <div id="categ" class="card mb-2" style="border:3px solid rgb(0, 0, 0); font-size: 0.9rem;">
+                                {{ cart_item.cart_obj.category.color }}
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <h4>Color</h4>
-                        <div id="categ" class="card mb-3" style="border:4px solid rgb(0, 0, 0);">
-                            {{ cart_item.cart_obj.category.color }}
-                        </div>
-                    </div>
-                </div>
                 {% endif %}
-
-                <br>
-
-                <!-- Cart Item Actions -->
-                <a href="../delete_cart/{{ cart_item.cart_obj.id }}" id="cart" class="btn">
-                    <i class="fa-solid fa-trash" style="margin-right:5px;"></i>Remove from Cart
-                </a>
-                <a href="../cart_buy/{{ cart_item.cart_obj.id }}" id="buy" class="btn">
-                    <i class="fa-solid fa-bolt-lightning" style="margin-right:5px;"></i>Buy Now
-                </a>
+    
+                <!-- Action Buttons -->
+                <div class="mt-3">
+                    <a href="../delete_cart/{{ cart_item.cart_obj.id }}" id="cart" class="btn btn-sm btn-danger">
+                        <i class="fa-solid fa-trash" style="margin-right:5px;"></i>Remove from Cart
+                    </a>
+                    <a href="../cart_buy/{{ cart_item.cart_obj.id }}" id="buy" class="btn btn-sm btn-primary">
+                        <i class="fa-solid fa-bolt-lightning" style="margin-right:5px;"></i>Buy Now
+                    </a>
+                </div>
             </div>
         </div>
-        <hr class="mt-5 mb-5">
+        <hr class="mt-4 mb-4">
     </div>
+    
     {% endfor %}
 
 

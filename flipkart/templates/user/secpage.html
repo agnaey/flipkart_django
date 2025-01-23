@@ -142,7 +142,7 @@
         }
 
         #card {
-            border: 1px solid rgba(90, 87, 87, 0.314);
+            border: none;
             padding: 10px;
 
             border-radius: 10px;
@@ -189,13 +189,13 @@
         }
 
         .offer_price {
-            font-size: 28px;
+            font-size: 24px;
             color: green;
 
         }
 
         .price {
-            font-size: 17px;
+            font-size: 13px;
             color: red;
         }
 
@@ -216,24 +216,24 @@
 
         #buy {
             background-color: orange;
-            padding: 17px 60px;
+            padding: 10px 30px;
             color: white;
             font-weight: bold;
-            font-size: 20px;
+            font-size: 15px;
         }
 
         #cart {
             background-color: rgb(251, 100, 27);
-            padding: 17px 60px;
+            padding: 10px 30px;
             color: white;
             font-weight: bold;
-            font-size: 20px;
+            font-size: 14px;
 
         }
 
         #cart1 {
             background-color: rgb(251, 100, 27);
-            padding: 20px 60px;
+            padding: 10px 30px;
             color: white;
             font-weight: bold;
             font-size: 20px;
@@ -459,86 +459,88 @@
     <div id="container" class="container mb-5" data-aos="zoom-in" data-aos-duration="1500" data-aos-delay="100">
         <div class="row">
             <!-- Image Section -->
-            <div id="image-section" class="col-lg-6 mb-5 mt-2" data-aos="zoom-out" data-aos-duration="1900" data-aos-delay="300">
-                <img src="{{ product.image.url }}" class="product_img img-fluid" alt="Product Image" style="width:400px; height: 500px;">
+            <div id="image-section" class="col-lg-6 mb-3 mt-1" data-aos="zoom-out" data-aos-duration="1900" data-aos-delay="300">
+                <img src="{{ product.image.url }}" class="product_img img-fluid" alt="Product Image" style="width:auto; height: 300px; margin-left: 15%;">
             </div>
-    
+        
             <!-- Details Section -->
-            <div id="details-section" class="col-lg-6 mt-5">
-                <h4 class="product_name" data-aos="zoom-out-right" data-aos-duration="1900" data-aos-delay="300">{{ product.name }}</h4><br><br>
-    
+            <div id="details-section" class="col-lg-6 mt-3">
+                <h5 class="product_name" data-aos="zoom-out-right" data-aos-duration="1900" data-aos-delay="300" style="font-size: 1.9rem;">
+                    {{ product.name }}
+                </h5><br>
+        
                 {% if category_id %}
                     {% for cat in categories %}
                         {% if category_id.pk == cat.pk %}
-                            <p class="offer_price" id="offer-price">
+                            <p class="offer_price" id="offer-price" style="font-size: 0.9rem;">
                                 <b>Offer Price: ₹<span id="selected-offer-price">{{ cat.offer_price }}</span></b>
                             </p>
-                            <p class="price" id="price" style="text-decoration: line-through;">
+                            <p class="price" id="price" style="text-decoration: line-through; font-size: 0.8rem;">
                                 ₹<span id="selected-price">{{ cat.price }}</span>
                             </p>
                         {% endif %}
                     {% endfor %}
                 {% else %}
-                    <p class="offer_price" id="offer-price" data-aos="zoom-out-right" data-aos-duration="1900" data-aos-delay="400">
+                    <p class="offer_price" id="offer-price" data-aos="zoom-out-right" data-aos-duration="1900" data-aos-delay="400" style="font-size: 0.9rem;">
                         <b>Offer Price: ₹<span id="selected-offer-price">{{ categories.first.offer_price }}</span></b>
                     </p>
-                    <p class="price" id="price" data-aos="zoom-out-right" data-aos-duration="1900" data-aos-delay="500" style="text-decoration: line-through;">
+                    <p class="price" id="price" data-aos="zoom-out-right" data-aos-duration="1900" data-aos-delay="500" style="text-decoration: line-through; font-size: 0.8rem;">
                         ₹<span id="selected-price">{{ categories.first.price }}</span>
                     </p>
                 {% endif %}
-    
+        
                 <!-- Storage Section -->
                 {% if is_phone or is_laptop %}
-                    <div class="row mt-5" data-aos="zoom-out-right" data-aos-duration="1900" data-aos-delay="600">
-                        <h4>Storage</h4>
+                    <div class="row mt-3" data-aos="zoom-out-right" data-aos-duration="1900" data-aos-delay="600">
+                        <h6>Storage</h6>
                         {% for category in categories %}
                             <div class="col-md-3">
                                 <a href="../demo/{{ category.pk }}" style="color: black;">
-                                    <div id="categ" class="card mb-3" {% if category_id.pk == category.pk %}
-                                        style="border:4px solid rgb(0, 0, 0);" {% endif %}>
+                                    <div id="categ" class="card mb-2" {% if category_id.pk == category.pk %}
+                                        style="border:3px solid rgb(0, 0, 0); font-size: 0.8rem;" {% endif %}>
                                         {{ category.storage }}
                                     </div>
                                 </a>
                             </div>
                         {% endfor %}
                     </div>
-    
-                    <h4 class="col-md-2" data-aos="zoom-out-right" data-aos-duration="1900" data-aos-delay="700">Color</h4>
+        
+                    <h6 class="col-md-2" data-aos="zoom-out-right" data-aos-duration="1900" data-aos-delay="700">Color</h6>
                     <div class="row">
                         {% for category in categories %}
                             <div class="col-md-3" data-aos="zoom-out-right" data-aos-duration="1900" data-aos-delay="700">
                                 <a href="../demo/{{ category.pk }}" style="color: black;">
-                                <div id="categ" class="card mb-3" {% if category_id.pk == category.pk %}
-                                    style="border:4px solid rgb(0, 0, 0);" {% endif %}>
-                                    {{ category.color }}
-                                </div>
-                                <a href=""></a>
+                                    <div id="categ" class="card mb-2" {% if category_id.pk == category.pk %}
+                                        style="border:3px solid rgb(0, 0, 0); font-size: 0.8rem;" {% endif %}>
+                                        {{ category.color }}
+                                    </div>
+                                </a>
                             </div>
                         {% endfor %}
                     </div>
                 {% endif %}
-    
+        
                 <!-- Size and Color Section for Dresses -->
                 {% if is_dress %}
-                    <div class="row mt-3 mb-4" data-aos="zoom-out-right" data-aos-duration="1900" data-aos-delay="600">
+                    <div class="row mt-2 mb-3" data-aos="zoom-out-right" data-aos-duration="1900" data-aos-delay="600">
                         <div class="col-md-6">
-                            <h4>Size</h4>
+                            <h6>Size</h6>
                             {% for category in categories %}
                                 <a href="../demo/{{ category.pk }}" style="color: black;">
-                                    <div id="categ" class="card mb-3" {% if category_id.pk == category.pk %}
-                                        style="border:4px solid rgb(0, 0, 0);" {% endif %}>
+                                    <div id="categ" class="card mb-2" {% if category_id.pk == category.pk %}
+                                        style="border:3px solid rgb(0, 0, 0); font-size: 0.8rem;" {% endif %}>
                                         {{ category.size }}
                                     </div>
                                 </a>
                             {% endfor %}
                         </div>
                         <div class="col-md-6">
-                            <h4>Color</h4>
+                            <h6>Color</h6>
                             <div class="row">
                                 {% for category in categories %}
                                     <div class="col-md-5">
-                                        <div id="categ" class="card mb-5" {% if category_id.pk == category.pk %}
-                                            style="border:4px solid rgb(0, 0, 0);" {% endif %}>
+                                        <div id="categ" class="card mb-2" {% if category_id.pk == category.pk %}
+                                            style="border:3px solid rgb(0, 0, 0); font-size: 0.8rem;" {% endif %}>
                                             {{ category.color }}
                                         </div>
                                     </div>
@@ -547,16 +549,16 @@
                         </div>
                     </div>
                 {% endif %}
-    
+        
                 <!-- Color Section for Others -->
                 {% if is_others %}
-                    <div class="row mt-3 mb-4">
+                    <div class="row mt-2 mb-3">
                         <div class="col-md-6">
-                            <h4>Color</h4>
+                            <h6>Color</h6>
                             {% for category in categories %}
                                 <a href="../demo/{{ category.pk }}" style="color: black;">
-                                    <div id="categ" class="card mb-3" {% if category_id.pk == category.pk %}
-                                        style="border:4px solid rgb(0, 0, 0);" {% endif %}>
+                                    <div id="categ" class="card mb-2" {% if category_id.pk == category.pk %}
+                                        style="border:3px solid rgb(0, 0, 0); font-size: 0.8rem;" {% endif %}>
                                         {{ category.color }}
                                     </div>
                                 </a>
@@ -564,38 +566,39 @@
                         </div>
                     </div>
                 {% endif %}
-    
+        
                 <!-- Cart and Buy Buttons -->
-                <div class="mt-4" data-aos="zoom-in-right" data-aos-duration="1900" data-aos-delay="600">
+                <div class="mt-3" data-aos="zoom-in-right" data-aos-duration="1900" data-aos-delay="600">
                     {% if category_id %}
-                        <a href="../add_to_cart/{{ product.pk }}?category_id={{ category_id.pk }}" id="cart" class="btn">
+                        <a href="../add_to_cart/{{ product.pk }}?category_id={{ category_id.pk }}" id="cart" class="btn btn-sm">
                             <i class="fa-solid fa-cart-shopping"></i> Add to Cart
                         </a>
-                        <a href="../buy_product/{{ product.pk }}?category_id={{ category_id.pk }}" id="buy" class="btn m-3">
+                        <a href="../buy_product/{{ product.pk }}?category_id={{ category_id.pk }}" id="buy" class="btn btn-sm m-2">
                             <i class="fa-solid fa-bolt-lightning"></i> Buy Now
                         </a>
                     {% else %}
-                        <button class="btn btn-secondary" id="cart" disabled>
+                        <button class="btn btn-secondary btn-sm" id="cart" disabled>
                             <i class="fa-solid fa-cart-shopping"></i> Add to Cart
                         </button>
-                        <button class="btn btn-secondary m-3" id="buy" disabled>
+                        <button class="btn btn-secondary btn-sm m-2" id="buy" disabled>
                             <i class="fa-solid fa-bolt-lightning"></i> Buy Now
                         </button>
-                        <p class="text-danger mt-2">Please select a category to proceed.</p>
+                        <p class="text-danger mt-1" style="font-size: 0.8rem;">Please select a category to proceed.</p>
                     {% endif %}
                 </div>
-    
-                <hr class="mt-5 mb-5">
+        
+                <hr class="mt-3 mb-3">
             </div>
-    
+        
             <!-- Highlights and Description -->
-            <div class="mb-5" data-aos="zoom-in" data-aos-duration="1500" data-aos-delay="200">
-                <h5 class="mt-5 text-center">Highlights</h5>
-                <p>{{ product.highlights|linebreaksbr|safe }}</p>
-                <h5 class="mt-5 text-center">Description</h5>
-                <p>{{ product.description }}</p>
+            <div class="mb-3" data-aos="zoom-in" data-aos-duration="1500" data-aos-delay="200">
+                <h6 class="mt-3 text-center">Highlights</h6>
+                <p style="font-size: 0.8rem;">{{ product.highlights|linebreaksbr|safe }}</p>
+                <h6 class="mt-3 text-center">Description</h6>
+                <p style="font-size: 0.8rem;">{{ product.description }}</p>
             </div>
         </div>
+        
     </div>
     
     <!-- ---------------------------------------------------- -->
@@ -613,10 +616,10 @@
                 <div class="carousel-item active " style="border: none;">
                     <div class="row ">
                         {% for i in phones %}
-                        <div class="col-md-3">
+                        <div class="col-md-3 col-sm-6 col-6">
                             <a class="text-decoration-none text-black" href="../sec/{{ i.id }}">
                                 <div id="card" class="movie-card justify-content-center">
-                                    <img src="{{ i.image.url }}" style="width: auto; height: 400px" class="img-fluid">
+                                    <img src="{{ i.image.url }}" style="width: auto; height: 200px; margin-left: 10%;" class="img-fluid">
                                     <div class="Phone-details text-center">
 
                                         <h5 class="phone-title mt-3">{{ i.name }}</h5>
@@ -660,10 +663,10 @@
                 <div class="carousel-item active" style="border: none;">
                     <div class="row">
                         {% for i in dress %}
-                        <div class="col-md-3">
+                        <div class="col-md-3 col-sm-6 col-6">
                             <a class="text-decoration-none text-black" href="../sec/{{i.id}}">
                                 <div id="card" class="movie-card justify-content-center">
-                                    <img src="{{i.image.url}}" style="width: 400px; height: 440px;" class="img-fluid">
+                                    <img src="{{i.image.url}}" style="width: auto; height: 200px;" class="img-fluid">
                                     <div class="Phone-details text-center">
                                         <h5 class="phone-title">{{i.name}}</h5>
                                         {% with i.categorys_set.all|first as category %}
@@ -701,10 +704,10 @@
         <!-- The slideshow/carousel -->
         <div class="row">
             {% for i in laptop %}
-            <div class="col-md-3">
+            <div class="col-md-3 col-sm-6 col-6">
                 <a class="text-decoration-none text-black" href="sec/{{i.id}}">
                     <div id="card" class="movie-card justify-content-center">
-                        <img src="{{i.image.url}}" style="width: 400px; height: 440px;" class="img-fluid">
+                        <img src="{{i.image.url}}" style="width: auto; height: 200px;" class="img-fluid">
                         <div class="Phone-details text-center">
                             <h5 class="phone-title">{{i.name}}</h5>
                             {% with i.categorys_set.all|first as category %}
