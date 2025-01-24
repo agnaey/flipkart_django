@@ -28,6 +28,7 @@ urlpatterns = [
     path('index', views.index),
     path('search/', views.search, name='search'),
     path('address_page/<id>', views.address_page),
+    path('cart_address/<id>', views.cart_address),
     path("payment/", views.order_payment, name="payment"),
     path('sec/<id>', views.secpage,name='sec'),
     path('add_to_cart/<pid>', views.add_to_cart),

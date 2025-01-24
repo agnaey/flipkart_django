@@ -20,8 +20,9 @@
     <script>
         $(document).ready(function () {
             $('#login').on('click', function (event) {
-                event.preventDefault(); 
-                const href = $(this).attr('href'); 
+                event.preventDefault(); // Prevent default link behavior
+                const href = $(this).attr('href'); // Get the href value from the link
+
                 Swal.fire({
                     title: "Are you sure?",
                     text: "You want to logout!",
@@ -62,7 +63,7 @@
                     confirmButtonColor: "#3085d6",
                     confirmButtonText: "Okay"
                 });
-                return; 
+                return;  
             }
 
             Swal.fire({

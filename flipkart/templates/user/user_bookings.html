@@ -457,22 +457,26 @@
         <b id="mycart" style="font-size: 1.5rem;">My Orders</b>
         <hr class="mt-3 mb-4">
     
-        {% for cart_obj in data1 %}
-        <div class="row">
-            <div class="col-lg-5 mt-2" data-aos="zoom-out" data-aos-duration="1900" data-aos-delay="300">
-                <img src="{{cart_obj.category.product.image.url}}" class="product_img img-fluid" alt="" style="width:250px; height: 300px;">
-            </div>
-            <div id="details-section" class="col-lg-6 mt-4" data-aos="zoom-out-right" data-aos-duration="1900" data-aos-delay="300">
-                <h5 class="product_name" style="font-size: 1.2rem;">{{cart_obj.category.product.name}}</h5><br>
-                {% if cart_obj.price == cart_obj.category.offer_price %}
-                    <p class="offer_price" style="font-size: 1rem;">Price: ₹{{ cart_obj.price }}</p>
-                {% else %}
-                    <p class="offer_price text-warning" style="font-size: 1rem;">Price per unit: ₹{{ cart_obj.category.price }}</p>
-                    <p class="offer_price" style="font-size: 0.9rem;">Total Price: ₹{{ cart_obj.category.offer_price }}</p>
-                {% endif %}
-                <p style="font-size: 0.9rem;"><b>Ordered Quantity:</b> <b>{{ cart_obj.quantity }}</b></p>
-                <p style="font-size: 0.9rem;"><b>Ordered Date:</b> <b>{{ cart_obj.date }}</b></p>
-    
+      {% for cart_obj in data1 %}
+<div class="row">
+    <div class="col-lg-5 mt-2" data-aos="zoom-out" data-aos-duration="1900" data-aos-delay="300">
+        <img src="{{ cart_obj.category.product.image.url }}" class="product_img img-fluid" alt="" style="width:250px; height: 300px;">
+    </div>
+    <div id="details-section" class="col-lg-6 mt-4" data-aos="zoom-out-right" data-aos-duration="1900" data-aos-delay="300">
+        <h5 class="product_name" style="font-size: 1.2rem;">{{ cart_obj.category.product.name }}</h5><br>
+
+        {% if cart_obj.price == cart_obj.category.offer_price %}
+            <p class="offer_price" style="font-size: 1rem;">Price per unit: ₹{{ cart_obj.price }}</p>
+        {% else %}
+            <p class="offer_price text-warning" style="font-size: 1rem;">Price per unit: ₹{{ cart_obj.category.offer_price }}</p>
+            <p class="offer_price" style="font-size: 1rem;"><b>Total Price:</b> ₹{{ cart_obj.total_price }}</p>
+
+        {% endif %}
+
+
+        <p style="font-size: 0.9rem;"><b>Ordered Quantity:</b> <b>{{ cart_obj.quantity }}</b></p>
+        <p style="font-size: 0.9rem;"><b>Ordered Date:</b> <b>{{ cart_obj.date }}</b></p>
+  
                 <div class="row mt-4">
                     {% if cart_obj.category.storage %}
                         <div class="col-md-6">

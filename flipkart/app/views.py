@@ -252,7 +252,9 @@ def admin_bookings(req):
     user=User.objects.all()
     data=Buy.objects.all()[::-1]
     category = Categorys.objects.select_related('product')
-    
+
+    for booking in data:
+        booking.user_address = Address.objects.filter(user=booking.user).first()
 
     # others = Products.objects.filter(others=True)
     return render(req,'admin/admin_bookings.html',{'user':user,'data':data,'category':category})
@@ -376,10 +378,10 @@ def buy_pro(req,id):
 
 def address_page(req,id):
     user = User.objects.get(username=req.session['username'])
-
-
     category = Categorys.objects.get(pk=req.session['cat'])  
-    
+    quantity = req.GET.get('quantity', 1)  
+
+
     if req.method == 'POST':
         name = req.POST.get('name')
         address = req.POST.get('address')
@@ -387,8 +389,6 @@ def address_page(req,id):
 
         user_address = Address(user=user, name=name, address=address, phone_number=phone_number)
         user_address.save()
-        quantity = req.GET.get('quantity', 1)   
-
 
         data = Buy.objects.create(user=user, category=category, price=category.price,   quantity=quantity,)
         data.save()
@@ -397,6 +397,8 @@ def address_page(req,id):
 
     return render(req, 'user/address.html', {
         'category': category,
+        'quantity':quantity,
+       
     })
 
 # def buy_pro(req,id):
@@ -469,12 +471,39 @@ def cart_buy(req, id):
         return redirect('error_page') 
     total_price = category.offer_price * cart.quantity
 
-    buy = Buy.objects.create(category=cart.category, user=cart.user, price=total_price,quantity=cart.quantity)
-    buy.save()
-
-
-
+   
     return redirect(view_bookings)
+
+def cart_address(req, id):
+    cart = Cart.objects.filter(pk=id).first()
+    if not cart:
+        return redirect('error_page')
+
+    category = Categorys.objects.select_related('product').filter(id=cart.category_id).first()
+    if not category:
+        return redirect('error_page')
+
+    user = User.objects.get(username=req.session['username'])
+    quantity = cart.quantity
+
+    if req.method == 'POST':
+        Address.objects.create(
+            user=user,
+            name=req.POST.get('name'),
+            address=req.POST.get('address'),
+            phone_number=req.POST.get('phone_number')
+        )
+        Buy.objects.create(
+            user=user,
+            category=category,
+            price=category.offer_price * quantity,
+            quantity=quantity
+        )
+        cart.delete()
+        return redirect(view_bookings)
+
+    return render(req, 'user/cart_address.html', {'category': category, 'quantity': quantity})
+
 
 def demo(req,id):
     req.session['cat']=id
@@ -585,24 +614,21 @@ def cart_delete(req,id):
 
 def view_bookings(req):
     user = User.objects.get(username=req.session['username'])
+    
+    # Fetch the bookings for this user and calculate total price
     data1 = Buy.objects.filter(user=user).select_related('category', 'category__product')[::-1]
-    category_id = [item.category.id for item in data1]
-
-    categories = Categorys.objects.filter(id__in=category_id).select_related('product')
-
-    # cart_items = Cart.objects.filter(user=user)
-    # for booking in data1:
-    #     cart_item = Cart.objects.filter(user=user, category=booking.category).first()
-    #     quantity = cart_item.quantity if cart_item else 1
-    #     price = float(booking.category.offer_price or booking.category.price)
-    #     booking.total_price = price * quantity
-    #     booking.quantity = quantity
+    
+    # Calculate total price for each booking
+    for booking in data1:
+        price = booking.category.offer_price if booking.category.offer_price else booking.category.price
+        booking.total_price = price * booking.quantity  # Calculate total price
 
     context = {
         'data1': data1,
-        'categories': categories,
     }
     return render(req, 'user/user_bookings.html', context)
+
+
 
 
 
