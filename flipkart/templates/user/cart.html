@@ -378,6 +378,52 @@
         font-size: 16px;
         padding: 5px;
     }
+       
+    .footer-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.footer-section {
+    flex: 1;
+    min-width: 200px;
+}
+
+.footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap; 
+    align-items: center;
+    gap: 10px;
+}
+
+@media (max-width: 768px) {
+    .footer-container {
+        flex-direction: column;
+        align-items: flex-start; 
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .bottom-links {
+        flex-direction: column;
+        gap: 10px; /* Reduce gap between links */
+    }
+
+    .copyright {
+        margin-top: 20px;
+    }
+
+    .payment-icons {
+        margin-top: 10px;
+        text-align: center;
+    }
+}
 
     </style>
 
@@ -508,7 +554,7 @@
     {% endfor %}
 
 
-    <footer class="d-none d-md-block">
+    <footer >
         <div class="footer-container">
             <div class="footer-section">
                 <h3>ABOUT</h3>
@@ -573,7 +619,7 @@
             <div class="copyright">
                 <p>© 2007-2025 Flipkart.com</p>
                 <div class="payment-icons">
-                    <img src="{% static '/images/pay.svg' %}" style="height: 80px; width: 420px;" alt="Visa">
+                    <img class="img-fluid" src="{% static '/images/pay.svg' %}" style="height: 80px; width: 420px;" alt="Visa">
 
                 </div>
             </div>

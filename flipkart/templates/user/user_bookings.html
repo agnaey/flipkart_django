@@ -372,6 +372,54 @@
             }
 
         }
+               
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.footer-section {
+    flex: 1;
+    min-width: 200px;
+}
+
+.footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap; 
+    align-items: center;
+    gap: 10px;
+}
+
+@media (max-width: 768px) {
+    .footer-container {
+        flex-direction: column;
+        align-items: flex-start; 
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .bottom-links {
+        flex-direction: column;
+        gap: 10px; /* Reduce gap between links */
+    }
+
+    .copyright {
+        margin-top: 20px;
+    }
+
+    .payment-icons {
+        margin-top: 10px;
+        text-align: center;
+    }
+}
+
+        
     </style>
     <title>Orders</title>
     <!-- <link rel="icon" href="{% static '/images/flips1.png' %}" type="image/x-icon"></head> -->
@@ -419,8 +467,8 @@
                 {% if cart_obj.price == cart_obj.category.offer_price %}
                     <p class="offer_price" style="font-size: 1rem;">Price: ₹{{ cart_obj.price }}</p>
                 {% else %}
-                    <p class="offer_price text-warning" style="font-size: 1rem;">Price per unit: ₹{{ cart_obj.category.offer_price }}</p>
-                    <p class="offer_price" style="font-size: 0.9rem;">Total Price: ₹{{ cart_obj.price }}</p>
+                    <p class="offer_price text-warning" style="font-size: 1rem;">Price per unit: ₹{{ cart_obj.category.price }}</p>
+                    <p class="offer_price" style="font-size: 0.9rem;">Total Price: ₹{{ cart_obj.category.offer_price }}</p>
                 {% endif %}
                 <p style="font-size: 0.9rem;"><b>Ordered Quantity:</b> <b>{{ cart_obj.quantity }}</b></p>
                 <p style="font-size: 0.9rem;"><b>Ordered Date:</b> <b>{{ cart_obj.date }}</b></p>
@@ -484,7 +532,7 @@
     </div>
 
 
-    <footer class="d-none d-md-block">
+    <footer>
         <div class="footer-container">
             <div class="footer-section">
                 <h3>ABOUT</h3>
@@ -549,7 +597,7 @@
             <div class="copyright">
                 <p>© 2007-2025 Flipkart.com</p>
                 <div class="payment-icons">
-                    <img src="{% static '/images/pay.svg' %}" style="height: 80px; width: 420px;" alt="Visa">
+                    <img class="img-fluid" src="{% static '/images/pay.svg' %}" style="height: 80px; width: 420px;" alt="Visa">
 
                 </div>
             </div>
