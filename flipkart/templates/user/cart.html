@@ -399,6 +399,76 @@
     gap: 10px;
 }
 
+#checkout {
+    margin: 0 auto;
+
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.summary-row span,
+.summary-row strong {
+    font-size: 16px;
+}
+
+.card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    background-color: #fff;
+}
+
+.btn-block {
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+}
+
+.cart-summary {
+  padding: 20px;
+}
+
+#priceDetails {
+  margin-top: 10px;
+  border-top: 1px solid #ccc;
+  padding-top: 10px;
+}
+
+.hidden {
+  display: none;
+}
+
+.sticky-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #fff;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+  padding: 10px 20px;
+  display: flex;
+  justify-content: center;
+  border-top: 1px solid #ccc;
+}
+
+.place-order {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #ffab00;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.place-order:hover {
+  background-color: #e69500;
+}
+
 @media (max-width: 768px) {
     .footer-container {
         flex-direction: column;
@@ -477,7 +547,7 @@
             <!-- Image Section -->
             <div class="col-lg-5 mt-2" data-aos="zoom-out" data-aos-duration="1900" data-aos-delay="300">
                 <img src="{{ cart_item.cart_obj.category.product.image.url }}" class="product_img img-fluid"
-                    alt="Product Image" style="width:300px; height: 400px;">
+                    alt="Product Image" style="width:auto; height: 300px;">
             </div>
     
             <!-- Details Section -->
@@ -536,6 +606,8 @@
                         </div>
                     </div>
                 {% endif %}
+
+               
     
                 <!-- Action Buttons -->
                 <div class="mt-3">
@@ -552,10 +624,68 @@
                 </div>
             </div>
         </div>
-        <hr class="mt-4 mb-4">
     </div>
     
     {% endfor %}
+    <div id="checkout" class="col-lg-4 mb-4">
+        <div class="card shadow-sm p-3">
+            <h5 class="card-title">Checkout Summary</h5>
+            <hr>
+
+            <div class="summary-row">
+                <span>Total Items:</span>
+                <strong>{{ cart_items|length }}</strong>
+            </div>
+            <div class="summary-row text-danger">
+                <span>Without Discount ({{ cart_items|length }} items):</span>
+                <span>₹{{ price_without_discount }}</span>
+            </div>
+        
+            <div class="summary-row text-success">
+                <span>Discount:</span>
+                <span>-₹{{ total_discount }}</span>
+            </div>
+
+            <div class="summary-row">
+                <span>Delivery Charges:</span>
+                <span class="text-success">₹0 (FREE Delivery)</span>
+            </div>
+            <div class="summary-row">
+                <span>Total Price ({{ cart_items|length }}):</span>
+                <span class="text-success"><b>₹{{ total_price }}</b></span>
+            </div>
+            <!-- <a href="../checkout" id="buy" class="btn btn-primary btn-block mt-3">
+                Proceed to Checkout
+            </a> -->
+        </div>
+        
+    </div>
+    <div class="sticky-footer">
+        <div class="container d-flex justify-content-between align-items-center">
+          <div>
+          
+            <p class="text-success mb-0"><b>Total Amount: ₹{{ total_price }}</b></p>
+            <p class="mb-0"><b>Discount: -₹{{ total_discount }}</b> <!--<a class="warning-icon" href="#checkout"> <i class="fas fa-exclamation text-dark"></i></a></p> -->
+          </div>
+          <a href="#checkout" class="btn btn-primary " id="buy" >More Details</a>
+          <!-- <button class="place-order">Place Order</button> -->
+        </div>
+      </div>
+
+<style>
+    .warning-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  font-size: 20px;
+}
+
+</style>
+
 
 
     <footer >

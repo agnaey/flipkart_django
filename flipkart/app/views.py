@@ -487,7 +487,7 @@ def cart_address(req, id):
     quantity = cart.quantity
 
     if req.method == 'POST':
-        Address.objects.create(
+        user_address = Address.objects.create(
             user=user,
             name=req.POST.get('name'),
             address=req.POST.get('address'),
@@ -497,8 +497,9 @@ def cart_address(req, id):
             user=user,
             category=category,
             price=category.offer_price * quantity,
-            quantity=quantity
-        )
+            quantity=quantity,
+            address=user_address
+            )
         cart.delete()
         return redirect(view_bookings)
 
@@ -574,31 +575,36 @@ def cart_display(req):
     user = User.objects.get(username=req.session['username'])
     data = Cart.objects.filter(user=user)[::-1]
     category = Categorys.objects.select_related('product')
-    cart_items = Cart.objects.filter(user=req.user)
+
     cart_items = []
-    grand_total_price = 0 
-    grand_dis_price=0 
+    grand_total_price = 0  
+    grand_dis_price = 0    
 
     for item in data:
-        product_price = (item.category.offer_price)
-        total_price = product_price * item.quantity 
-        grand_total_price += total_price  
+        product_price = item.category.offer_price
+        total_price = product_price * item.quantity
+        grand_total_price += total_price
 
-        dis_price=(item.category.price)
-        total_dis_price=dis_price*item.quantity
-        grand_dis_price+=total_dis_price
-        
+        dis_price = item.category.price
+        total_dis_price = dis_price * item.quantity
+        grand_dis_price += total_dis_price
+
         cart_items.append({
             'cart_obj': item,
             'total_price': total_price,
-            'total_dis_price':total_dis_price
+            'total_dis_price': total_dis_price
         })
-    
+
+    # Calculate the total discount
+    total_discount = grand_dis_price - grand_total_price
+
     context = {
         'data': data,
         'categories': category,
-        'cart_items': cart_items, 
-        'total_price': total_price
+        'cart_items': cart_items,
+        'total_price': grand_total_price,
+        'total_discount': total_discount,
+        'price_without_discount': grand_dis_price,  # Added this to context
     }
     return render(req, 'user/cart.html', context)
 

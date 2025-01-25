@@ -38,4 +38,5 @@ class Buy(models.Model):
     price=models.IntegerField()
     date=models.DateField(auto_now_add=True)
     quantity=models.IntegerField()
+    address = models.ForeignKey(Address, on_delete=models.CASCADE, null=True, blank=True)
     is_confirmed = models.BooleanField(default=False)
