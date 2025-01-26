@@ -615,19 +615,22 @@ def cart_delete(req,id):
     data.delete()
     return redirect(cart_display)
 
+def delete_all(req):
+    Cart.objects.filter(user=req.user).delete()
+    req.session['cart_cleared'] = True
+    return redirect(cart_display)
+
 
 
 
 def view_bookings(req):
     user = User.objects.get(username=req.session['username'])
     
-    # Fetch the bookings for this user and calculate total price
     data1 = Buy.objects.filter(user=user).select_related('category', 'category__product')[::-1]
     
-    # Calculate total price for each booking
     for booking in data1:
         price = booking.category.offer_price if booking.category.offer_price else booking.category.price
-        booking.total_price = price * booking.quantity  # Calculate total price
+        booking.total_price = price * booking.quantity  
 
     context = {
         'data1': data1,

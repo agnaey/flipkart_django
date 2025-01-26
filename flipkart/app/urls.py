@@ -35,6 +35,8 @@ urlpatterns = [
   path('add_quantity/<int:category_id>/', views.add_quantity, name='add_quantity'),
     path('remove_quantity/<int:category_id>/', views.remove_quantity, name='remove_quantity'),    path('cart_disp', views.cart_display,name='cart_disp'),
     path('delete_cart/<id>', views.cart_delete),
+    path('delete_all', views.delete_all,name='delete_all'),
+
     path('cart_buy/<id>',views.cart_buy),
     path('buy_product/<id>',views.buy_pro),
     path('user_vew_booking',views.view_bookings),

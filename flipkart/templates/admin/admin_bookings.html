@@ -279,7 +279,7 @@ td, th {
             <table class="table table-bordered">
                 <thead class="thead-dark">
                     <tr>
-                        <th>Image</th>
+                        <th style=" padding-left: 35px; padding-right: 35px;">Image</th>
                         <th style="width: 50px;">Username</th> 
                         <th style=" width: 300px;">User Details</th>  
                         <th>Product Name</th>
@@ -293,7 +293,7 @@ td, th {
                 <tbody>
                     {% for i in data %}
                     <tr>
-                        <td>
+                        <td >
                             <img src="{{ i.category.product.image.url }}" class="product_img img-fluid" alt="" >
                         </td>
                         <td>{{ i.user }}</td>

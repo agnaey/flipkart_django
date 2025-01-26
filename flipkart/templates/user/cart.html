@@ -454,7 +454,16 @@
   justify-content: center;
   border-top: 1px solid #ccc;
 }
-
+.warning-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  font-size: 20px;
+}
 .place-order {
   padding: 10px 20px;
   font-size: 16px;
@@ -654,10 +663,16 @@
                 <span>Total Price ({{ cart_items|length }}):</span>
                 <span class="text-success"><b>₹{{ total_price }}</b></span>
             </div>
+            <form method="POST" action="{% url 'delete_all' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Clear Cart</button>
+            </form>
+
             <!-- <a href="../checkout" id="buy" class="btn btn-primary btn-block mt-3">
                 Proceed to Checkout
             </a> -->
         </div>
+        
         
     </div>
     <div class="sticky-footer">
@@ -672,19 +687,6 @@
         </div>
       </div>
 
-<style>
-    .warning-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  font-size: 20px;
-}
-
-</style>
 
 
 
