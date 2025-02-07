@@ -63,7 +63,104 @@ def register(req):
 from django.core.mail import send_mail
 
 
+def fake_index(request):
+    phones = Products.objects.filter(phone=True).prefetch_related('categorys_set')
+    dress = Products.objects.filter(dress=True).prefetch_related('categorys_set')
+    laptop = Products.objects.filter(laptop=True).prefetch_related('categorys_set')
+    others = Products.objects.filter(others=True).prefetch_related('categorys_set')
 
+
+    return render(request, 'fake_index.html', {'phones': phones,'dress': dress,'laptop': laptop,'others': others
+    })
+
+
+def fake_search(request):
+    if request.method == 'POST':
+        searched = request.POST.get('searched', '').strip()  # Get the search term
+        category = request.POST.get('category', '')  # Get the selected category (if any)
+        
+        # Filter products based on the search term and category
+        results = Products.objects.all()
+        
+        if searched:
+            results = results.filter(name__icontains=searched)
+        
+        if category:
+            # Dynamically filter based on the category field
+            category_filter = {f"{category}": True}
+            results = results.filter(**category_filter)
+
+        return render(request, 'fake_search.html', {'searched': searched, 'category': category, 'results': results})
+    
+    # Render the empty search page for GET requests
+    return render(request, 'fakesearch.html', {'searched': '', 'category': '', 'results': []})
+
+def fake_sec(request, id):
+    product = Products.objects.get(id=id)
+    category = Categorys.objects.filter(product=product)
+
+    categories = Categorys.objects.filter(product=product)
+
+    cart1 = None
+
+    phones = Products.objects.filter(phone=True)
+    dress = Products.objects.filter(dress=True)
+    laptop = Products.objects.filter(laptop=True)
+    others = Products.objects.filter(others=True)
+    # category_id = request.session.get('cat')
+    # category_data = Categorys.objects.filter(pk=category_id).first() if category_id else None
+
+    category_id=request.session.get('cat')
+    category_data = None
+
+    f=0
+    for i in category:
+        if category_id:
+            if i.pk==int(category_id):
+                category_data = Categorys.objects.get(pk=category_id)
+                f=1
+    if f==0:
+        category_data=None
+
+
+    context = {
+        'product': product,
+        'categories': category,
+        'is_phone': product.phone,
+        'is_dress': product.dress,
+        'is_laptop': product.laptop,
+        'is_others': product.others,
+        'cart1': cart1,
+        'phones': phones,
+        'dress': dress,
+        'laptop': laptop,
+        'others': others,
+        'category_id':category_data,
+    }
+
+    return render(request, 'fake_sec.html', context)
+
+def fake_demo(req,id):
+    req.session['cat']=id
+    category=Categorys.objects.get(pk=id)
+    return redirect(fake_sec,id=category.product_id)
+
+def fake_see_more(req, a=None):
+    file_type = req.GET.get('type', a or 'default')
+
+    if file_type == 'phone':
+        files = Products.objects.filter(phone=True)
+    elif file_type == 'dress':
+        files = Products.objects.filter(dress=True)
+    elif file_type == 'laptop':
+        files = Products.objects.filter(laptop=True)
+    elif file_type == 'others':
+        files = Products.objects.filter(others=True)
+    else:
+        files = Products.objects.all()
+
+    context = {'files': files, 'file_type': file_type}
+    return render(req, 'fake_see_more.html', context)
 
 
 # ----------------------------------admin------------------------------------------------------
