@@ -35,7 +35,6 @@ urlpatterns = [
     path('search/', views.search, name='search'),
     path('address_page/<id>', views.address_page),
     path('cart_address/<id>', views.cart_address),
-    path("payment/", views.order_payment, name="payment"),
     path('sec/<id>', views.secpage,name='sec'),
     path('add_to_cart/<pid>', views.add_to_cart),
   path('add_quantity/<int:category_id>/', views.add_quantity, name='add_quantity'),
@@ -51,6 +50,9 @@ urlpatterns = [
     path('confirm_order/<order_id>', views.confirm_order),
     path('see_more/<a>',views.see_more),
     path('demo/<id>',views.demo),
+
+    path('order_payment/<game_id>', views.order_payment, name='order_payment'),
+    path('callback/', views.callback, name='callback'),
     # path('demo1/<id>',views.demo1),
 
 

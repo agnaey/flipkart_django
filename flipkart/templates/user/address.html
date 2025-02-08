@@ -46,48 +46,6 @@
             });
         });
 
-        $(document).ready(function () {
-        $('#buy').on('click', function (event) {
-            event.preventDefault(); 
-
-            var name = $('#name').val().trim();
-            var address = $('#address').val().trim();
-            var phoneNumber = $('#phone_number').val().trim();
-
-            if (name === "" || address === "" || phoneNumber === "") {
-                Swal.fire({
-                    title: "Please fill in all the fields",
-                    text: "Make sure all fields are filled before proceeding.",
-                    icon: "warning",
-                    confirmButtonColor: "#3085d6",
-                    confirmButtonText: "Okay"
-                });
-                return; 
-            }
-
-            Swal.fire({
-                title: "Are you sure?",
-                text: "You want to buy this product!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Confirm!"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    Swal.fire({
-                        title: "Confirmed",
-                        text: "You have successfully ordered the product.",
-                        icon: "success",
-                        timer: 1500,
-                        showConfirmButton: false
-                    });
-
-                    $('#order-form').submit(); 
-                }
-            });
-        });
-    });
     </script>
 
     <style>
@@ -267,6 +225,43 @@
         </div>
     </div>
 
+    
+    <form id="payment_form" method="POST" action="{{ callback_url }}">
+        {% csrf_token %}
+        <!-- Hidden fields to capture Razorpay's response -->
+        <input type="hidden" name="razorpay_payment_id" id="razorpay_payment_id">
+        <input type="hidden" name="razorpay_order_id" id="razorpay_order_id">
+        <input type="hidden" name="razorpay_signature" id="razorpay_signature">
+        <input type="hidden" name="buy_id" id="buy_id" value="{{ buy_id }}">
+      </form>
+      
+      <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+      <script>
+        var options = {
+          "key": "{{ razorpay_key }}",
+          "amount": "{{ amount }}", // amount in paise
+          "currency": "INR",
+          "order_id": "{{ order_id }}",
+          "handler": function (response) {
+            // Populate the hidden form fields with the Razorpay response details.
+            document.getElementById('razorpay_payment_id').value = response.razorpay_payment_id;
+            document.getElementById('razorpay_order_id').value = response.razorpay_order_id;
+            document.getElementById('razorpay_signature').value = response.razorpay_signature;
+            // Submit the form to your callback URL.
+            document.getElementById('payment_form').submit();
+          },
+          "prefill": {
+            "name": "",      // Optionally prefill customer details
+            "email": "",
+            "contact": ""
+          },
+          "theme": {
+            "color": "#3399cc"
+          }
+        };
+        var rzp1 = new Razorpay(options);
+        rzp1.open();
+      </script>
 
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>
