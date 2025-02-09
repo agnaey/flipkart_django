@@ -226,42 +226,41 @@
     </div>
 
     
-    <form id="payment_form" method="POST" action="{{ callback_url }}">
+    {% block content %}
+    <div class="pay">
+      <form method="POST">
         {% csrf_token %}
-        <!-- Hidden fields to capture Razorpay's response -->
-        <input type="hidden" name="razorpay_payment_id" id="razorpay_payment_id">
-        <input type="hidden" name="razorpay_order_id" id="razorpay_order_id">
-        <input type="hidden" name="razorpay_signature" id="razorpay_signature">
-        <input type="hidden" name="buy_id" id="buy_id" value="{{ buy_id }}">
-      </form>
-      
-      <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-      <script>
+        <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+        <script>
         var options = {
-          "key": "{{ razorpay_key }}",
-          "amount": "{{ amount }}", // amount in paise
-          "currency": "INR",
-          "order_id": "{{ order_id }}",
-          "handler": function (response) {
-            // Populate the hidden form fields with the Razorpay response details.
-            document.getElementById('razorpay_payment_id').value = response.razorpay_payment_id;
-            document.getElementById('razorpay_order_id').value = response.razorpay_order_id;
-            document.getElementById('razorpay_signature').value = response.razorpay_signature;
-            // Submit the form to your callback URL.
-            document.getElementById('payment_form').submit();
-          },
-          "prefill": {
-            "name": "",      // Optionally prefill customer details
-            "email": "",
-            "contact": ""
-          },
-          "theme": {
-            "color": "#3399cc"
-          }
+            key: "{{razorpay_key}}",
+            amount: "{{order.amount}}",
+            currency: "INR",
+            name: "{{order.name}}",
+            description: "Test Transaction",
+            image: "https://example.com/your_logo",
+            order_id: "{{order.provider_order_id}}",
+            callback_url: "{{callback_url}}",
+            redirect: true,
+            prefill: {
+                "name": "Gaurav Kumar",
+                "email": "gaurav.kumar@example.com",
+                "contact": "9999999999"
+            },
+            notes: {
+                "address": "Razorpay Corporate Office"
+            },
+            theme: {
+                "color": "#3399cc"
+            }
         };
         var rzp1 = new Razorpay(options);
         rzp1.open();
-      </script>
+        </script>
+        <input type="hidden" custom="Hidden Element" name="hidden">
+    </form>
+    {% endblock %}
+    </div>
 
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>

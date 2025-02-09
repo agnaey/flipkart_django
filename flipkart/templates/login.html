@@ -107,6 +107,13 @@ input[type="submit"]:hover {
             <input type="submit" value="Login" class="btn">
         </form>
         <a id="register" href="register">New to Flipkart? Register</a>
+<form method="post" action="{% url 'password_reset' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div class="text-center mt-3">
+        <button class="me-auto" type="submit" style="background: none; border: none; color: blue; text-decoration: underline; cursor: pointer;">Forgot Password</button>
+    </div>
+</form>
     </div>
 </body>
 </html>

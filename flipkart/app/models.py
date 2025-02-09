@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from .constants import PaymentStatus
 # Create your models here.
 class Products (models.Model):
     name = models.TextField()

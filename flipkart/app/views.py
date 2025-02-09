@@ -14,6 +14,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse, HttpResponseBadRequest
 
 
+
 # Create your views here.
 
 def login(req):
@@ -62,10 +63,13 @@ def register(req):
     else:
         return render(req,'register.html')
     
-from django.core.mail import send_mail
 
 
 def fake_index(request):
+
+    if 'username' in request.session or 'admin' in request.session:
+        return redirect(index) 
+
     phones = Products.objects.filter(phone=True).prefetch_related('categorys_set')
     dress = Products.objects.filter(dress=True).prefetch_related('categorys_set')
     laptop = Products.objects.filter(laptop=True).prefetch_related('categorys_set')
@@ -78,23 +82,20 @@ def fake_index(request):
 
 def fake_search(request):
     if request.method == 'POST':
-        searched = request.POST.get('searched', '').strip()  # Get the search term
-        category = request.POST.get('category', '')  # Get the selected category (if any)
+        searched = request.POST.get('searched', '').strip()  
+        category = request.POST.get('category', '') 
         
-        # Filter products based on the search term and category
         results = Products.objects.all()
         
         if searched:
             results = results.filter(name__icontains=searched)
         
         if category:
-            # Dynamically filter based on the category field
             category_filter = {f"{category}": True}
             results = results.filter(**category_filter)
 
         return render(request, 'fake_search.html', {'searched': searched, 'category': category, 'results': results})
     
-    # Render the empty search page for GET requests
     return render(request, 'fakesearch.html', {'searched': '', 'category': '', 'results': []})
 
 def fake_sec(request, id):
@@ -503,47 +504,37 @@ def address_page(req,id):
 
 def order_payment(req):
     if 'user' in req.session:
-        # Get the user and the product details (Categorys instance)
         user = User.objects.get(username=req.session['user'])
-        category = get_object_or_404(Categorys, pk=req.session['det'])
-        # Use the offer price (change to category.price if needed)
-        amount = category.offer_price  
-        
-        # Create a Razorpay order (amount is in paise)
+        category = Categorys.objects.get(pk=req.session['cat'])
+        amount = category.offer_price
+
         client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
         razorpay_order = client.order.create({
-            "amount": int(amount) * 100,
+            "amount": int(amount) * 100, 
             "currency": "INR",
             "payment_capture": "1"
         })
-        order_id = razorpay_order['id']
-        
-        # Create a pending Buy record (is_confirmed=False)
-        buy = Buy.objects.create(
+
+        order = Buy.objects.create(
             user=user,
             category=category,
             price=amount,
-            quantity=1,
-            address=None,  # Set an Address instance if available
-            is_confirmed=False
+            quantity=1, 
         )
-        
-        # Pass the Razorpay order details and the Buy record's id to the template
+        order.provider_order_id = razorpay_order['id']
+        order.save()
+
         return render(req, "user/address.html", {
             "callback_url": "http://127.0.0.1:8000/callback",
             "razorpay_key": settings.RAZORPAY_KEY_ID,
-            "order_id": order_id,
-            "buy_id": buy.id,
-            "amount": int(amount) * 100,  # in paise
+            "order": order,
         })
     else:
-        # If the user isn’t in session, render the login page (or redirect as needed)
-        return render(req, "login.html")
+        return redirect('login') 
 
 
 @csrf_exempt
 def callback(request):
-    # Helper function to verify the Razorpay signature.
     def verify_signature(response_data):
         client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
         return client.utility.verify_payment_signature(response_data)
@@ -552,38 +543,34 @@ def callback(request):
         payment_id = request.POST.get("razorpay_payment_id", "")
         provider_order_id = request.POST.get("razorpay_order_id", "")
         signature_id = request.POST.get("razorpay_signature", "")
-        # Retrieve the Buy record using the buy_id that was passed as a hidden field
-        buy_id = request.POST.get("buy_id", "")
-        if not buy_id:
-            return redirect("book")  # or redirect to an error page
-        buy = Buy.objects.get(id=buy_id)
 
-        # Attempt to verify the payment signature.
-        try:
-            verify_signature(request.POST)
-            buy.is_confirmed = True
-            buy.save()
-            # On success, redirect (you can pass extra parameters if needed)
-            return redirect("book")
-        except:
-            buy.is_confirmed = False
-            buy.save()
-            return redirect("book")
+        # Update Buy model with payment details
+        order = Buy.objects.get(provider_order_id=provider_order_id)
+        order.payment_id = payment_id
+        order.signature_id = signature_id
+        order.save()
+
+        if verify_signature(request.POST):
+            order.is_confirmed = True
+            order.save()
+            return redirect("user_orders")  # Redirects to the user's orders page
+        else:
+            order.is_confirmed = False
+            order.save()
+            return redirect("user_orders")
+
     else:
-        # In case of an error, Razorpay sends error metadata in the POST data.
-        try:
-            metadata = json.loads(request.POST.get("error[metadata]"))
-            payment_id = metadata.get("payment_id")
-            provider_order_id = metadata.get("order_id")
-        except:
-            payment_id = ""
-            provider_order_id = ""
-        buy_id = request.POST.get("buy_id", "")
-        if buy_id:
-            buy = Buy.objects.get(id=buy_id)
-            buy.is_confirmed = False
-            buy.save()
-        return render(request, "callback.html", context={"status": "Payment Failure"})
+        error_metadata = json.loads(request.POST.get("error[metadata]", "{}"))
+        payment_id = error_metadata.get("payment_id", "")
+        provider_order_id = error_metadata.get("order_id", "")
+
+        order = Buy.objects.get(provider_order_id=provider_order_id)
+        order.payment_id = payment_id
+        order.is_confirmed = False
+        order.save()
+
+        return render(request, "callback.html", context={"status": "Payment Failed"})
+
 
 
 

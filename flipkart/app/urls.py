@@ -1,9 +1,10 @@
 from django.urls import path
 from . import views
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
 
-    path('login', views.login),
+    path('login', views.login ,name='login'),
     path('logout', views.logout),
     path('register',views.register),
     path('',views.fake_index,name='fake_index'),
@@ -51,10 +52,13 @@ urlpatterns = [
     path('see_more/<a>',views.see_more),
     path('demo/<id>',views.demo),
 
-    path('order_payment/<game_id>', views.order_payment, name='order_payment'),
+    path('order_payment', views.order_payment, name='order_payment'),
     path('callback/', views.callback, name='callback'),
     # path('demo1/<id>',views.demo1),
 
-
+    path('password_reset/', auth_views.PasswordResetView.as_view(template_name='password_reset_form.html'), name='password_reset'),
+    path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(template_name='password_reset_form.html', extra_context={'reset_done': True}), name='password_reset_done'),
+    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='password_reset_form.html'), name='password_reset_confirm'),
+    path('reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name='password_reset_form.html', extra_context={'reset_complete': True}), name='password_reset_complete'),
     
 ]
