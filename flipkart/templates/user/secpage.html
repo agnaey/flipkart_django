@@ -440,7 +440,7 @@
     <link rel="icon" href="{% static '/images/flips1.png' %}" type="image/x-icon">
 </head>
 
-<body style="background-color: rgb(241,242,244);" data-aos="fade-down" data-aos-duration="1500" data-aos-delay="100" >
+<body style="background-color: rgb(241,242,244);"  >
     <nav id="nav1" class="navbar navbar-expand-lg"  >
         <div class="container">
             <a class="navbar-brand" href="../index"><img src="{% static '/images/i4436jrf.png' %}"
@@ -461,7 +461,7 @@
                             <option value="laptop" {% if category == 'laptop' %}selected{% endif %}>Laptop</option>
                             <option value="others" {% if category == 'others' %}selected{% endif %}>Others</option>
                         </select>
-                        <input id="search" data-aos="fade-down" data-aos-duration="1500" data-aos-delay="200"
+                        <input id="search" 
                             class="form-control me-2" type="text" placeholder="Search For Product, Brand and More"
                             aria-label="Search" name="searched">
                         <button type="submit" id="search1" class="btn btn-outline-primary">Search</button>
@@ -482,7 +482,7 @@
             </div>
         </div>
     </nav>
-    <nav class="container mt-2 mb-3" data-aos="fade-right" data-aos-duration="1500" data-aos-delay="100">
+    <nav class="container mt-2 mb-3" >
         <ul id="nav2" class="nav justify-content-center">
             <li class="nav-item">
                 <a id="navsub1" class="nav-link" href="../see_more/dress">Dress</a>
@@ -502,16 +502,16 @@
             </li>
     </nav>
 
-    <div id="container" class="container mb-5" data-aos="zoom-in" data-aos-duration="1500" data-aos-delay="100">
+    <div id="container" class="container mb-5" >
         <div class="row">
             <!-- Image Section -->
-            <div id="image-section" class="col-lg-6 mb-3 mt-1" data-aos="zoom-out" data-aos-duration="1900" data-aos-delay="300">
+            <div id="image-section" class="col-lg-6 mb-3 mt-1" >
                 <img src="{{ product.image.url }}" class="product_img img-fluid" alt="Product Image" style="width:auto; height: 300px;">
             </div>
         
             <!-- Details Section -->
             <div id="details-section" class="col-lg-6 mt-3">
-                <h5 class="product_name" data-aos="zoom-out-right" data-aos-duration="1900" data-aos-delay="300" style="font-size: 1.9rem;">
+                <h5 class="product_name" >
                     {{ product.name }}
                 </h5><br>
         
@@ -527,17 +527,17 @@
                         {% endif %}
                     {% endfor %}
                 {% else %}
-                    <p class="offer_price" id="offer-price" data-aos="zoom-out-right" data-aos-duration="1900" data-aos-delay="400" style="font-size: 0.9rem;">
+                    <p class="offer_price" id="offer-price" >
                         <b>Offer Price: ₹<span id="selected-offer-price">{{ categories.first.offer_price }}</span></b>
                     </p>
-                    <p class="price" id="price" data-aos="zoom-out-right" data-aos-duration="1900" data-aos-delay="500" style="text-decoration: line-through; font-size: 0.8rem;">
+                    <p class="price" id="price" style="text-decoration: line-through; font-size: 0.8rem;">
                         ₹<span id="selected-price">{{ categories.first.price }}</span>
                     </p>
                 {% endif %}
         
                 <!-- Storage Section -->
                 {% if is_phone or is_laptop %}
-                    <div class="row mt-3" data-aos="zoom-out-right" data-aos-duration="1900" data-aos-delay="600">
+                    <div class="row mt-3" >
                         <h6>Storage</h6>
                         {% for category in categories %}
                             <div class="col-md-3">
@@ -551,10 +551,10 @@
                         {% endfor %}
                     </div>
         
-                    <h6 class="col-md-2" data-aos="zoom-out-right" data-aos-duration="1900" data-aos-delay="700">Color</h6>
+                    <h6 class="col-md-2" >Color</h6>
                     <div class="row">
                         {% for category in categories %}
-                            <div class="col-md-3" data-aos="zoom-out-right" data-aos-duration="1900" data-aos-delay="700">
+                            <div class="col-md-3" >
                                 <a href="../demo/{{ category.pk }}" style="color: black;">
                                     <div id="categ" class="card mb-2" {% if category_id.pk == category.pk %}
                                         style="border:3px solid rgb(0, 0, 0); font-size: 0.8rem;" {% endif %}>
@@ -568,7 +568,7 @@
         
                 <!-- Size and Color Section for Dresses -->
                 {% if is_dress %}
-                    <div class="row mt-2 mb-3" data-aos="zoom-out-right" data-aos-duration="1900" data-aos-delay="600">
+                    <div class="row mt-2 mb-3" >
                         <div class="col-md-6">
                             <h6>Size</h6>
                             {% for category in categories %}
@@ -614,7 +614,7 @@
                 {% endif %}
         
                 <!-- Cart and Buy Buttons -->
-                <div class="mt-3" data-aos="zoom-in-right" data-aos-duration="1900" data-aos-delay="600">
+                <div class="mt-3">
                     {% if category_id %}
                         <a href="../add_to_cart/{{ product.pk }}?category_id={{ category_id.pk }}" id="cart" class="btn btn-sm">
                             <i class="fa-solid fa-cart-shopping"></i> Add to Cart
@@ -641,7 +641,7 @@
             </div>
         
             <!-- Highlights and Description -->
-            <div class="mb-3" data-aos="zoom-in" data-aos-duration="1500" data-aos-delay="200">
+            <div class="mb-3" >
                 <h6 class="mt-3 text-center">Highlights</h6>
                 <p style="font-size: 0.8rem;">{{ product.highlights|linebreaksbr|safe }}</p>
                 <h6 class="mt-3 text-center">Description</h6>
@@ -653,7 +653,7 @@
     
     <!-- ---------------------------------------------------- -->
 
-    <div id="best_sales" class="sample container p-3 mt-4" data-aos="fade-up" data-aos-duration="1900" data-aos-delay="300">
+    <div id="best_sales" class="sample container p-3 mt-4" >
         <div class="d-flex justify-content-between align-items-center mb-1">
 
             <h3 class="mb-0"><b>Best Sales on SmartPhone</b></h3>
@@ -702,7 +702,7 @@
     <!-- ---------------------------------dress------------------------------------------- -->
 
 
-    <div id="best_sales" class="sample container p-5 mt-4" data-aos="fade-up" data-aos-duration="1900" data-aos-delay="300">
+    <div id="best_sales" class="sample container p-5 mt-4" >
         <div class="d-flex justify-content-between align-items-center mb-1">
             <h3 class="mb-0"><b>Best Dress</b></h3>
             <a href="../see_more/dress" class="btn btn-dark" style="float: right;">See More</a>
@@ -744,7 +744,7 @@
 
 
 
-    <div id="best_sales" class="sample container p-5 mt-4" data-aos="fade-up" data-aos-duration="1900" data-aos-delay="300">
+    <div id="best_sales" class="sample container p-5 mt-4" >
         <div class="d-flex justify-content-between align-items-center mb-1">
             <h3 class="mb-0"><b>Best Laptops</b></h3>
             <a href="../see_more/laptop" class="btn btn-dark" style="float: right;">See More</a>
@@ -888,10 +888,7 @@
             document.getElementById('selected-offer-price').textContent = offerPrice;
         });
     </script>
-        <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-        <script>
-          AOS.init({offset:0});
-        </script>
+ 
 </body>
 
 </html>

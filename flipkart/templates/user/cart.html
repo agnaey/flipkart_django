@@ -508,7 +508,7 @@
 
 </head>
 
-<body style="background-color: rgb(241,242,244);" data-aos="fade-down" data-aos-duration="1500" data-aos-delay="100">
+<body style="background-color: rgb(241,242,244);" >
     <nav id="nav1" class="navbar navbar-expand-lg">
         <div class="container">
             <a class="navbar-brand" href="../index"><img src="{% static '/images/i4436jrf.png' %}"
@@ -529,7 +529,7 @@
                             <option value="laptop" {% if category == 'laptop' %}selected{% endif %}>Laptop</option>
                             <option value="others" {% if category == 'others' %}selected{% endif %}>Others</option>
                         </select>
-                        <input id="search" data-aos="fade-down" data-aos-duration="1500" data-aos-delay="200"
+                        <input id="search"
                             class="form-control me-2" type="text" placeholder="Search For Product, Brand and More"
                             aria-label="Search" name="searched">
                         <button type="submit" id="search1" class="btn btn-outline-primary">Search</button>
@@ -551,17 +551,17 @@
     <h1 class="text-center" id="mycart">My Cart</h1>
 
     {% for cart_item in cart_items %}
-    <div id="container" class="container mt-1" data-aos="zoom-in" data-aos-duration="1500" data-aos-delay="100">
+    <div id="container" class="container mt-1">
         <div class="row">
             <!-- Image Section -->
-            <div class="col-lg-5 mt-2" data-aos="zoom-out" data-aos-duration="1900" data-aos-delay="300">
+            <div class="col-lg-5 mt-2">
                 <img src="{{ cart_item.cart_obj.category.product.image.url }}" class="product_img img-fluid"
                     alt="Product Image" style="width:auto; height: 300px;">
             </div>
     
             <!-- Details Section -->
-            <div id="details-section" class="col-lg-6 mt-3" data-aos="zoom-out-right" data-aos-duration="1900" data-aos-delay="300">
-                <h5 class="product_name" data-aos="zoom-out-right" style="font-size: 1.2rem;">
+            <div id="details-section" class="col-lg-6 mt-3" >
+                <h5 class="product_name" style="font-size: 1.2rem;">
                     {{ cart_item.cart_obj.category.product.name }}
                 </h5>
                 <p class="offer_price" style="font-size: 1rem; display: inline;">
@@ -830,10 +830,7 @@
     {% endfor %}
     {% endif %}
 
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-    <script>
-      AOS.init({offset:0});
-    </script>
+  
 </body>
 
 </html>

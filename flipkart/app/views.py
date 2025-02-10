@@ -493,7 +493,7 @@ def address_page(req,id):
         data = Buy.objects.create(user=user, category=category, price=category.price,   quantity=quantity,)
         data.save()
 
-        return redirect(view_bookings) 
+        return redirect(order_payment) 
 
     return render(req, 'user/address.html', {
         'category': category,
@@ -503,8 +503,8 @@ def address_page(req,id):
 
 
 def order_payment(req):
-    if 'user' in req.session:
-        user = User.objects.get(username=req.session['user'])
+    if 'username' in req.session:
+        user = User.objects.get(username=req.session['username'])
         category = Categorys.objects.get(pk=req.session['cat'])
         amount = category.offer_price
 
@@ -514,18 +514,17 @@ def order_payment(req):
             "currency": "INR",
             "payment_capture": "1"
         })
-
-        order = Buy.objects.create(
+        order_id=razorpay_order['id']
+        order = Order.objects.create(
             user=user,
             category=category,
             price=amount,
-            quantity=1, 
+            provider_order_id=order_id
         )
-        order.provider_order_id = razorpay_order['id']
         order.save()
 
         return render(req, "user/address.html", {
-            "callback_url": "http://127.0.0.1:8000/callback",
+            "callback_url": "http://127.0.0.1:8000/callback/",
             "razorpay_key": settings.RAZORPAY_KEY_ID,
             "order": order,
         })
@@ -545,31 +544,31 @@ def callback(request):
         signature_id = request.POST.get("razorpay_signature", "")
 
         # Update Buy model with payment details
-        order = Buy.objects.get(provider_order_id=provider_order_id)
+        order = Order.objects.get(provider_order_id=provider_order_id)
         order.payment_id = payment_id
         order.signature_id = signature_id
         order.save()
 
-        if verify_signature(request.POST):
-            order.is_confirmed = True
+        if not verify_signature(request.POST):
+            order.status = PaymentStatus.SUCCESS
             order.save()
-            return redirect("user_orders")  # Redirects to the user's orders page
+            return redirect("view_bookings") 
         else:
-            order.is_confirmed = False
+            order.status = PaymentStatus.FAILURE
             order.save()
-            return redirect("user_orders")
+            return redirect("view_bookings")
 
     else:
-        error_metadata = json.loads(request.POST.get("error[metadata]", "{}"))
-        payment_id = error_metadata.get("payment_id", "")
-        provider_order_id = error_metadata.get("order_id", "")
-
-        order = Buy.objects.get(provider_order_id=provider_order_id)
-        order.payment_id = payment_id
-        order.is_confirmed = False
+        payment_id = json.loads(request.POST.get("error[metadata]")).get("payment_id")
+        provider_order_id =json.loads(request.POST.get("error[metadata]")).get(
+            "order_id"
+        )
+        order = Order.objects.get(provider_order_id=provider_order_id)
+        # order.payment_id = payment_id
+        order.status = PaymentStatus.FAILURE
         order.save()
 
-        return render(request, "callback.html", context={"status": "Payment Failed"})
+        return render(request, "user/user_bookings.html", context={"status": order.status})
 
 
 
