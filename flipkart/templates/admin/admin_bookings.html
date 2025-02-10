@@ -282,6 +282,8 @@ td, th {
                         <th style=" padding-left: 35px; padding-right: 35px;">Image</th>
                         <th style="width: 50px;">Username</th> 
                         <th style=" width: 300px;">User Details</th>  
+                        <th style=" width: 300px;">Order Status</th>  
+
                         <th>Product Name</th>
                         <th>Price</th>
                         <th>Quantity</th>
@@ -293,17 +295,28 @@ td, th {
                 <tbody>
                     {% for i in data %}
                     <tr>
-                        <td >
-                            <img src="{{ i.category.product.image.url }}" class="product_img img-fluid" alt="" >
+                        <td>
+                            <img src="{{ i.category.product.image.url }}" class="product_img img-fluid" alt="">
                         </td>
                         <td>{{ i.user }}</td>
-                        {% if i.user_address %}
-                        <td><p><strong>Name:</strong> {{ i.user_address.name }}</p>
-                            <p><strong>Phone:</strong> {{ i.user_address.phone_number }}</p>
-                            <p><strong>Address:</strong> {{ i.user_address.address }}</p>                </td>
-
+                
+                        {% if i.address %}
+                            <td>
+                                <p><strong>Name:</strong> {{ i.address.name }}</p>
+                                <p><strong>Phone:</strong> {{ i.address.phone_number }}</p>
+                                <p><strong>Address:</strong> {{ i.address.address }}</p>
+                            </td>
+                        {% else %}
+                            <td>No Address Available</td>
+                        {% endif %}
+                        {% if i.order %}
+                        <td>
+                            <p><strong>Order ID:</strong> {{ i.order.provider_order_id }}</p>
+           
+                            <p><strong>Status:</strong> {{ i.order.status }}</p>
+                        </td>
                     {% else %}
-                        <td>No Address Available</td>
+                        <td>No Order Info Available</td>
                     {% endif %}
                       <td>{{ i.category.product.name }}</td>
                         <td class="text-success"><b>₹{{ i.price }}</b></td>

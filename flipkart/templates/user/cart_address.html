@@ -225,18 +225,11 @@
 
     <div class="container order-container my-5 p-5" style="background-color: white;">
         <div class="row">
-            <div class="col-md-3">
-                <div class="product-summary">
-                    <img src="{{category.product.image.url}}" class="product-img img-fluid" alt="{{ product.name }}"><br><br>
-                    <div class="product-details">
-                        <h5 class="product-title">{{ category.product.name }}</h5>
-                        <p class="product-price"><strong>Quantity:</strong> {{ quantity }}</p>
-                        <p class="product-price text-success"><strong>Price:</strong> ₹{{ category.offer_price }}</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-7">
+            <!-- Loop through cart items -->
+           
+    
+            <!-- Address form -->
+            <div class="col-md-12 mb-4">
                 <h2>Enter Your Shipping Address</h2>
                 <form id="order-form" method="POST">
                     {% csrf_token %}
@@ -244,30 +237,80 @@
                         <label for="name">Full Name</label>
                         <input type="text" id="name" name="name" class="form-control" required>
                     </div>
-
+    
                     <div class="form-group mb-3">
                         <label for="address">Address</label>
                         <textarea id="address" name="address" class="form-control" rows="3" required></textarea>
                     </div>
-
+    
                     <div class="form-group mb-3">
                         <label for="phone_number">Phone Number</label>
                         <input type="text" id="phone_number" name="phone_number" class="form-control" pattern="\d{10}" maxlength="10" required title="Please enter a 10-digit phone number">
                     </div>
-
+                    <div class="form-group mb-3">
+                        {% if total_price %}
+                            <p class="text-success"><strong>Total Price:</strong> ₹{{ total_price }}</p>
+                        {% elif category %}
+                            <p class="text-success"><strong>Total Price:</strong> ₹{{ category.offer_price|floatformat:2 }}</p>
+                        {% endif %}
+                    </div>
+    
                     <div class="form-group text-center">
-                        <!-- <a href="../buy_product/{{ product.pk }}" id="buy"
-                            class="btn btn-sm m-2">
-                            <i class="fa-solid fa-bolt-lightning"></i> Buy Now
-                        </a> -->
-                        <button  id="buy"
-                        class="btn btn-sm m-2" type="submit" class="btn btn-sm">Place Order</button>
+                        <button id="buy" class="btn btn-sm m-2" type="submit">Place Order</button>
                     </div>
                 </form>
             </div>
+            {% for item in cart_items %}
+            <div class="col-md-3">
+                <div class="product-summary">
+                    <img src="{{ item.category.product.image.url }}" class="product-img img-fluid" alt="{{ item.category.product.name }}"><br><br>
+                    <div class="product-details">
+                        <h5 class="product-title">{{ item.category.product.name }}</h5>
+                        <p class="product-price"><strong>Quantity:</strong> {{ item.quantity }}</p>
+                        <p class="product-price text-success"><strong>Price:</strong> ₹{{ item.category.offer_price }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
         </div>
     </div>
-
+    
+    
+    {% block content %}
+    <div class="pay">
+      <form method="POST">
+        {% csrf_token %}
+        <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+        <script>
+        var options = {
+            key: "{{razorpay_key}}",
+            amount: "{{order.amount}}",
+            currency: "INR",
+            name: "{{order.name}}",
+            description: "Test Transaction",
+            image: "https://example.com/your_logo",
+            order_id: "{{order.provider_order_id}}",
+            callback_url: "{{callback_url}}",
+            redirect: true,
+            prefill: {
+                "name": "Gaurav Kumar",
+                "email": "gaurav.kumar@example.com",
+                "contact": "9999999999"
+            },
+            notes: {
+                "address": "Razorpay Corporate Office"
+            },
+            theme: {
+                "color": "#3399cc"
+            }
+        };
+        var rzp1 = new Razorpay(options);
+        rzp1.open();
+        </script>
+        <input type="hidden" custom="Hidden Element" name="hidden">
+    </form>
+    {% endblock %}
+    </div>
 
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>

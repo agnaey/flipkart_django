@@ -35,7 +35,8 @@ urlpatterns = [
     path('index', views.index),
     path('search/', views.search, name='search'),
     path('address_page/<id>', views.address_page),
-    path('cart_address/<id>', views.cart_address),
+    path('cart_address/', views.cart_address, name='cart_address'),  # For all items
+    path('cart_address/<int:id>/', views.cart_address, name='cart_address_single'),  # For single item
     path('sec/<id>', views.secpage,name='sec'),
     path('add_to_cart/<pid>', views.add_to_cart),
   path('add_quantity/<int:category_id>/', views.add_quantity, name='add_quantity'),
@@ -51,9 +52,13 @@ urlpatterns = [
     path('confirm_order/<order_id>', views.confirm_order),
     path('see_more/<a>',views.see_more),
     path('demo/<id>',views.demo),
+    (path('checkout_all', views.checkout_all, name='checkout_all')),
 
     path('order_payment', views.order_payment, name='order_payment'),
     path('callback/', views.callback, name='callback'),
+
+      path('order_payment2', views.order_payment2, name='order_payment2'),
+    path('callback2/', views.callback2, name='callback2'),
     # path('demo1/<id>',views.demo1),
 
     path('password_reset/', auth_views.PasswordResetView.as_view(template_name='password_reset_form.html'), name='password_reset'),

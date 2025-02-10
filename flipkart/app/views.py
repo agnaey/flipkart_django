@@ -349,15 +349,21 @@ def delete_product(req,id):
     return redirect(admin_home)
 
 def admin_bookings(req):
-    user=User.objects.all()
-    data=Buy.objects.all()[::-1]
+    user = User.objects.all()
+    data = Buy.objects.select_related('address', 'category', 'user').all()[::-1] 
     category = Categorys.objects.select_related('product')
+    orders = Order.objects.filter(user__in=[booking.user for booking in data])
+
+    order_map = {order.user.id: order for order in orders}
 
     for booking in data:
-        booking.user_address = Address.objects.filter(user=booking.user).first()
+        booking.order = order_map.get(booking.user.id) 
 
-    # others = Products.objects.filter(others=True)
-    return render(req,'admin/admin_bookings.html',{'user':user,'data':data,'category':category})
+    return render(req, 'admin/admin_bookings.html', {
+        'user': user,
+        'data': data,
+        'category': category
+    })
 
 def cancel_order(req,id):
     data=Buy.objects.get(pk=id)
@@ -490,7 +496,7 @@ def address_page(req,id):
         user_address = Address(user=user, name=name, address=address, phone_number=phone_number)
         user_address.save()
 
-        data = Buy.objects.create(user=user, category=category, price=category.price,   quantity=quantity,)
+        data = Buy.objects.create(user=user, category=category, price=category.price,address=user_address,   quantity=quantity,)
         data.save()
 
         return redirect(order_payment) 
@@ -584,37 +590,123 @@ def cart_buy(req, id):
    
     return redirect(view_bookings)
 
-def cart_address(req, id):
-    cart = Cart.objects.filter(pk=id).first()
-    if not cart:
-        return redirect('error_page')
 
-    category = Categorys.objects.select_related('product').filter(id=cart.category_id).first()
-    if not category:
-        return redirect('error_page')
-
+def cart_address(req, id=None):
     user = User.objects.get(username=req.session['username'])
-    quantity = cart.quantity
+
+    if id:
+        # Single item checkout
+        cart_items = [get_object_or_404(Cart, pk=id)]
+    else:
+        # Checkout all items in the cart
+        cart_items = Cart.objects.filter(user=user)
+        if not cart_items.exists():
+            return redirect('cart_display')  # Redirect if cart is empty
 
     if req.method == 'POST':
-        user_address = Address.objects.create(
+        user_address, created = Address.objects.get_or_create(
             user=user,
             name=req.POST.get('name'),
             address=req.POST.get('address'),
             phone_number=req.POST.get('phone_number')
         )
-        Buy.objects.create(
+
+        total_price = 0
+        for cart in cart_items:
+            category = cart.category
+            quantity = cart.quantity
+            price = category.offer_price * quantity
+            total_price += price
+
+            Buy.objects.create(
+                user=user,
+                category=category,
+                price=price,
+                quantity=quantity,
+                address=user_address
+            )
+
+            cart.delete()  # Remove item from cart after purchase
+
+
+
+        return redirect(order_payment2)  
+
+    return render(req, 'user/cart_address.html', {'cart_items': cart_items})
+
+
+def order_payment2(req):
+    if 'username' in req.session:
+        user = User.objects.get(username=req.session['username'])
+        category = Categorys.objects.get(pk=req.session['cat'])
+        cart=Cart.objects.filter(user=user)
+
+        prices = category.offer_price
+        
+        total = prices 
+        amount = total
+
+        client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
+        razorpay_order = client.order.create({
+            "amount": int(amount) * 100, 
+            "currency": "INR",
+            "payment_capture": "1"
+        })
+        order_id=razorpay_order['id']
+        order = Order.objects.create(
             user=user,
             category=category,
-            price=category.offer_price * quantity,
-            quantity=quantity,
-            address=user_address
-            )
-        cart.delete()
-        return redirect(view_bookings)
+            price=amount,
+            provider_order_id=order_id
+        )
+        order.save()
 
-    return render(req, 'user/cart_address.html', {'category': category, 'quantity': quantity})
+        return render(req, "user/cart_address.html", {
+            "callback_url": "http://127.0.0.1:8000/callback2/",
+            "razorpay_key": settings.RAZORPAY_KEY_ID,
+            "order": order,
+        })
+    else:
+        return redirect('login') 
 
+
+@csrf_exempt
+def callback2(request):
+    def verify_signature(response_data):
+        client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
+        return client.utility.verify_payment_signature(response_data)
+
+    if "razorpay_signature" in request.POST:
+        payment_id = request.POST.get("razorpay_payment_id", "")
+        provider_order_id = request.POST.get("razorpay_order_id", "")
+        signature_id = request.POST.get("razorpay_signature", "")
+
+        # Update Buy model with payment details
+        order = Order.objects.get(provider_order_id=provider_order_id)
+        order.payment_id = payment_id
+        order.signature_id = signature_id
+        order.save()
+
+        if not verify_signature(request.POST):
+            order.status = PaymentStatus.SUCCESS
+            order.save()
+            return redirect("view_bookings") 
+        else:
+            order.status = PaymentStatus.FAILURE
+            order.save()
+            return redirect("view_bookings")
+
+    else:
+        payment_id = json.loads(request.POST.get("error[metadata]")).get("payment_id")
+        provider_order_id =json.loads(request.POST.get("error[metadata]")).get(
+            "order_id"
+        )
+        order = Order.objects.get(provider_order_id=provider_order_id)
+        # order.payment_id = payment_id
+        order.status = PaymentStatus.FAILURE
+        order.save()
+
+        return render(request, "user/user_bookings.html", context={"status": order.status})
 
 def demo(req,id):
     req.session['cat']=id
@@ -705,7 +797,6 @@ def cart_display(req):
             'total_dis_price': total_dis_price
         })
 
-    # Calculate the total discount
     total_discount = grand_dis_price - grand_total_price
 
     context = {
@@ -714,10 +805,53 @@ def cart_display(req):
         'cart_items': cart_items,
         'total_price': grand_total_price,
         'total_discount': total_discount,
-        'price_without_discount': grand_dis_price,  # Added this to context
+        'price_without_discount': grand_dis_price,  
     }
     return render(req, 'user/cart.html', context)
 
+def checkout_all(req):
+    user = User.objects.get(username=req.session['username'])
+    cart_items = Cart.objects.filter(user=user)
+    
+    if not cart_items.exists():
+        return render(req, 'user/cart.html', {"error": "Your cart is empty."})
+    
+    if req.method == 'POST':
+        user_address, created = Address.objects.get_or_create(
+            user=user,
+            name=req.POST.get('name'),
+            address=req.POST.get('address'),
+            phone_number=req.POST.get('phone_number')
+        )
+        
+        total_price = 0
+        for cart in cart_items:
+            category = cart.category
+            quantity = cart.quantity
+            price = category.offer_price * quantity
+            total_price += price
+
+            # Save the purchase
+            Buy.objects.create(
+                user=user,
+                category=category,
+                price=price,
+                quantity=quantity,
+                address=user_address
+            )
+
+            cart.delete() 
+
+        return redirect(order_payment2)  # Ensure 'order_payment2' matches your URL name
+
+    total_price = sum(item.category.offer_price * item.quantity for item in cart_items)
+    
+    context = {
+        'cart_items': cart_items,
+        'total_price': total_price,
+    }
+
+    return render(req, 'user/cart_address.html', context)
 
 
 def cart_delete(req,id):
