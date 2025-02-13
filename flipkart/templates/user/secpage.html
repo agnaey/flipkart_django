@@ -441,10 +441,10 @@
 </head>
 
 <body style="background-color: rgb(241,242,244);"  >
-    <nav id="nav1" class="navbar navbar-expand-lg"  >
+    <nav class="navbar navbar-expand-lg" style="background-color: white;">
         <div class="container">
-            <a class="navbar-brand" href="../index"><img src="{% static '/images/i4436jrf.png' %}"
-                    style="width: 100px; " alt=""></a>
+            <a class="navbar-brand" href="../index"><img src="{% static '/images/logo.jpg' %}" style="width: 100px; "
+                    alt=""></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -467,16 +467,13 @@
                         <button type="submit" id="search1" class="btn btn-outline-primary">Search</button>
                     </form>
                     <li class="nav-item ">
-                        <a class="nav-link " id="login" href="../logout"><i
-                                class="fa-solid fa-user">&nbsp;&nbsp;</i>Logout</a>
+                        <a class="nav-link " id="login" href="../logout"><i class="fa-solid fa-user">&nbsp;&nbsp;</i>Logout</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../cart_disp"><i
-                                class="fa-solid fa-cart-shopping"></i>&nbsp;&nbsp;Cart</a>
+                        <a class="nav-link" href="../cart_disp"><i class="fa-solid fa-cart-shopping"></i>&nbsp;&nbsp;Cart</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../user_vew_booking"><i class="fa-solid fa-shop"></i>&nbsp; View
-                            Bookings</a>
+                        <a class="nav-link" href="../user_vew_booking"><i class="fa-solid fa-shop"></i>&nbsp; View bookings</a>
                     </li>
                 </ul>
             </div>
@@ -585,10 +582,12 @@
                             <div class="row">
                                 {% for category in categories %}
                                     <div class="col-md-5">
+                                        <a href="../demo/{{ category.pk }}" style="color: black;">
                                         <div id="categ" class="card mb-2" {% if category_id.pk == category.pk %}
                                             style="border:3px solid rgb(0, 0, 0); font-size: 0.8rem;" {% endif %}>
                                             {{ category.color }}
                                         </div>
+                                        </a>
                                     </div>
                                 {% endfor %}
                             </div>

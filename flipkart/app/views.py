@@ -671,6 +671,51 @@ def cart_display(req):
     }
     return render(req, 'user/cart.html', context)
 
+
+def checkout_all(req):
+    user = User.objects.get(username=req.session['username'])
+    cart_items = Cart.objects.filter(user=user)
+    
+    if not cart_items.exists():
+        return render(req, 'user/cart.html', {"error": "Your cart is empty."})
+    
+    if req.method == 'POST':
+        user_address, created = Address.objects.get_or_create(
+            user=user,
+            name=req.POST.get('name'),
+            address=req.POST.get('address'),
+            phone_number=req.POST.get('phone_number')
+        )
+        
+        total_price = 0
+        for cart in cart_items:
+            category = cart.category
+            quantity = cart.quantity
+            price = category.offer_price * quantity
+            total_price += price
+
+            # Save the purchase
+            Buy.objects.create(
+                user=user,
+                category=category,
+                price=price,
+                quantity=quantity,
+                address=user_address
+            )
+
+            cart.delete() 
+
+        return redirect(order_payment2)  
+
+    total_price = sum(item.category.offer_price * item.quantity for item in cart_items)
+    
+    context = {
+        'cart_items': cart_items,
+        'total_price': total_price,
+    }
+
+    return render(req, 'user/cart_address.html', context)
+
 def order_payment2(req):
     if 'username' in req.session:
         user = User.objects.get(username=req.session['username'])
@@ -810,49 +855,6 @@ def remove_quantity(request, category_id):
     return redirect(cart_display)
 
 
-def checkout_all(req):
-    user = User.objects.get(username=req.session['username'])
-    cart_items = Cart.objects.filter(user=user)
-    
-    if not cart_items.exists():
-        return render(req, 'user/cart.html', {"error": "Your cart is empty."})
-    
-    if req.method == 'POST':
-        user_address, created = Address.objects.get_or_create(
-            user=user,
-            name=req.POST.get('name'),
-            address=req.POST.get('address'),
-            phone_number=req.POST.get('phone_number')
-        )
-        
-        total_price = 0
-        for cart in cart_items:
-            category = cart.category
-            quantity = cart.quantity
-            price = category.offer_price * quantity
-            total_price += price
-
-            # Save the purchase
-            Buy.objects.create(
-                user=user,
-                category=category,
-                price=price,
-                quantity=quantity,
-                address=user_address
-            )
-
-            cart.delete() 
-
-        return redirect(order_payment2)  # Ensure 'order_payment2' matches your URL name
-
-    total_price = sum(item.category.offer_price * item.quantity for item in cart_items)
-    
-    context = {
-        'cart_items': cart_items,
-        'total_price': total_price,
-    }
-
-    return render(req, 'user/cart_address.html', context)
 
 
 def cart_delete(req,id):

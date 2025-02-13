@@ -79,12 +79,16 @@
 
 
     <style>
-        #search {
-            width: 100%;
-            max-width: 750px;
+    #search {
+            width: 750px;
             height: 40px;
             background-color: rgb(240, 245, 255);
-            box-sizing: border-box;
+        }
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
 
         #nav1 {
@@ -419,46 +423,85 @@
     }
 }
 
-        
+
+#search1{
+        height: 50px;
+    }
+.styled-select {
+        width: 100%;
+        max-width: 150px;
+        height: 50px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background: #f8f9fa;
+        font-size: 16px;
+        color: #333;
+        outline: none;
+        appearance: none;
+        cursor: pointer;
+        transition: border-color 0.3s, box-shadow 0.3s;
+        margin-right: 10px;
+    }
+
+    .styled-select:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+
+    .styled-select option {
+        font-size: 16px;
+        padding: 5px;
+    }
     </style>
     <title>Orders</title>
     <!-- <link rel="icon" href="{% static '/images/flips1.png' %}" type="image/x-icon"></head> -->
 
 <body style="background-color: rgb(241,242,244);" data-aos="fade-down" data-aos-duration="1500" data-aos-delay="100">
-    <nav id="nav1" class="navbar navbar-expand-lg">
+    <nav class="navbar navbar-expand-lg mb-4" style="background-color: white;">
         <div class="container">
-            <a class="navbar-brand" href="../index"><img src="{% static '/images/i4436jrf.png' %}"
-                    style="width: 100px; " alt=""></a>
+            <a class="navbar-brand" href="../index"><img src="{% static '/images/logo.jpg' %}" style="width: 100px; "
+                    alt=""></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <!-- <form class="d-flex" role="search">
-                        <input id="search" class="form-control " type="search"
-                            placeholder="Search For Product, Brand and More" aria-label="Search">
-                    </form> -->
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <form class="d-flex" role="search" action="{% url 'search' %}" method="POST">
+                        {% csrf_token %}
+                        <select name="category" class="styled-select">
+                            <option value="">All Categories</option>
+                            <option value="phone" {% if category == 'phone' %}selected{% endif %}>Phone</option>
+                            <option value="dress" {% if category == 'dress' %}selected{% endif %}>Dress</option>
+                            <option value="laptop" {% if category == 'laptop' %}selected{% endif %}>Laptop</option>
+                            <option value="others" {% if category == 'others' %}selected{% endif %}>Others</option>
+                        </select>
+                        <input id="search" 
+                            class="form-control me-2" type="text" placeholder="Search For Product, Brand and More"
+                            aria-label="Search" name="searched">
+                        <button type="submit" id="search1" class="btn btn-outline-primary">Search</button>
+                    </form>
                     <li class="nav-item ">
-                        <a class="nav-link " id="login" href="../logout"><i
-                                class="fa-solid fa-user">&nbsp;&nbsp;</i>Logout</a>
+                        <a class="nav-link " id="login" href="../logout"><i class="fa-solid fa-user">&nbsp;&nbsp;</i>Logout</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../cart_disp"><i
-                                class="fa-solid fa-cart-shopping"></i>&nbsp;&nbsp;Cart</a>
+                        <a class="nav-link" href="../cart_disp"><i class="fa-solid fa-cart-shopping"></i>&nbsp;&nbsp;Cart</a>
                     </li>
-               
+                    <li class="nav-item">
+                        <a class="nav-link" href="../user_vew_booking"><i class="fa-solid fa-shop"></i>&nbsp; View bookings</a>
+                    </li>
                 </ul>
             </div>
         </div>
     </nav>
-    <div id="container" class="container mt-3" data-aos="fade-up" data-aos-duration="1500" data-aos-delay="200">
+    <div id="container" class="container mt-3 " data-aos="fade-up" data-aos-duration="1500" data-aos-delay="200">
         <b id="mycart" style="font-size: 1.5rem;">My Orders</b>
-        <hr class="mt-3 mb-4">
+        <hr class="mt-3 mb-5">
     
       {% for cart_obj in data1 %}
-<div class="row">
+<div class="row mt-5" >
     <div class="col-lg-5 mt-2" data-aos="zoom-out" data-aos-duration="1900" data-aos-delay="300">
         <img src="{{ cart_obj.category.product.image.url }}" class="product_img img-fluid" alt="" style="width:250px; height: 300px;">
     </div>

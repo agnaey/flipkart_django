@@ -14,64 +14,7 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        $(document).ready(function () {
-            $('#cart').on('click', function (event) {
-                event.preventDefault(); // Prevent default link behavior
-                const href = $(this).attr('href'); // Get the href value from the link
-    
-                Swal.fire({
-                    title: "Are you sure?",
-                    text: "You won't be able to revert this!",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Yes, cancel it!"
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        Swal.fire({
-                            title: "Deleted!",
-                            text: "The order has been canceled.",
-                            icon: "success",
-                            timer: 1500,
-                            showConfirmButton: false
-                        }).then(() => {
-                            window.location.href = href;
-                        });
-                    }
-                });
-            });
-        });
-
-        $(document).ready(function () {
-        $('#pending1').on('click', function (event) {
-            event.preventDefault();
-
-            var form = $(this).closest('form');
-            
-            Swal.fire({
-                title: "Are you sure?",
-                text: "You won't be able to revert this!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Confirm!"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    Swal.fire({
-                        title: "Confirmed!",
-                        text: "You have confirmed the order.",
-                        icon: "success",
-                        timer: 1500,
-                        showConfirmButton: false
-                    });
-
-                    form.submit(); 
-                }
-            });
-        });
-    });
+     
 </script>
     
 
@@ -271,6 +214,7 @@ td, th {
             </div>
         </div>
     </nav>
+    
     <div id="container" class="container mt-4">
         <b id="mycart">User Orders</b>
         <hr class="mt-4 mb-5">
@@ -324,7 +268,7 @@ td, th {
                         <td>{{ i.date }}</td>
                         <td>
                             
-                            <a href="../cancel_order/{{ i.id }}" class="btn btn-danger btn-sm mb-3">
+                            <a href="../cancel_order/{{ i.id }}" class="btn btn-danger btn-sm mb-3" onclick="return confirm('Are you sure you want to confirm this order?')">
                                 <i class="fa-solid fa-trash"></i> Delete
                             </a>
                             <form action="../confirm_order/{{i.pk }}" method="post" style="display:inline;">
@@ -335,7 +279,7 @@ td, th {
                                         <i class="fa-solid fa-check"></i> Confirmed
                                     </button>
                                 {% else %}
-                                    <button type="submit" id="pending1" class="btn btn-warning btn-sm">
+                                    <button type="submit" id="pending1" class="btn btn-warning btn-sm" onclick="return confirm('Are you sure you want to confirm this order?')">
                                         <i class="fa-solid fa-clock" id="pending1"></i> pending
                                     </button>
                                 {% endif %}
@@ -351,6 +295,35 @@ td, th {
         
 
     </div>
+
+    <script>
+        window.onload = function() {
+          // Check if a scroll position is saved in localStorage and directly scroll to it
+          if (localStorage.getItem('scrollPosition')) {
+              window.scrollTo(0, parseInt(localStorage.getItem('scrollPosition')));
+          }
+      
+          // Save the scroll position when any like button is clicked
+          document.querySelectorAll('.btn').forEach(button => {
+              button.addEventListener('click', function() {
+                  // Save the current scroll position to localStorage before the page reloads/redirects
+                  localStorage.setItem('scrollPosition', window.scrollY);
+              });
+          });
+      
+          // Optionally: Save scroll position for specific action buttons (if you have other actions)
+          document.querySelector('#your-action-button')?.addEventListener('click', function() {
+              localStorage.setItem('scrollPosition', window.scrollY);
+          });
+      
+          // Remove scroll position from localStorage after a redirect (to avoid restoring it unnecessarily)
+          const navigationEntries = window.performance.getEntriesByType('navigation');
+          if (navigationEntries.length > 0 && navigationEntries[0].type === 'reload') {
+              // If the page load is a reload (not a normal page load), remove the scroll position
+              localStorage.removeItem('scrollPosition');
+          }
+      };
+      </script>
 
 </body>
 

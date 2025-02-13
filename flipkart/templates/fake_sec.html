@@ -394,10 +394,10 @@
 </head>
 
 <body style="background-color: rgb(241,242,244);" data-aos="fade-down" data-aos-duration="1500" data-aos-delay="100" >
-    <nav id="nav1" class="navbar navbar-expand-lg"  >
+    <nav class="navbar navbar-expand-lg" style="background-color: white;">
         <div class="container">
-            <a class="navbar-brand" href="../"><img src="{% static '/images/i4436jrf.png' %}"
-                    style="width: 100px; " alt=""></a>
+            <a class="navbar-brand" href="../index"><img src="{% static '/images/logo.jpg' %}" style="width: 100px; "
+                    alt=""></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -405,31 +405,28 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <form class="d-flex" role="search" action="{% url 'fake_search' %}" method="POST">
-                        {% csrf_token %}
-                        <select name="category" class="styled-select">
-                            <option value="">All Categories</option>
-                            <option value="phone" {% if category == 'phone' %}selected{% endif %}>Phone</option>
-                            <option value="dress" {% if category == 'dress' %}selected{% endif %}>Dress</option>
-                            <option value="laptop" {% if category == 'laptop' %}selected{% endif %}>Laptop</option>
-                            <option value="others" {% if category == 'others' %}selected{% endif %}>Others</option>
-                        </select>
-                        <input id="search" data-aos="fade-down" data-aos-duration="1500" data-aos-delay="200"
-                            class="form-control me-2" type="text" placeholder="Search For Product, Brand and More"
-                            aria-label="Search" name="searched">
-                        <button type="submit" id="search1" class="btn btn-outline-primary">Search</button>
-                    </form>
+                   <form class="d-flex" role="search" action="{% url 'search' %}" method="POST">
+                       {% csrf_token %}
+                       <select name="category" class="styled-select">
+                           <option value="">All Categories</option>
+                           <option value="phone" {% if category == 'phone' %}selected{% endif %}>Phone</option>
+                           <option value="dress" {% if category == 'dress' %}selected{% endif %}>Dress</option>
+                           <option value="laptop" {% if category == 'laptop' %}selected{% endif %}>Laptop</option>
+                           <option value="others" {% if category == 'others' %}selected{% endif %}>Others</option>
+                       </select>
+                       <input id="search" data-aos="fade-down" data-aos-duration="1500" data-aos-delay="200"
+                           class="form-control me-2" type="text" placeholder="Search For Product, Brand and More"
+                           aria-label="Search" name="searched">
+                       <button type="submit" id="search1" class="btn btn-outline-primary">Search</button>
+                   </form>
                     <li class="nav-item ">
-                        <a class="nav-link " id="login" href="../login"><i
-                                class="fa-solid fa-user">&nbsp;&nbsp;</i>Login</a>
+                        <a class="nav-link " id="login" href="../login"><i class="fa-solid fa-user">&nbsp;&nbsp;</i>Login</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../login"><i
-                                class="fa-solid fa-cart-shopping"></i>&nbsp;&nbsp;Cart</a>
+                        <a class="nav-link" href="../login"><i class="fa-solid fa-cart-shopping"></i>&nbsp;&nbsp;Cart</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../login"><i class="fa-solid fa-shop"></i>&nbsp; View
-                            Bookings</a>
+                        <a class="nav-link" href="../login"><i class="fa-solid fa-shop"></i>&nbsp; View bookings</a>
                     </li>
                 </ul>
             </div>
