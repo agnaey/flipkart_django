@@ -601,7 +601,7 @@ def cart_address(req, id=None):
         # Checkout all items in the cart
         cart_items = Cart.objects.filter(user=user)
         if not cart_items.exists():
-            return redirect('cart_display')  # Redirect if cart is empty
+            return redirect('cart_display')  
 
     if req.method == 'POST':
         user_address, created = Address.objects.get_or_create(
@@ -626,7 +626,7 @@ def cart_address(req, id=None):
                 address=user_address
             )
 
-            cart.delete()  # Remove item from cart after purchase
+            cart.delete()  
 
 
 
@@ -634,6 +634,42 @@ def cart_address(req, id=None):
 
     return render(req, 'user/cart_address.html', {'cart_items': cart_items})
 
+
+def cart_display(req):
+    user = User.objects.get(username=req.session['username'])
+    data = Cart.objects.filter(user=user)[::-1]
+    category = Categorys.objects.select_related('product')
+
+    cart_items = []
+    grand_total_price = 0  
+    grand_dis_price = 0    
+
+    for item in data:
+        product_price = item.category.offer_price
+        total_price = product_price * item.quantity
+        grand_total_price += total_price
+
+        dis_price = item.category.price
+        total_dis_price = dis_price * item.quantity
+        grand_dis_price += total_dis_price
+
+        cart_items.append({
+            'cart_obj': item,
+            'total_price': total_price,
+            'total_dis_price': total_dis_price
+        })
+
+    total_discount = grand_dis_price - grand_total_price
+
+    context = {
+        'data': data,
+        'categories': category,
+        'cart_items': cart_items,
+        'total_price': grand_total_price,
+        'total_discount': total_discount,
+        'price_without_discount': grand_dis_price,  
+    }
+    return render(req, 'user/cart.html', context)
 
 def order_payment2(req):
     if 'username' in req.session:
@@ -773,41 +809,6 @@ def remove_quantity(request, category_id):
     
     return redirect(cart_display)
 
-def cart_display(req):
-    user = User.objects.get(username=req.session['username'])
-    data = Cart.objects.filter(user=user)[::-1]
-    category = Categorys.objects.select_related('product')
-
-    cart_items = []
-    grand_total_price = 0  
-    grand_dis_price = 0    
-
-    for item in data:
-        product_price = item.category.offer_price
-        total_price = product_price * item.quantity
-        grand_total_price += total_price
-
-        dis_price = item.category.price
-        total_dis_price = dis_price * item.quantity
-        grand_dis_price += total_dis_price
-
-        cart_items.append({
-            'cart_obj': item,
-            'total_price': total_price,
-            'total_dis_price': total_dis_price
-        })
-
-    total_discount = grand_dis_price - grand_total_price
-
-    context = {
-        'data': data,
-        'categories': category,
-        'cart_items': cart_items,
-        'total_price': grand_total_price,
-        'total_discount': total_discount,
-        'price_without_discount': grand_dis_price,  
-    }
-    return render(req, 'user/cart.html', context)
 
 def checkout_all(req):
     user = User.objects.get(username=req.session['username'])
