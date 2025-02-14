@@ -36,11 +36,11 @@ urlpatterns = [
     path('search/', views.search, name='search'),
     path('address_page/<id>', views.address_page),
     path('cart_address/', views.cart_address, name='cart_address'),  # For all items
-    path('cart_address/<int:id>/', views.cart_address, name='cart_address_single'),  # For single item
+    path('cart_address/<id>/', views.cart_address, name='cart_address_single'),  # For single item
     path('sec/<id>', views.secpage,name='sec'),
     path('add_to_cart/<pid>', views.add_to_cart),
-  path('add_quantity/<int:category_id>/', views.add_quantity, name='add_quantity'),
-    path('remove_quantity/<int:category_id>/', views.remove_quantity, name='remove_quantity'),    
+  path('add_quantity/<category_id>/', views.add_quantity, name='add_quantity'),
+    path('remove_quantity/<category_id>/', views.remove_quantity, name='remove_quantity'),    
     path('cart_disp', views.cart_display,name='cart_disp'),
     path('delete_cart/<id>', views.cart_delete),
     path('delete_all', views.delete_all,name='delete_all'),
@@ -53,13 +53,19 @@ urlpatterns = [
     path('confirm_order/<order_id>', views.confirm_order),
     path('see_more/<a>',views.see_more),
     path('demo/<id>',views.demo),
-    (path('checkout_all', views.checkout_all, name='checkout_all')),
+    path('checkout_all', views.checkout_all, name='checkout_all'),
+    path('pay', views.pay, name='pay'),
+    path('cart_single_address/<id>',views.cart_single_address, name='cart_single_address'),
+    path('single_buy',views.single_buy,name='single_buy'),
 
     path('order_payment', views.order_payment, name='order_payment'),
     path('callback/', views.callback, name='callback'),
 
-      path('order_payment2', views.order_payment2, name='order_payment2'),
+    path('order_payment2', views.order_payment2, name='order_payment2'),
     path('callback2/', views.callback2, name='callback2'),
+
+      path('order_payment3/<id>', views.order_payment3, name='order_payment3'),
+    path('callback3/', views.callback3, name='callback3'),
     # path('demo1/<id>',views.demo1),
 
     path('password_reset/', auth_views.PasswordResetView.as_view(template_name='password_reset_form.html'), name='password_reset'),

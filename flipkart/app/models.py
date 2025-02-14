@@ -37,18 +37,8 @@ class Cart(models.Model):
     category=models.ForeignKey(Categorys,on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
 
-class Buy(models.Model):
-    user=models.ForeignKey(User,on_delete=models.CASCADE)
-    category=models.ForeignKey(Categorys,on_delete=models.CASCADE)
-    price=models.IntegerField()
-    date=models.DateField(auto_now_add=True)
-    quantity=models.IntegerField()
-    address = models.ForeignKey(Address, on_delete=models.CASCADE, null=True, blank=True)
-    is_confirmed = models.BooleanField(default=False)
-
 class Order(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE)
-    category=models.ForeignKey(Categorys,on_delete=models.CASCADE)
     price=models.IntegerField()
     status=CharField(
         _("Payment Status"),
@@ -67,5 +57,18 @@ class Order(models.Model):
         _("Signature ID"), max_length=128, null=False, blank=False
     )
 
-    def __str__(self):
-        return f"{self.id}-{self.name}-{self.status}"
+    # def __str__(self):
+    #     return f"{self.id}-{self.name}-{self.status}"
+
+class Buy(models.Model):
+    user=models.ForeignKey(User,on_delete=models.CASCADE)
+    category=models.ForeignKey(Categorys,on_delete=models.CASCADE)
+    price=models.IntegerField()
+    date=models.DateField(auto_now_add=True)
+    quantity=models.IntegerField()
+    address = models.ForeignKey(Address, on_delete=models.CASCADE, null=True, blank=True)
+    is_confirmed = models.BooleanField(default=False)
+    order=models.ForeignKey(Order,on_delete=models.CASCADE,null=True)
+
+
+

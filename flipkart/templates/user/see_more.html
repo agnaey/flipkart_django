@@ -337,7 +337,7 @@ footer {
                 <div class="col-md-3 col-sm-6 col-6">
                     <a class="text-decoration-none text-black" href="../sec/{{i.id}}">
                         <div id="card" class="movie-card justify-content-center">
-                            <img src="{{i.image.url}}" style="width: auto; height: 200px;" class="img-fluid">
+                            <img src="{{i.image.url}}" style="width: auto; height: 200px;" class="img-fluid d-block mx-auto">
                             <div class="Phone-details text-center">
                                 <h5 class="phone-title ">{{i.name}}</h5>
                                 {% with i.categorys_set.all|first as category %}
