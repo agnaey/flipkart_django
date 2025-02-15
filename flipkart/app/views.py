@@ -832,14 +832,15 @@ def cart_single_address(req, id):
             name=req.POST.get('name'),
             address=req.POST.get('address'),
             phone_number=req.POST.get('phone_number')
+            
         )
-
-        total_price = 0
-        for cart in cart_items:
-            category = cart.category
-            quantity = cart.quantity
-            price = category.offer_price * quantity
-            total_price += price
+        req.session['cart_id']=id
+        # total_price = 0
+        # for cart in cart_items:
+        #     category = cart.category
+        #     quantity = cart.quantity
+        #     price = category.offer_price * quantity
+        #     total_price += price
 
             # Buy.objects.create(
             #     user=user,
@@ -853,47 +854,43 @@ def cart_single_address(req, id):
 
 
 
-        return redirect(order_payment3)  
+        return redirect('order_payment3',id=id)  
 
     return render(req, 'user/cart_single_address.html', {'cart_items': cart_items})
 
-def single_buy(req):
+def single_buy(req, id):
     user = User.objects.get(username=req.session['username'])
-    order=Order.objects.get(pk=req.session['order_id'])
-    cart_items = Cart.objects.filter(user=user)
-    print(cart_items)
-    print(user)
-    if not cart_items.exists():
-        return render(req, 'user/cart.html', {"error": "Your cart is empty."})
-    
-    if req.method == 'GET':
-        user_address = Address.objects.filter(user=user)[::-1][:1]
+    order = Order.objects.get(pk=req.session['order_id'])
+    cart_item = Cart.objects.get(pk=req.session['cart_id'])  
+
+    if req.method == 'GET': 
+        user_address = Address.objects.filter(user=user).last() 
         
-        total_price = 0
-        for cart in cart_items:
-            category = cart.category
-            quantity = cart.quantity
-            price = category.offer_price * quantity
-            total_price += price
+        if not user_address:
+            return redirect('address_page')
 
-            # Save the purchase
-            Buy.objects.create(
-                user=user,
-                category=category,
-                price=price,
-                quantity=quantity,
-                address=user_address[0],
-                order=order
-            )
+        amount = cart_item.category.offer_price * cart_item.quantity    
 
-            cart.delete() 
+        Buy.objects.create(
+            user=user,
+            category=cart_item.category,  
+            price=cart_item.category.offer_price,
+            quantity=cart_item.quantity,
+            address=user_address,
+            order=order
+        )
+        
+        print(f"Deleting cart item: {cart_item.id}")
+        cart_item.delete()
+
+
 
         return redirect(view_bookings)  
 
-    total_price = sum(item.category.offer_price * item.quantity for item in cart_items)
+    total_price = cart_item.category.offer_price * cart_item.quantity
     
     context = {
-        'cart_items': cart_items,
+        'cart_item': cart_item, 
         'total_price': total_price,
     }
 
@@ -902,16 +899,11 @@ def single_buy(req):
 def order_payment3(req,id):
     if 'username' in req.session:
         user = User.objects.get(username=req.session['username'])
-        cart_items=Cart.objects.get(pk=id)
+        cart_item=Cart.objects.get(pk=req.session.get('cart_id'))
 
 
-        amount = 0
-        for cart in cart_items:
-            category = cart.category
-            quantity = cart.quantity
-            price = category.offer_price * quantity
-            amount += price
-
+        amount = cart_item.category.offer_price * cart_item.quantity
+        
         client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
         razorpay_order = client.order.create({
             "amount": int(amount) * 100, 
@@ -922,13 +914,13 @@ def order_payment3(req,id):
         order = Order.objects.create(
             user=user,
             price=amount,
-            provider_order_id=order_id
+            provider_order_id=order_id,
         )
         order.save()
         print(order.pk)
         req.session['order_id']=order.pk
-        return render(req, "user/cart_address.html", {
-            "callback_url": "http://127.0.0.1:8000/callback2/",
+        return render(req, "user/cart_single_address.html", {
+            "callback_url": "http://127.0.0.1:8000/callback3/",
             "razorpay_key": settings.RAZORPAY_KEY_ID,
             "order": order,
         })
@@ -955,11 +947,15 @@ def callback3(request):
         if not verify_signature(request.POST):
             order.status = PaymentStatus.SUCCESS
             order.save()
-            return redirect("checkout_all") 
+            print(order.pk)
+
+            return redirect("single_buy",id=order.pk) 
         else:
             order.status = PaymentStatus.FAILURE
-            order.save()
-            return redirect("checkout_all")
+            order.save()        
+            print(order.pk)
+
+            return redirect("single_buy", id=order.pk)
 
     else:
         payment_id = json.loads(request.POST.get("error[metadata]")).get("payment_id")

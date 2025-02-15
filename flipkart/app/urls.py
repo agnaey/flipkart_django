@@ -56,7 +56,7 @@ urlpatterns = [
     path('checkout_all', views.checkout_all, name='checkout_all'),
     path('pay', views.pay, name='pay'),
     path('cart_single_address/<id>',views.cart_single_address, name='cart_single_address'),
-    path('single_buy',views.single_buy,name='single_buy'),
+    path('single_buy/<id>',views.single_buy,name='single_buy'),
 
     path('order_payment', views.order_payment, name='order_payment'),
     path('callback/', views.callback, name='callback'),
@@ -64,7 +64,7 @@ urlpatterns = [
     path('order_payment2', views.order_payment2, name='order_payment2'),
     path('callback2/', views.callback2, name='callback2'),
 
-      path('order_payment3/<id>', views.order_payment3, name='order_payment3'),
+    path('order_payment3/<id>', views.order_payment3, name='order_payment3'),
     path('callback3/', views.callback3, name='callback3'),
     # path('demo1/<id>',views.demo1),
 
