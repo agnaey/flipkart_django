@@ -41,7 +41,7 @@ urlpatterns = [
     path('add_to_cart/<pid>', views.add_to_cart),
   path('add_quantity/<category_id>/', views.add_quantity, name='add_quantity'),
     path('remove_quantity/<category_id>/', views.remove_quantity, name='remove_quantity'),    
-    path('cart_disp', views.cart_display,name='cart_disp'),
+    path('cart_disp', views.cart_display,name='cart_display'),
     path('delete_cart/<id>', views.cart_delete),
     path('delete_all', views.delete_all,name='delete_all'),
 
@@ -57,6 +57,14 @@ urlpatterns = [
     path('pay', views.pay, name='pay'),
     path('cart_single_address/<id>',views.cart_single_address, name='cart_single_address'),
     path('single_buy/<id>',views.single_buy,name='single_buy'),
+    path('delete_address/<int:id>/', views.delete_address, name='delete_address'),
+    path('select_address/<int:id>/', views.select_address, name='select_address'),
+
+    path('delete_cart_address/<int:id>/', views.delete_cart_address, name='delete_cart_address'),
+    path('select_cart_address/<int:id>/', views.select_cart_address, name='select_cart_address'),
+
+    # path('delete_single_address/<int:id>/', views.delete_single_address, name='delete_single_address'),
+    # path('select_single_address/<int:id>/', views.select_single_address, name='select_single_address'),
 
     path('order_payment', views.order_payment, name='order_payment'),
     path('callback/', views.callback, name='callback'),

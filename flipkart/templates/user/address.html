@@ -165,15 +165,15 @@
 
                     <li class="nav-item ">
                         <a class="nav-link " data-aos="fade-down" data-aos-duration="1500" data-aos-delay="300"
-                            id="login" href="../logout"><i class="fa-solid fa-user">&nbsp;&nbsp;</i>Logout</a>
+                            id="login" href="../logout">Logout</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" data-aos="fade-down" data-aos-duration="1500" data-aos-delay="400"
-                            href="../cart_disp"><i class="fa-solid fa-cart-shopping"></i>&nbsp;&nbsp;Cart</a>
+                            href="../cart_disp">Cart</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" data-aos="fade-down" data-aos-duration="1500" data-aos-delay="500"
-                            href="../user_vew_booking"><i class="fa-solid fa-shop"></i>&nbsp; View bookings</a>
+                            href="../user_vew_booking"> Bookings</a>
                     </li>
                 </ul>
             </div>
@@ -182,9 +182,10 @@
 
     <div class="container order-container my-5 p-5" style="background-color: white;">
         <div class="row">
+            <!-- Product Details Column -->
             <div class="col-md-3">
                 <div class="product-summary">
-                    <img src="{{category.product.image.url}}" class="product-img img-fluid" alt="{{ product.name }}"><br><br>
+                    <img src="{{ category.product.image.url }}" class="product-img img-fluid" alt="{{ category.product.name }}"><br><br>
                     <div class="product-details">
                         <h5 class="product-title">{{ category.product.name }}</h5>
                         <p class="product-price"><strong>Quantity:</strong> {{ quantity }}</p>
@@ -192,38 +193,67 @@
                     </div>
                 </div>
             </div>
-
-            <div class="col-md-7">
+    
+            <!-- Address and Address Form Column -->
+            <div class="col-md-9">
                 <h2>Enter Your Shipping Address</h2>
+                
+                <h4>Your Saved Addresses:</h4>
+                <div class="address-list" style="max-height: 300px; overflow-y: auto;">
+                    <ul class="list-group mb-3">
+                        {% for address in addresses %}
+                            <li class="list-group-item d-flex justify-content-between">
+                                <div>
+                                    <p><strong>{{ address.name }}</strong></p>
+                                    <p>{{ address.address }}</p>
+                                    <p><strong>Phone:</strong> {{ address.phone_number }}</p>
+                                </div>
+                                <div class="btn-group">
+                                    <form action="{% url 'select_address' address.id %}" method="POST">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-primary btn-sm">Select</button>
+                                    </form>
+                                    <form action="{% url 'delete_address' address.id %}" method="POST">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                    </form>
+                                </div>
+                            </li>
+                        {% empty %}
+                            <li class="list-group-item">You have no saved addresses.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+    
+                <hr>
+    
+                <!-- Address Form -->
+                <h4>New Address:</h4>
                 <form id="order-form" method="POST">
                     {% csrf_token %}
                     <div class="form-group mb-3">
                         <label for="name">Full Name</label>
                         <input type="text" id="name" name="name" class="form-control" required>
                     </div>
-
+    
                     <div class="form-group mb-3">
                         <label for="address">Address</label>
-                        <textarea id="address" name="address" class="form-control" rows="3" required></textarea>
+                        <textarea id="address" name="address" class="form-control" rows="4" required></textarea>
                     </div>
-
+    
                     <div class="form-group mb-3">
                         <label for="phone_number">Phone Number</label>
                         <input type="text" id="phone_number" name="phone_number" class="form-control" pattern="\d{10}" maxlength="10" required title="Please enter a 10-digit phone number">
                     </div>
-
+    
                     <div class="form-group text-center">
-                        <!-- <a href="../buy_product/{{ product.pk }}" id="buy"
-                            class="btn btn-sm m-2">
-                            <i class="fa-solid fa-bolt-lightning"></i> Buy Now
-                        </a> -->
-                        <button  id="buy"
-                        class="btn btn-sm m-2" type="submit" class="btn btn-sm">Place Order</button>
+                        <button id="buy" class="btn btn-success btn-sm m-2" type="submit">Place Order</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+    
 
     
     {% block content %}

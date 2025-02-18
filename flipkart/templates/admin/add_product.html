@@ -171,11 +171,11 @@ $(document).ready(function () {
                                 class="fa-solid fa-user">&nbsp;&nbsp;</i>Logout</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../admin_booking"><i class="fa-solid fa-cart-shopping"></i>&nbsp;&nbsp;User
+                        <a class="nav-link" href="../admin_booking">User
                             Bookings</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../view_pro"><i class="fa-solid fa-shop"></i>&nbsp; All Product</a>
+                        <a class="nav-link" href="../view_pro"> All Product</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="../add_pro"><i class="fa-solid fa-plus"></i></i>&nbsp; Add products</a>
@@ -186,35 +186,89 @@ $(document).ready(function () {
     </nav>
 
 
-    <div id="container" class="container mt-4">
-        <h1 class="text-center" id="mycart">Add items</h1>
-        <hr class=" mb-4">
-        <form method="POST" enctype="multipart/form-data">
-        <div class="row">
-            {% csrf_token %}
-            <label for="pro_id">Product ID:</label>
-            <input class="input1" type="text" id="pro_id" name="pro_id" required><br><br>
-    
-            <label for="name">Name:</label>
-            <input class="input1" type="text" id="name" name="name" required><br><br>
-    
-            <label for="img">Image:</label>
-            <input class="input1" type="file" id="img" name="img" required><br><br>
-    
-            <label for="description">Description:</label>
-            <textarea class="input2" id="description" name="description"></textarea><br><br>
-    
-            <label for="highlights">Highlights:</label>
-            <textarea class="input2" id="highlights" name="highlights"></textarea><br><br>
-    
-            <label><input type="checkbox" name="phone"> Phone</label><br>
-            <label><input type="checkbox" name="dress"> Dress</label><br>
-            <label><input type="checkbox" name="laptop"> Laptop</label><br>
-            <label><input type="checkbox" name="others"> Others</label><br><br>
-    
-            <button id="add" type="submit">Next</button>
-
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+          <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm">
+              <div class="card-header bg-primary text-white">
+                <h3 class="mb-0 text-center">Add Items</h3>
+              </div>
+              <div class="card-body">
+                <form method="POST" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <div class="mb-3">
+                    <label for="pro_id" class="form-label">Product ID</label>
+                    <input type="text" class="form-control" id="pro_id" name="pro_id" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="img" class="form-label">Image</label>
+                    <input type="file" class="form-control" id="img" name="img" accept="image/*" required onchange="previewImage(event)">
+                </div>
+                
+                <!-- New Image Preview (Hidden Initially) -->
+                <div class="mb-3 text-center d-none" id="new-image-container">
+                    <p class="fw-bold">New Image Preview:</p>
+                    <img id="new-img-preview" src="#" alt="New Image" class="img-preview img-fluid rounded shadow-sm" style="width: 200px; height: 250px;">
+                </div>
+                
+                <!-- JavaScript for Image Preview -->
+                <script>
+                function previewImage(event) {
+                    const newImage = document.getElementById('new-img-preview');
+                    const newImageContainer = document.getElementById('new-image-container');
+                    const file = event.target.files[0];
+                
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            newImage.src = e.target.result;
+                            newImageContainer.classList.remove('d-none'); // Show the new image preview
+                        };
+                        reader.readAsDataURL(file);
+                    } else {
+                        newImageContainer.classList.add('d-none'); // Hide the preview if no file is selected
+                    }
+                }
+                </script>
+                
+                  <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                  </div>
+                  <div class="mb-3">
+                    <label for="highlights" class="form-label">Highlights</label>
+                    <textarea class="form-control" id="highlights" name="highlights" rows="2"></textarea>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Categories:</label>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" name="phone" id="phone">
+                      <label class="form-check-label" for="phone">Phone</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" name="dress" id="dress">
+                      <label class="form-check-label" for="dress">Dress</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" name="laptop" id="laptop">
+                      <label class="form-check-label" for="laptop">Laptop</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" name="others" id="others">
+                      <label class="form-check-label" for="others">Others</label>
+                    </div>
+                  </div>
+                  <button type="submit" class="btn btn-primary w-100">Next</button>
+                </form>
+              </div>
+            </div>
+          </div>
         </div>
-    </form>
+      </div>
 
-    </div>
+</body>
+</html>

@@ -169,11 +169,11 @@
                                 class="fa-solid fa-user">&nbsp;&nbsp;</i>Logout</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../admin_booking"><i class="fa-solid fa-cart-shopping"></i>&nbsp;&nbsp;User
+                        <a class="nav-link" href="../admin_booking">User
                             Bookings</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../view_pro"><i class="fa-solid fa-shop"></i>&nbsp; View All Product</a>
+                        <a class="nav-link" href="../view_pro"> View Product</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="../add_pro"><i class="fa-solid fa-plus"></i></i>&nbsp; Add products</a>
@@ -184,38 +184,112 @@
     </nav>
 
 
-    <div id="container" class="container mt-4">
-        <h1 class="text-center" id="mycart">Edit items</h1>
-        <hr class=" mb-4">
-        <form method="POST" enctype="multipart/form-data">
-            <div class="row">
-                <form method="POST"   enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <label for="pro_id">Product ID:</label>
-                    <input class="input1" type="text" id="pro_id" name="pro_id" value="{{ data.P_id }}" required><br><br>
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card shadow-sm p-4">
+          <h2 class="text-center text-primary">Edit Product</h2>
+          <hr>
+
+          <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <!-- Product ID -->
+            <div class="mb-3">
+              <label for="pro_id" class="form-label">Product ID:</label>
+              <input type="text" class="form-control" id="pro_id" name="pro_id" value="{{ data.P_id }}" required>
+            </div>
+
+            <!-- Name -->
+            <div class="mb-3">
+              <label for="name" class="form-label">Product Name:</label>
+              <input type="text" class="form-control" id="name" name="name" value="{{ data.name }}" required>
+            </div>
+
+            <!-- Product Image -->
+            <div class="mb-3 d-flex justify-content-center align-items-center gap-4">
+                <!-- Old Image -->
+                <div class="text-center">
+                    <p class="fw-bold">Current Image:</p>
+                    <img src="{{ data.image.url }}" alt="Current Product Image" id="old-img" class="img-preview img-fluid rounded shadow-sm" style="width: 200px; height: 250px;">
+                </div>
             
-                    <label for="name">Name:</label>
-                    <input class="input1" type="text" id="name" name="name" value="{{ data.name }}" required><br><br>
-            
-                
-                    <img src="{{data.image.url}}" alt="" style="width: 250px;height: 300px; margin-top: 10px;"><br>
-                    <label for="img">New Image:</label>
-                    <input class="input1" type="file" id="img" name="img"><br><br>
-            
-                    <label for="description">Description:</label>
-                    <textarea class="input2" id="description" name="description">{{ data.description }}</textarea><br><br>
-            
-                    <label for="highlights">Highlights:</label>
-                    <textarea class="input2" id="highlights" name="highlights">{{ data.highlights }}</textarea><br><br>
-            
-                    <label><input type="checkbox" name="phone" {% if data.phone %}checked{% endif %}> Phone</label><br>
-                    <label><input type="checkbox" name="dress" {% if data.dress %}checked{% endif %}> Dress</label><br>
-                    <label><input type="checkbox" name="laptop" {% if data.laptop %}checked{% endif %}> Laptop</label><br>
-                    <label><input type="checkbox" name="others" {% if data.others %}checked{% endif %}> Others</label><br><br>
-            
-                    <button id="add" type="submit">Next</button>
-                </form>
+                <!-- New Image Preview -->
+                <div class="text-center d-none" id="new-image-container">
+                    <p class="fw-bold">New Image Preview:</p>
+                    <img id="new-img-preview" src="#" alt="New Image" class="img-preview img-fluid rounded shadow-sm" style="width: 200px; height: 250px;">
+                </div>
             </div>
             
+            <div class="mb-3">
+                <label for="img" class="form-label">Upload New Image:</label>
+                <input type="file" class="form-control" id="img" name="img" accept="image/*" onchange="previewImage(event)">
+            </div>
+            
+   
+            
 
+            <!-- Description -->
+            <div class="mb-3">
+              <label for="description" class="form-label">Description:</label>
+              <textarea class="form-control" id="description" name="description" rows="3">{{ data.description }}</textarea>
+            </div>
+
+            <!-- Highlights -->
+            <div class="mb-3">
+              <label for="highlights" class="form-label">Highlights:</label>
+              <textarea class="form-control" id="highlights" name="highlights" rows="3">{{ data.highlights }}</textarea>
+            </div>
+
+            <!-- Category Checkboxes -->
+            <div class="mb-3">
+              <label class="form-label">Category:</label><br>
+              <div class="form-check form-check-inline">
+                <input type="checkbox" class="form-check-input" name="phone" {% if data.phone %}checked{% endif %}>
+                <label class="form-check-label">Phone</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input type="checkbox" class="form-check-input" name="dress" {% if data.dress %}checked{% endif %}>
+                <label class="form-check-label">Dress</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input type="checkbox" class="form-check-input" name="laptop" {% if data.laptop %}checked{% endif %}>
+                <label class="form-check-label">Laptop</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input type="checkbox" class="form-check-input" name="others" {% if data.others %}checked{% endif %}>
+                <label class="form-check-label">Others</label>
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary">Update Product</button>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
+  </div>
+
+
+  <script>
+function previewImage(event) {
+    const newImage = document.getElementById('new-img-preview');
+    const newImageContainer = document.getElementById('new-image-container');
+    const file = event.target.files[0];
+
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            newImage.src = e.target.result;
+            newImageContainer.classList.remove('d-none'); // Show the preview container
+        };
+        reader.readAsDataURL(file);
+    } else {
+        newImageContainer.classList.add('d-none'); // Hide the preview if no file is selected
+    }
+}
+</script>
+</body>
+</html>

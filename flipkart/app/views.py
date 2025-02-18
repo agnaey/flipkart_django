@@ -12,6 +12,8 @@ import razorpay
 import json
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse, HttpResponseBadRequest
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
 
 
 
@@ -47,21 +49,54 @@ def logout(req):
     return redirect(login)
 
 def register(req):
-    if req.method=='POST':
-        username = req.POST['username']
-        email = req.POST['Email']
-        password = req.POST['password']
-        send_mail('Flipkart','Flipkart Account Created Successfully',settings.EMAIL_HOST_USER,[email])
+    if req.method == 'POST':
+        # Retrieve and strip input values to remove extra whitespace
+        username = req.POST.get('username', '').strip()
+        email = req.POST.get('Email', '').strip()  # Ensure your HTML form uses the same key
+        password = req.POST.get('password', '').strip()
+
+        if not username or not email or not password:
+            messages.error(req, "All fields (username, email, password) are required.")
+            return redirect(register)
+        
+        # Validate email format
         try:
-            data=User.objects.create_user(first_name=username,username=email,email=email,password=password)
-            data.save()
-            # messages.success(req, "User Registered Successfully")
+            validate_email(email)
+        except ValidationError:
+            messages.error(req, "Please enter a valid email address.")
+            return redirect(register)
+        
+        if len(password) < 6:
+            messages.error(req, "Password must be at least 6 characters long.")
+            return redirect(register)
+        
+        if User.objects.filter(email=email).exists():
+            messages.warning(req, "A user with this email already exists.")
+            return redirect(register)
+        
+        try:
+            user = User.objects.create_user(
+                first_name=username,
+                username=email,
+                email=email,
+                password=password
+            )
+            user.save()
+
+            send_mail(
+                'Flipkart Account Created',
+                'Your Flipkart account has been created successfully.',
+                settings.EMAIL_HOST_USER,
+                [email],
+                fail_silently=False,
+            )
             return redirect(login)
-        except:
-            messages.warning(req,'user details already exits') 
-            return redirect(register)   
+        except Exception as e:
+            messages.error(req, "An error occurred during registration. Please try again.")
+            return redirect(register)
     else:
-        return render(req,'register.html')
+        return render(req, 'register.html')
+
     
 
 
@@ -352,11 +387,13 @@ def admin_bookings(req):
     user = User.objects.all()
     data = Buy.objects.select_related('address', 'category', 'user').all()[::-1] 
     category = Categorys.objects.select_related('product')
+    total_profit = sum(item.price * item.quantity for item in data)
     
     return render(req, 'admin/admin_bookings.html', {
         'user': user,
         'data': data,
-        'category': category
+        'category': category,
+        'total_profit':total_profit
     })
 
 def cancel_order(req,id):
@@ -482,6 +519,8 @@ def address_page(req,id):
      
     quantity = req.GET.get('quantity', 1)  
 
+    addresses = Address.objects.filter(user=user)
+
 
     if req.method == 'POST':
         name = req.POST.get('name')
@@ -499,8 +538,27 @@ def address_page(req,id):
     return render(req, 'user/address.html', {
         'category': category,
         'quantity':quantity,
+        'addresses': addresses,
        
     })
+
+def select_address(req, id):
+    address = get_object_or_404(Address, id=id)
+    
+    category = Categorys.objects.get(pk=req.session['cat']) 
+    
+    quantity = req.GET.get('quantity', 1)
+    
+    user = User.objects.get(username=req.session['username'])
+    
+ 
+    
+    return redirect('order_payment') 
+
+def delete_address(req, id):
+    address = get_object_or_404(Address, id=id)  
+    address.delete()
+    return redirect(address_page, id=id)
 
 def pay(req):
     user = User.objects.get(username=req.session['username'])
@@ -521,6 +579,7 @@ def pay(req):
          order=order
     )
         data.save()
+        print(data)
 
         return redirect(view_bookings)  
 
@@ -564,7 +623,7 @@ def callback(request):
     def verify_signature(response_data):
         client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
         return client.utility.verify_payment_signature(response_data)
-
+    print(request.POST)
     if "razorpay_signature" in request.POST:
         payment_id = request.POST.get("razorpay_payment_id", "")
         provider_order_id = request.POST.get("razorpay_order_id", "")
@@ -575,7 +634,8 @@ def callback(request):
         order.payment_id = payment_id
         order.signature_id = signature_id
         order.save()
-
+        print('hello')
+     
         if not verify_signature(request.POST):
             order.status = PaymentStatus.SUCCESS
             order.save()
@@ -595,7 +655,7 @@ def callback(request):
         order.status = PaymentStatus.FAILURE
         order.save()
 
-        return render(request, "user/user_bookings.html", context={"status": order.status})
+        return redirect('pay')
 
 
 
@@ -653,6 +713,8 @@ def cart_display(req):
 
 def cart_address(req, id=None):
     user = User.objects.get(username=req.session['username'])
+    addresses = Address.objects.filter(user=user)
+
 
     if id:
         cart_items = [get_object_or_404(Cart, pk=id)]
@@ -690,7 +752,24 @@ def cart_address(req, id=None):
 
         return redirect(order_payment2)  
 
-    return render(req, 'user/cart_address.html', {'cart_items': cart_items})
+    return render(req, 'user/cart_address.html', {'cart_items': cart_items,'addresses':addresses})
+
+
+def select_cart_address(req, id):
+    address = get_object_or_404(Address, id=id)
+    
+    category = Categorys.objects.get(pk=req.session['cat']) 
+    
+    # quantity = req.GET.get('quantity', 1)
+    
+    user = User.objects.get(username=req.session['username'])
+    
+    return redirect('order_payment2') 
+
+def delete_cart_address(req, id):
+    address = get_object_or_404(Address, id=id)  
+    address.delete()
+    return redirect(cart_address, id=id)
 
 
 def checkout_all(req):
@@ -734,6 +813,8 @@ def checkout_all(req):
     }
 
     return render(req, 'user/user_bookings.html', context)
+
+ 
 
 def order_payment2(req):
     if 'username' in req.session:
@@ -807,7 +888,7 @@ def callback2(request):
         order.status = PaymentStatus.FAILURE
         order.save()
 
-        return render(request, "user/user_bookings.html", context={"status": order.status})
+        return redirect("checkout_all")
 
 def demo(req,id):
     req.session['cat']=id
@@ -824,6 +905,10 @@ def cart_single_address(req, id):
     user = User.objects.get(username=req.session['username'])
 
     cart_items = [get_object_or_404(Cart, pk=id)]
+    addresses = Address.objects.filter(user=user)
+
+
+    
 
 
     if req.method == 'POST':
@@ -835,28 +920,10 @@ def cart_single_address(req, id):
             
         )
         req.session['cart_id']=id
-        # total_price = 0
-        # for cart in cart_items:
-        #     category = cart.category
-        #     quantity = cart.quantity
-        #     price = category.offer_price * quantity
-        #     total_price += price
-
-            # Buy.objects.create(
-            #     user=user,
-            #     category=category,
-            #     price=price,
-            #     quantity=quantity,
-            #     address=user_address
-            # )
-
-            # cart.delete()  
-
-
 
         return redirect('order_payment3',id=id)  
 
-    return render(req, 'user/cart_single_address.html', {'cart_items': cart_items})
+    return render(req, 'user/cart_single_address.html', {'cart_items': cart_items,'addresses':addresses})
 
 def single_buy(req, id):
     user = User.objects.get(username=req.session['username'])
@@ -895,6 +962,25 @@ def single_buy(req, id):
     }
 
     return render(req, 'user/user_bookings.html', context)
+
+# def select_single_address(req, id):
+#     address = get_object_or_404(Address, id=id)
+    
+#     category = Categorys.objects.get(pk=req.session['cat']) 
+    
+#     quantity = req.GET.get('quantity', 1)
+    
+#     user = User.objects.get(username=req.session['username'])
+    
+#     return redirect('order_payment3') 
+
+# def delete_single_address(req, id):
+#     address = get_object_or_404(Address, id=id)  
+#     address.delete()
+#     return redirect(cart_single_address, id=id)   
+
+
+
 
 def order_payment3(req,id):
     if 'username' in req.session:
@@ -967,7 +1053,7 @@ def callback3(request):
         order.status = PaymentStatus.FAILURE
         order.save()
 
-        return render(request, "user/user_bookings.html", context={"status": order.status})
+        return redirect("single_buy", id=order.pk)
 
 
 def add_to_cart(request, pid):

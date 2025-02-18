@@ -169,11 +169,11 @@ $(document).ready(function () {
                                 class="fa-solid fa-user">&nbsp;&nbsp;</i>Logout</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../admin_booking"><i class="fa-solid fa-cart-shopping"></i>&nbsp;&nbsp;User
+                        <a class="nav-link" href="../admin_booking">User
                             Bookings</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../view_pro"><i class="fa-solid fa-shop"></i>&nbsp; View All Product</a>
+                        <a class="nav-link" href="../view_pro"> View Product</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="../add_pro"><i class="fa-solid fa-plus"></i></i>&nbsp; Add products</a>
@@ -183,38 +183,44 @@ $(document).ready(function () {
         </div>
     </nav>
     
-    <div id="container" class="container mt-4">
-        <h1 class="text-center" id="mycart">Add items</h1>
-        <hr class=" mb-4">
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Edit Products</h1>
         {% for category in categories %}
-        <form method="POST" enctype="multipart/form-data">
-        <div class="row">
-            {% csrf_token %}
-            <label for="storage">RAM/ROM:</label>
-            <input class="input1" type="text" id="pro_id" name="storage" value="{{category.storage}}" ><br><br>
-    
-            <label for="color">Color:</label>
-            <input class="input1" type="text" id="name" name="color" value="{{category.color}}" ><br><br>
-    
-            <label for="price">Price:</label>
-            <input class="input1" type="text" id="price" name="price" value="{{category.price}}" required ><br><br>
-    
-            <label for="o_price">Offer Price:</label>
-            <input class="input1" type="text" id="o_price" name="o_price" value="{{category.offer_price}}" required><br><br>
+          <div class="card mb-4 shadow-sm">
+            <div class="card-body">
+              <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="mb-3">
+                  <label for="storage_{{ category.pk }}" class="form-label">RAM/ROM:</label>
+                  <input type="text" class="form-control" id="storage_{{ category.pk }}" name="storage" value="{{ category.storage }}" />
+                </div>
+                <div class="mb-3">
+                  <label for="color_{{ category.pk }}" class="form-label">Color:</label>
+                  <input type="text" class="form-control" id="color_{{ category.pk }}" name="color" value="{{ category.color }}" />
+                </div>
+                <div class="mb-3">
+                  <label for="price_{{ category.pk }}" class="form-label">Price:</label>
+                  <input type="text" class="form-control" id="price_{{ category.pk }}" name="price" value="{{ category.price }}" required />
+                </div>
+                <div class="mb-3">
+                  <label for="o_price_{{ category.pk }}" class="form-label">Offer Price:</label>
+                  <input type="text" class="form-control" id="o_price_{{ category.pk }}" name="o_price" value="{{ category.offer_price }}" required />
+                </div>
+                <div class="mb-3">
+                  <label for="size_{{ category.pk }}" class="form-label">Size:</label>
+                  <input type="text" class="form-control" id="size_{{ category.pk }}" name="size" value="{{ category.size }}" />
+                </div>
+                <!-- Hidden field to hold the product/category ID -->
+                <input type="hidden" name="category" value="{{ category.pk }}" />
+                <div class="d-grid">
+                  <button type="submit" class="btn btn-primary">Edit Product</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+</div>
 
-            <label for="size">Size:</label>
-            <input class="input1" type="text" id="size" name="size" value="{{category.size}}" ><br><br>
-
-
-            <input type="text" id="category" name="category" value="{{category.pk}}" hidden ><br><br>
-
-
-
-    
-            <button id="add" class="mt-5" type="submit">Edit Product</button>
-
-        </div>
-    </form>
-    {% endfor %}
-
-    </div>
+</body>
+</html>

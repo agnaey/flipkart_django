@@ -167,15 +167,15 @@
 
                     <li class="nav-item ">
                         <a class="nav-link " data-aos="fade-down" data-aos-duration="1500" data-aos-delay="300"
-                            id="login" href="../logout"><i class="fa-solid fa-user">&nbsp;&nbsp;</i>Logout</a>
+                            id="login" href="../logout"></a>Logout</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" data-aos="fade-down" data-aos-duration="1500" data-aos-delay="400"
-                            href="../cart_disp"><i class="fa-solid fa-cart-shopping"></i>&nbsp;&nbsp;Cart</a>
+                            href="../cart_disp">Cart</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" data-aos="fade-down" data-aos-duration="1500" data-aos-delay="500"
-                            href="../user_vew_booking"><i class="fa-solid fa-shop"></i>&nbsp; View bookings</a>
+                            href="../user_vew_booking"> Bookings</a>
                     </li>
                 </ul>
             </div>
@@ -190,6 +190,30 @@
             <!-- Address form -->
             <div class="col-md-12 mb-4">
                 <h2>Enter Your Shipping Address</h2>
+
+                <h4>Your Saved Addresses:</h4>
+                <ul class="list-group mb-3">
+                    {% for address in addresses %}
+                        <li class="list-group-item">
+                            <p><strong>{{ address.name }}</strong></p>
+                            <p>{{ address.address }}</p>
+                            <p><strong>Phone:</strong> {{ address.phone_number }}</p>
+                            
+                            <form action="{% url 'select_cart_address' address.id %}" method="POST" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary btn-sm">Select</button>
+                            </form>
+                            
+                            <form action="{% url 'delete_cart_address' address.id %}" method="POST" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                            </form>
+                        </li>
+                    {% empty %}
+                        <li class="list-group-item">You have no saved addresses.</li>
+                    {% endfor %}
+                </ul>
+
                 <form id="order-form" method="POST">
                     {% csrf_token %}
                     <div class="form-group mb-3">

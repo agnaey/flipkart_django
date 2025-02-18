@@ -144,6 +144,15 @@ $(document).ready(function () {
     }
     
 }
+.card {
+      border: none;
+      border-radius: 1rem;
+    }
+    .card-header {
+      border-top-left-radius: 1rem;
+      border-top-right-radius: 1rem;
+    }
+
 
     </style>
     <title>add categorys</title>
@@ -174,11 +183,11 @@ $(document).ready(function () {
                                 class="fa-solid fa-user">&nbsp;&nbsp;</i>Logout</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fa-solid fa-cart-shopping"></i>&nbsp;&nbsp;User
+                        <a class="nav-link" href="#">User
                             Bookings</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fa-solid fa-shop"></i>&nbsp; View All Product</a>
+                        <a class="nav-link" href="#"> View All Product</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="add_pro"><i class="fa-solid fa-plus"></i></i>&nbsp; Add products</a>
@@ -188,37 +197,45 @@ $(document).ready(function () {
         </div>
     </nav>
    
-    <div id="container" class="container mt-4">
-        <h1 class="text-center" id="mycart">Add items</h1>
-        <hr class=" mb-4">
-        <form method="POST" enctype="multipart/form-data">
-        <div class="row">
-            {% csrf_token %}
-            <label for="storage">RAM/ROM:</label>
-            <input class="input1" type="text" id="pro_id" name="storage" ><br><br>
-    
-            <label for="color">Color:</label>
-            <input class="input1" type="text" id="name" name="color" ><br><br>
-    
-            <label for="price">Price:</label>
-            <input class="input1" type="text" id="price" name="price" required><br><br>
-    
-            <label for="o_price">Offer Price:</label>
-            <input class="input1" type="text" id="o_price" name="o_price"required><br><br>
-
-            <label for="size">Size:</label>
-            <input class="input1" type="text" id="size" name="size" ><br><br>
-
-
-    
-            <div class="row mt-5">
-     
-                <div class="col">
-                    <button id="add" type="submit" class="btn btn-primary">Add Another</button>
-
-                </div>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+          <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm">
+              <div class="card-header bg-primary text-white">
+                <h3 class="mb-0 text-center">Add Item Details</h3>
+              </div>
+              <div class="card-body">
+                <form method="POST" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <div class="mb-3">
+                    <label for="storage" class="form-label">RAM/ROM:</label>
+                    <input type="text" class="form-control" id="storage" name="storage">
+                  </div>
+                  <div class="mb-3">
+                    <label for="color" class="form-label">Color:</label>
+                    <input type="text" class="form-control" id="color" name="color">
+                  </div>
+                  <div class="mb-3">
+                    <label for="price" class="form-label">Price:</label>
+                    <input type="text" class="form-control" id="price" name="price" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="o_price" class="form-label">Offer Price:</label>
+                    <input type="text" class="form-control" id="o_price" name="o_price" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="size" class="form-label">Size:</label>
+                    <input type="text" class="form-control" id="size" name="size">
+                  </div>
+                  <div class="mt-4">
+                    <button type="submit" class="btn btn-primary w-100">Add Another</button>
+                  </div>
+                </form>
+              </div>
             </div>
+          </div>
         </div>
-    </form>
+      </div>
 
-    </div>
+</body>
+</html>
