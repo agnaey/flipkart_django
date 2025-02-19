@@ -769,7 +769,7 @@ def select_cart_address(req, id):
 def delete_cart_address(req, id):
     address = get_object_or_404(Address, id=id)  
     address.delete()
-    return redirect(cart_address, id=id)
+    return redirect(cart_address)
 
 
 def checkout_all(req):
@@ -963,21 +963,49 @@ def single_buy(req, id):
 
     return render(req, 'user/user_bookings.html', context)
 
-# def select_single_address(req, id):
-#     address = get_object_or_404(Address, id=id)
-    
-#     category = Categorys.objects.get(pk=req.session['cat']) 
-    
-#     quantity = req.GET.get('quantity', 1)
-    
-#     user = User.objects.get(username=req.session['username'])
-    
-#     return redirect('order_payment3') 
 
-# def delete_single_address(req, id):
-#     address = get_object_or_404(Address, id=id)  
-#     address.delete()
-#     return redirect(cart_single_address, id=id)   
+def cart_single_address(req, id):
+    user = User.objects.get(username=req.session['username'])
+
+    cart_items = [get_object_or_404(Cart, pk=id)]
+    addresses = Address.objects.filter(user=user)
+
+    if req.method == 'POST':
+        user_address, created = Address.objects.get_or_create(
+            user=user,
+            name=req.POST.get('name'),
+            address=req.POST.get('address'),
+            phone_number=req.POST.get('phone_number')
+            
+        )
+        req.session['cart_id']=id
+
+        return redirect('order_payment3',id=id)  
+
+    return render(req, 'user/cart_single_address.html', {'cart_items': cart_items,'addresses':addresses})
+
+
+def select_single_address(req, id):
+    address = get_object_or_404(Address, id=id)
+    cart_items = [get_object_or_404(Cart, pk=id)]
+    addresses = Address.objects.filter(user=user)  
+    
+    # quantity = req.GET.get('quantity', 1)
+    
+    user = User.objects.get(username=req.session['username'])
+    
+    return redirect('order_payment3',id=id) 
+
+
+def delete_single_address(req, id):
+    address = get_object_or_404(Address, id=id)
+    address.delete()
+    
+    cart_id = req.session.get('cart_id')
+    if cart_id:
+        return redirect('cart_single_address', id=cart_id)  
+    
+    return redirect('cart_address')  
 
 
 

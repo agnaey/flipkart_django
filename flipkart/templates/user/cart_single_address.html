@@ -189,39 +189,83 @@
     
             <!-- Address form -->
             <div class="col-md-12 mb-4">
-
-                
-                
                 <h2>Enter Your Shipping Address</h2>
-                <form id="order-form" method="POST">
-                    {% csrf_token %}
-                    <div class="form-group mb-3">
-                        <label for="name">Full Name</label>
-                        <input type="text" id="name" name="name" class="form-control" required>
-                    </div>
-    
-                    <div class="form-group mb-3">
-                        <label for="address">Address</label>
-                        <textarea id="address" name="address" class="form-control" rows="3" required></textarea>
-                    </div>
-    
-                    <div class="form-group mb-3">
-                        <label for="phone_number">Phone Number</label>
-                        <input type="text" id="phone_number" name="phone_number" class="form-control" pattern="\d{10}" maxlength="10" required title="Please enter a 10-digit phone number">
-                    </div>
-                    <div class="form-group mb-3">
-                        {% if total_price %}
-                            <p class="text-success"><strong>Total Price:</strong> ₹{{ total_price }}</p>
-                        {% elif category %}
-                            <p class="text-success"><strong>Total Price:</strong> ₹{{ category.offer_price }}</p>
-                        {% endif %}
-                    </div>
-    
-                    <div class="form-group text-center">
-                        <button id="buy" class="btn btn-sm m-2" type="submit">Place Order</button>
-                    </div>
-                </form>
+            
+                <!-- Saved Addresses Section
+                <div id="saved-single-addresses">
+                    <h4>Your Saved Addresses:</h4>
+                    <ul class="list-group mb-3">
+                        {% for address in addresses %}
+                            <li class="list-group-item">
+                                <p><strong>{{ address.name }}</strong></p>
+                                <p>{{ address.address }}</p>
+                                <p><strong>Phone:</strong> {{ address.phone_number }}</p>
+                                
+                                <form action="{% url 'select_single_address' address.id %}" method="POST" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-primary btn-sm">Select</button>
+                                </form>
+                                
+                                <form action="{% url 'delete_single_address' address.id %}" method="POST" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                </form>
+                            </li>
+                        {% empty %}
+                            <li class="list-group-item">You have no saved addresses.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            
+                 Add Address Button -->
+                <!-- <div class="text-center">
+                    <button id="add-single-address-btn" class="btn btn-primary btn-sm">Add Address</button> 
+                </div> -->
+            
+                <!-- Address Form (Initially Hidden) -->
+<div id="single-address-form-container" > <!-- style="display: none;" -->
+                    <h4>New Address:</h4>
+                    <form id="order-form" method="POST">
+                        {% csrf_token %}
+                        <div class="form-group mb-3">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" name="name" class="form-control" required>
+                        </div>
+            
+                        <div class="form-group mb-3">
+                            <label for="address">Address</label>
+                            <textarea id="address" name="address" class="form-control" rows="3" required></textarea>
+                        </div>
+            
+                        <div class="form-group mb-3">
+                            <label for="phone_number">Phone Number</label>
+                            <input type="text" id="phone_number" name="phone_number" class="form-control" pattern="\d{10}" maxlength="10" required title="Please enter a 10-digit phone number">
+                        </div>
+            
+                        <div class="form-group mb-3">
+                            {% if total_price %}
+                                <p class="text-success"><strong>Total Price:</strong> ₹{{ total_price }}</p>
+                            {% elif category %}
+                                <p class="text-success"><strong>Total Price:</strong> ₹{{ category.offer_price }}</p>
+                            {% endif %}
+                        </div>
+            
+                        <div class="form-group text-center">
+                            <button id="buy" class="btn btn-sm m-2" type="submit">Place Order</button>
+                        </div>
+                    </form>
+                </div>
             </div>
+            
+            <!-- JavaScript to Show/Hide Form and Addresses -->
+            <!-- <script>
+                document.getElementById('add-single-address-btn').addEventListener('click', function() {
+                    document.getElementById('single-address-form-container').style.display = 'block'; // Show form
+                    document.getElementById('saved-single-addresses').style.display = 'none'; // Hide saved addresses
+                    this.style.display = 'none'; // Hide "Add Address" button
+                });
+            </script> -->
+            
             {% for item in cart_items %}
             <div class="col-md-3">
                 <div class="product-summary">

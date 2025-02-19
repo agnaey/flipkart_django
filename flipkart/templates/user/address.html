@@ -198,61 +198,89 @@
             <div class="col-md-9">
                 <h2>Enter Your Shipping Address</h2>
                 
-                <h4>Your Saved Addresses:</h4>
-                <div class="address-list" style="max-height: 300px; overflow-y: auto;">
-                    <ul class="list-group mb-3">
-                        {% for address in addresses %}
-                            <li class="list-group-item d-flex justify-content-between">
-                                <div>
-                                    <p><strong>{{ address.name }}</strong></p>
-                                    <p>{{ address.address }}</p>
-                                    <p><strong>Phone:</strong> {{ address.phone_number }}</p>
-                                </div>
-                                <div class="btn-group">
-                                    <form action="{% url 'select_address' address.id %}" method="POST">
-                                        {% csrf_token %}
-                                        <button type="submit" class="btn btn-primary btn-sm">Select</button>
-                                    </form>
-                                    <form action="{% url 'delete_address' address.id %}" method="POST">
-                                        {% csrf_token %}
-                                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                                    </form>
-                                </div>
-                            </li>
-                        {% empty %}
-                            <li class="list-group-item">You have no saved addresses.</li>
-                        {% endfor %}
-                    </ul>
+                <!-- Saved Addresses Section -->
+                <div id="saved-addresses">
+                    <h4>Your Saved Addresses:</h4>
+                    <div class="address-list" style="max-height: 300px; overflow-y: auto;">
+                        <ul class="list-group mb-3">
+                            {% for address in addresses %}
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <div>
+                                        <p><strong>{{ address.name }}</strong></p>
+                                        <p>{{ address.address }}</p>
+                                        <p><strong>Phone:</strong> {{ address.phone_number }}</p>
+                                    </div>
+                                    <div class="btn-group">
+                                        <form action="{% url 'select_address' address.id %}" method="POST">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-primary btn-sm">Select</button>
+                                        </form>
+                                        <form action="{% url 'delete_address' address.id %}" method="POST">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                        </form>
+                                    </div>
+                                </li>
+                            {% empty %}
+                                <li class="list-group-item">You have no saved addresses.</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
                 </div>
-    
-                <hr>
-    
-                <!-- Address Form -->
-                <h4>New Address:</h4>
-                <form id="order-form" method="POST">
-                    {% csrf_token %}
-                    <div class="form-group mb-3">
-                        <label for="name">Full Name</label>
-                        <input type="text" id="name" name="name" class="form-control" required>
-                    </div>
-    
-                    <div class="form-group mb-3">
-                        <label for="address">Address</label>
-                        <textarea id="address" name="address" class="form-control" rows="4" required></textarea>
-                    </div>
-    
-                    <div class="form-group mb-3">
-                        <label for="phone_number">Phone Number</label>
-                        <input type="text" id="phone_number" name="phone_number" class="form-control" pattern="\d{10}" maxlength="10" required title="Please enter a 10-digit phone number">
-                    </div>
-    
-                    <div class="form-group text-center">
-                        <button id="buy" class="btn btn-success btn-sm m-2" type="submit">Place Order</button>
-                    </div>
-                </form>
+            
+            
+                <div class="text-center mt-5">
+                    <button id="add-address-btn" class="btn btn-primary btn-sm">Add Address</button>
+                </div>
+            
+                <div id="address-form-container" style="display: none;">
+                    <h4>New Address:</h4>
+                    <form id="order-form" method="POST">
+                        {% csrf_token %}
+                        <div class="form-group mb-3">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" name="name" class="form-control" required>
+                        </div>
+            
+                        <div class="form-group mb-3">
+                            <label for="address">Address</label>
+                            <textarea id="address" name="address" class="form-control" rows="4" required></textarea>
+                        </div>
+            
+                        <div class="form-group mb-3">
+                            <label for="phone_number">Phone Number</label>
+                            <input type="text" id="phone_number" name="phone_number" class="form-control" pattern="\d{10}" maxlength="10" required title="Please enter a 10-digit phone number">
+                        </div>
+            
+                        <div class="form-group text-center">
+                            <button id="buy" class="btn btn-success btn-sm m-2" type="submit">Place Order</button>
+                        </div>
+                    </form>
+                </div>
             </div>
+            
+            <!-- JavaScript to Show/Hide Form and Addresses -->
+            <script>
+                document.getElementById('add-address-btn').addEventListener('click', function() {
+                    document.getElementById('address-form-container').style.display = 'block'; // Show form
+                    document.getElementById('saved-addresses').style.display = 'none'; // Hide saved addresses
+                    this.style.display = 'none'; // Hide "Add Address" button
+                });
+            </script>
+            
+            
+          
+            
         </div>
     </div>
+
+      <!-- JavaScript to Show/Hide Form -->
+      <script>
+        document.getElementById('add-address-btn').addEventListener('click', function() {
+            document.getElementById('address-form-container').style.display = 'block';
+            this.style.display = 'none'; // Hide the "Add Address" button
+        });
+    </script>
     
 
     

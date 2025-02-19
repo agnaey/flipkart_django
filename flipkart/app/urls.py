@@ -36,7 +36,7 @@ urlpatterns = [
     path('search/', views.search, name='search'),
     path('address_page/<id>', views.address_page),
     path('cart_address/', views.cart_address, name='cart_address'),  # For all items
-    path('cart_address/<id>/', views.cart_address, name='cart_address_single'),  # For single item
+    # path('cart_address/<id>/', views.cart_address, name='cart_address_single'),  # For single item
     path('sec/<id>', views.secpage,name='sec'),
     path('add_to_cart/<pid>', views.add_to_cart),
   path('add_quantity/<category_id>/', views.add_quantity, name='add_quantity'),
@@ -63,8 +63,8 @@ urlpatterns = [
     path('delete_cart_address/<int:id>/', views.delete_cart_address, name='delete_cart_address'),
     path('select_cart_address/<int:id>/', views.select_cart_address, name='select_cart_address'),
 
-    # path('delete_single_address/<int:id>/', views.delete_single_address, name='delete_single_address'),
-    # path('select_single_address/<int:id>/', views.select_single_address, name='select_single_address'),
+    path('delete_single_address/<int:id>/', views.delete_single_address, name='delete_single_address'),
+    path('select_single_address/<int:id>/', views.select_single_address, name='select_single_address'),
 
     path('order_payment', views.order_payment, name='order_payment'),
     path('callback/', views.callback, name='callback'),
