@@ -247,6 +247,51 @@
     }
 }
 
+
+@media (max-width: 768px) {
+    .profile-dropdown {
+        padding-left: 100px;
+
+    }
+    
+}
+.profile-menu {
+    position: relative;
+}
+#profile-icon{
+    font-size: 30px;
+}
+
+.profile-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 130%;
+    transform: translateX(-50%);
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    min-width: 120px;
+    z-index: 1000;
+    text-align: center;
+}
+
+.profile-dropdown a {
+    display: block;
+    padding: 10px;
+    color: black;
+    text-decoration: none;
+}
+
+.profile-dropdown a:hover {
+    background: #f8f9fa;
+}
+
+.profile-menu:hover .profile-dropdown {
+    display: block;
+}
+
+
     </style>
 </head>
 
@@ -274,12 +319,8 @@
                         <input id="search" data-aos="fade-down" data-aos-duration="1500" data-aos-delay="200"
                             class="form-control me-2" type="text" placeholder="Search For Product, Brand and More"
                             aria-label="Search" name="searched">
-                        <button type="submit" id="search1" class="btn btn-outline-primary">Search</button>
                     </form>
-                    <li class="nav-item ">
-                        <a class="nav-link " data-aos="fade-down" data-aos-duration="1500" data-aos-delay="300"
-                            id="login" href="../logout">Logout</a>
-                    </li>
+                  
                     <li class="nav-item">
                         <a class="nav-link" data-aos="fade-down" data-aos-duration="1500" data-aos-delay="400"
                             href="../cart_disp">Cart</a>
@@ -287,6 +328,18 @@
                     <li class="nav-item">
                         <a class="nav-link" data-aos="fade-down" data-aos-duration="1500" data-aos-delay="500"
                             href="../user_vew_booking">Bookings</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item dropdown profile-menu">
+                        <a class="nav-link" id="profile-icon" data-aos="fade-down" data-aos-duration="1500" data-aos-delay="300">
+                            <i class="fa-solid fa-user-circle fa-lg"></i>
+                        </a>
+                        <div class="dropdown-menu profile-dropdown">
+                            <a class="dropdown-item text-center" href="../profile_view">Profile</a>
+                           
+                            <a class="dropdown-item text-center" href="../logout">Logout</a>
+                        </div>
                     </li>
                 </ul>
             </div>

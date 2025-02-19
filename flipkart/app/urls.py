@@ -59,6 +59,11 @@ urlpatterns = [
     path('single_buy/<id>',views.single_buy,name='single_buy'),
     path('delete_address/<int:id>/', views.delete_address, name='delete_address'),
     path('select_address/<int:id>/', views.select_address, name='select_address'),
+    path('profile_view', views.profile_view, name='profile_view'),
+    path('edit_address/<int:id>/', views.edit_address, name='edit_address'),
+    path('delete_profile_address/<int:id>', views.delete_profile_address, name='delete_profile_address'),
+    path('delete_account', views.delete_account, name='delete_account'),
+
 
     path('delete_cart_address/<int:id>/', views.delete_cart_address, name='delete_cart_address'),
     path('select_cart_address/<int:id>/', views.select_cart_address, name='select_cart_address'),

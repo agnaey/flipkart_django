@@ -102,8 +102,10 @@ def register(req):
 
 def fake_index(request):
 
-    if 'username' in request.session or 'admin' in request.session:
+    if 'username' in request.session:
         return redirect(index) 
+    elif 'admin' in request.session:
+        return redirect(admin_home)
 
     phones = Products.objects.filter(phone=True).prefetch_related('categorys_set')
     dress = Products.objects.filter(dress=True).prefetch_related('categorys_set')
@@ -1203,3 +1205,36 @@ def see_more(req, a=None):
 
 
 
+def profile_view(request):
+    user = request.user
+    addresses = Address.objects.filter(user=user)  
+
+    context = {
+        'user': user,
+        'addresses': addresses,
+    }
+    return render(request, 'user/profile.html', context)
+
+def edit_address(request, id):
+    address = get_object_or_404(Address, id=id, user=request.user)
+
+    if request.method == "POST":
+        address.name = request.POST.get('name')
+        address.address = request.POST.get('address')
+        address.phone_number = request.POST.get('phone_number')
+        address.save()
+        return redirect('profile_view')
+
+    return render(request, 'user/edit_address.html', {'address': address})
+
+
+def delete_profile_address(request, id):
+    address = get_object_or_404(Address, id=id, user=request.user)
+    address.delete()
+    return redirect('profile_view')
+
+def delete_account(request):
+    user = request.user  
+    user.delete()  
+    logout(request)  
+    return redirect('login')

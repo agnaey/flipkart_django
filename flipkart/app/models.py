@@ -70,5 +70,9 @@ class Buy(models.Model):
     is_confirmed = models.BooleanField(default=False)
     order=models.ForeignKey(Order,on_delete=models.CASCADE,null=True)
 
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    default_adress=models.ForeignKey(Address,on_delete=models.CASCADE,null=True,blank=True)
+
 
 
