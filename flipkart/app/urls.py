@@ -63,6 +63,8 @@ urlpatterns = [
     path('edit_address/<int:id>/', views.edit_address, name='edit_address'),
     path('delete_profile_address/<int:id>', views.delete_profile_address, name='delete_profile_address'),
     path('delete_account', views.delete_account, name='delete_account'),
+    path("update_profile/", views.update_profile, name="update_profile"),
+
 
 
     path('delete_cart_address/<int:id>/', views.delete_cart_address, name='delete_cart_address'),

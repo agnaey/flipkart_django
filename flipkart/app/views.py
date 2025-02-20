@@ -50,9 +50,8 @@ def logout(req):
 
 def register(req):
     if req.method == 'POST':
-        # Retrieve and strip input values to remove extra whitespace
         username = req.POST.get('username', '').strip()
-        email = req.POST.get('Email', '').strip()  # Ensure your HTML form uses the same key
+        email = req.POST.get('Email', '').strip()  
         password = req.POST.get('password', '').strip()
 
         if not username or not email or not password:
@@ -404,11 +403,28 @@ def cancel_order(req,id):
     return redirect(admin_bookings)
 
 def confirm_order(request, order_id):
-    # if request.method == 'POST':
-        order = Buy.objects.get(pk=order_id)
+    order = get_object_or_404(Buy, pk=order_id)
+    
+    if not order.is_confirmed:  # Avoid unnecessary updates
         order.is_confirmed = True
         order.save()
-        return redirect(admin_bookings)
+
+        # Email details
+        subject = "Order Confirmation"
+        message = f"Dear {order.user.first_name},\n\nYour order ({order.category.product.name}) has been confirmed. Thank you for shopping with us!\n\nBest regards,\nFlipkart Team"
+        recipient_email = order.user.email  
+
+        send_mail(
+                subject,
+                message,
+                settings.EMAIL_HOST_USER,
+                [recipient_email],
+                fail_silently=False,
+            )
+
+          
+
+    return redirect("admin_booking")
 
 def view_pro(req):
     categories = Categorys.objects.select_related('product').all()
@@ -424,6 +440,8 @@ def toggle_confirmation(request, order_id):
     order = Buy.objects.get(id=order_id)
     order.is_confirmed =True
     order.save()
+    
+
     return redirect('admin_bookings')
 
 
@@ -1214,6 +1232,27 @@ def profile_view(request):
         'addresses': addresses,
     }
     return render(request, 'user/profile.html', context)
+
+
+def update_profile(request):
+    if request.method == "POST":
+        user = request.user
+        first_name = request.POST.get("first_name")
+        username = request.POST.get("username")
+
+        try:
+            validate_email(username) 
+        except ValidationError:
+            messages.error(request, "Invalid email format.")
+            return render(request, "user/update_profile.html")
+
+        user.first_name = first_name
+        user.username = username
+        user.save()
+        
+        return redirect("profile_view")
+
+    return render(request, "user/update_profile.html")
 
 def edit_address(request, id):
     address = get_object_or_404(Address, id=id, user=request.user)
