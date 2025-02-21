@@ -64,6 +64,8 @@ urlpatterns = [
     path('delete_profile_address/<int:id>', views.delete_profile_address, name='delete_profile_address'),
     path('delete_account', views.delete_account, name='delete_account'),
     path("update_profile/", views.update_profile, name="update_profile"),
+    path('add_address', views.add_address, name='add_address'),
+
 
 
 

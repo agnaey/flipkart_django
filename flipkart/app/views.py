@@ -1275,3 +1275,13 @@ def delete_account(request):
     user.delete()  
     logout(request)  
     return redirect('login')
+
+def add_address(request):
+    if request.method == "POST":
+        name = request.POST.get("name")
+        address = request.POST.get("address")
+        phone_number = request.POST.get("phone_number")
+
+        Address.objects.create(user=request.user, name=name, address=address, phone_number=phone_number)
+
+    return redirect("profile_view")

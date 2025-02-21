@@ -314,7 +314,7 @@
             {% for item in cart_items %}
             <div class="col-md-3">
                 <div class="product-summary">
-                    <img src="{{ item.category.product.image.url }}" class="product-img img-fluid" alt="{{ item.category.product.name }}"><br><br>
+                    <img src="{{ item.category.product.image.url }}" class="product-img img-fluid" style="height: auto;" width="200px" alt="{{ item.category.product.name }}"><br><br>
                     <div class="product-details">
                         <h5 class="product-title">{{ item.category.product.name }}</h5>
                         <p class="product-price"><strong>Quantity:</strong> {{ item.quantity }}</p>
