@@ -243,7 +243,7 @@
             <div class="col-md-12 mb-4">
                 <h2>Enter Your Shipping Address</h2>
             
-                <!-- Saved Addresses Section
+                Saved Addresses Section
                 <div id="saved-single-addresses">
                     <h4>Your Saved Addresses:</h4>
                     <ul class="list-group mb-3">
@@ -269,13 +269,12 @@
                     </ul>
                 </div>
             
-                 Add Address Button -->
-                <!-- <div class="text-center">
+                 <div class="text-center">
                     <button id="add-single-address-btn" class="btn btn-primary btn-sm">Add Address</button> 
-                </div> -->
+                </div>
             
                 <!-- Address Form (Initially Hidden) -->
-<div id="single-address-form-container" > <!-- style="display: none;" -->
+<div id="single-address-form-container" style="display: none;"> 
                     <h4>New Address:</h4>
                     <form id="order-form" method="POST">
                         {% csrf_token %}
@@ -310,13 +309,13 @@
             </div>
             
             <!-- JavaScript to Show/Hide Form and Addresses -->
-            <!-- <script>
+            <script>
                 document.getElementById('add-single-address-btn').addEventListener('click', function() {
                     document.getElementById('single-address-form-container').style.display = 'block'; // Show form
                     document.getElementById('saved-single-addresses').style.display = 'none'; // Hide saved addresses
                     this.style.display = 'none'; // Hide "Add Address" button
                 });
-            </script> -->
+            </script>
             
             {% for item in cart_items %}
             <div class="col-md-3">

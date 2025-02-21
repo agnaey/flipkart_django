@@ -927,10 +927,6 @@ def cart_single_address(req, id):
     cart_items = [get_object_or_404(Cart, pk=id)]
     addresses = Address.objects.filter(user=user)
 
-
-    
-
-
     if req.method == 'POST':
         user_address, created = Address.objects.get_or_create(
             user=user,
@@ -1006,15 +1002,17 @@ def cart_single_address(req, id):
 
 
 def select_single_address(req, id):
+    user = get_object_or_404(User, username=req.session.get('username'))
     address = get_object_or_404(Address, id=id)
-    cart_items = [get_object_or_404(Cart, pk=id)]
-    addresses = Address.objects.filter(user=user)  
     
-    # quantity = req.GET.get('quantity', 1)
+    cart = Cart.objects.filter(user=user).first()  # Get the first cart item for the user
+
+
+
+    req.session['cart_id'] = cart.id  # Store cart ID in session
     
-    user = User.objects.get(username=req.session['username'])
-    
-    return redirect('order_payment3',id=id) 
+    return redirect('order_payment3',id=id)
+
 
 
 def delete_single_address(req, id):
