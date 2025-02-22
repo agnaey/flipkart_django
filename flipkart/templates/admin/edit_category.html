@@ -200,11 +200,11 @@ $(document).ready(function () {
                 </div>
                 <div class="mb-3">
                   <label for="price_{{ category.pk }}" class="form-label">Price:</label>
-                  <input type="text" class="form-control" id="price_{{ category.pk }}" name="price" value="{{ category.price }}" required />
+                  <input type="number" class="form-control" id="price_{{ category.pk }}" name="price" value="{{ category.price }}" required />
                 </div>
                 <div class="mb-3">
                   <label for="o_price_{{ category.pk }}" class="form-label">Offer Price:</label>
-                  <input type="text" class="form-control" id="o_price_{{ category.pk }}" name="o_price" value="{{ category.offer_price }}" required />
+                  <input type="number" class="form-control" id="o_price_{{ category.pk }}" name="o_price" value="{{ category.offer_price }}" required />
                 </div>
                 <div class="mb-3">
                   <label for="size_{{ category.pk }}" class="form-label">Size:</label>
