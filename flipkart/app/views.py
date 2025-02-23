@@ -981,9 +981,8 @@ def single_buy(req, id):
 
 
 def cart_single_address(req, id):
-    user = User.objects.get(username=req.session['username'])
-
-    cart_items = [get_object_or_404(Cart, pk=id)]
+    user = get_object_or_404(User, username=req.session.get('username'))
+    cart = get_object_or_404(Cart, id=id, user=user)  # Get the specific cart
     addresses = Address.objects.filter(user=user)
 
     if req.method == 'POST':
@@ -992,26 +991,13 @@ def cart_single_address(req, id):
             name=req.POST.get('name'),
             address=req.POST.get('address'),
             phone_number=req.POST.get('phone_number')
-            
         )
-        req.session['cart_id']=id
+        req.session['cart_id'] = id
 
-        return redirect('order_payment3',id=id)  
+        return redirect('order_payment3', id=id)
 
-    return render(req, 'user/cart_single_address.html', {'cart_items': cart_items,'addresses':addresses})
+    return render(req, 'user/cart_single_address.html', {'cart': cart, 'addresses': addresses})
 
-
-def select_single_address(req, id):
-    user = get_object_or_404(User, username=req.session.get('username'))
-    address = get_object_or_404(Address, id=id)
-    
-    cart = Cart.objects.filter(user=user).first()  # Get the first cart item for the user
-
-
-
-    req.session['cart_id'] = cart.id  # Store cart ID in session
-    
-    return redirect('order_payment3',id=id)
 
 
 
@@ -1025,14 +1011,36 @@ def delete_single_address(req, id):
     
     return redirect('cart_address')  
 
+def select_single_address(req, cart_id, address_id):
+    user = get_object_or_404(User, username=req.session.get('username'))
+    cart = get_object_or_404(Cart, id=cart_id, user=user)
+    address = get_object_or_404(Address, id=address_id, user=user)
+
+    if req.method == 'POST':
+        address_id = req.POST.get('address')  # Safely get the value
+
+        if not address_id:  # If address_id is missing, show an error
+            messages.error(req, "Please select an address.")
+            return redirect('cart_single_address', id=cart_id)
+
+        selected_address = Address.objects.get(user=user, pk=address_id)
+        req.session['cart_id'] = cart.id
+        req.session['address_id'] = selected_address.id
+
+        return redirect('order_payment3', id=cart_id)
+
+    return redirect('cart_single_address', id=cart_id)
 
 
 
-def order_payment3(req,id):
+def order_payment3(req, id):
     if 'username' in req.session:
         user = User.objects.get(username=req.session['username'])
-        cart_item=Cart.objects.get(pk=req.session.get('cart_id'))
+        cart_item = Cart.objects.get(pk=req.session.get('cart_id'))
 
+        print(f"Cart Item ID: {cart_item.id}")  
+        print(f"Cart Item Product ID: {cart_item.category.product.id}") 
+        print(f"Cart Item Quantity: {cart_item.quantity}")  
 
         amount = cart_item.category.offer_price * cart_item.quantity
         
@@ -1042,22 +1050,25 @@ def order_payment3(req,id):
             "currency": "INR",
             "payment_capture": "1"
         })
-        order_id=razorpay_order['id']
+        order_id = razorpay_order['id']
         order = Order.objects.create(
             user=user,
             price=amount,
             provider_order_id=order_id,
         )
         order.save()
-        print(order.pk)
-        req.session['order_id']=order.pk
+
+        print(f"Order ID: {order.pk}")  
+        req.session['order_id'] = order.pk
+
         return render(req, "user/cart_single_address.html", {
             "callback_url": "http://127.0.0.1:8000/callback3/",
             "razorpay_key": settings.RAZORPAY_KEY_ID,
             "order": order,
         })
     else:
-        return redirect('login') 
+        return redirect('login')
+
 
 @csrf_exempt
 def callback3(request):

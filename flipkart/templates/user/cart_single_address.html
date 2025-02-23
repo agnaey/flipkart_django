@@ -253,10 +253,13 @@
                                 <p>{{ address.address }}</p>
                                 <p><strong>Phone:</strong> {{ address.phone_number }}</p>
                                 
-                                <form action="{% url 'select_single_address' address.id %}" method="POST" style="display:inline;">
+                                <form action="{% url 'select_single_address' cart.id address.id %}" method="POST" style="display:inline;">
                                     {% csrf_token %}
+                                    <input type="hidden" name="address" value="{{ address.id }}">  <!-- Hidden input to send address -->
                                     <button type="submit" class="btn btn-primary btn-sm">Select</button>
                                 </form>
+                                
+                                
                                 
                                 <form action="{% url 'delete_single_address' address.id %}" method="POST" style="display:inline;">
                                     {% csrf_token %}

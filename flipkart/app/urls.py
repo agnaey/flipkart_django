@@ -73,7 +73,7 @@ urlpatterns = [
     path('select_cart_address/<int:id>/', views.select_cart_address, name='select_cart_address'),
 
     path('delete_single_address/<int:id>/', views.delete_single_address, name='delete_single_address'),
-    path('select_single_address/<int:id>/', views.select_single_address, name='select_single_address'),
+    path('select_single_address/<int:cart_id>/<int:address_id>/', views.select_single_address, name='select_single_address'),
 
     path('order_payment', views.order_payment, name='order_payment'),
     path('callback/', views.callback, name='callback'),
